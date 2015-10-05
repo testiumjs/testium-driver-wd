@@ -1,0 +1,24 @@
+{
+  "name": "testium-driver-wd",
+  "version": "0.0.0",
+  "description": "Testium backend powered by wd",
+  "main": "lib/testium-driver-wd.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/testiumjs/testium-driver-wd.git"
+  },
+  "keywords": [
+    "testium",
+    "wd",
+    "webdriver"
+  ],
+  "author": "Jan Krems <jan.krems@groupon.com>",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/testiumjs/testium-driver-wd/issues"
+  },
+  "homepage": "https://github.com/testiumjs/testium-driver-wd#readme"
+}
