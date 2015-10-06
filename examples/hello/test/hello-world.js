@@ -1,21 +1,11 @@
 'use strict';
 
-var tap = require('tap');
+import {testAsync} from 'babel-blue-tap';
+import initTestium from 'testium-core';
 
-var initTestium = require('testium-core');
-var createDriver = require('../../..');
+import createDriver from '../../..';
 
-function asyncTest(title, fn) {
-  tap.test(title, t => {
-    new Promise(resolve => resolve(fn(t)))
-      .then(() => t.end(), error => {
-        t.error(error);
-        t.end();
-      });
-  });
-}
-
-asyncTest('Load example page', async t => {
+testAsync('Load example page', async t => {
   const { browser } = await initTestium().then(createDriver);
 
   await browser.navigateTo('/ok');
