@@ -4,7 +4,7 @@
   "description": "Testium backend powered by wd",
   "main": "lib/testium-driver-wd.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cd examples/hello && babel-node ../../node_modules/.bin/blue-tape 'test/**/*.js'"
   },
   "repository": {
     "type": "git",
@@ -20,5 +20,14 @@
   "bugs": {
     "url": "https://github.com/testiumjs/testium-driver-wd/issues"
   },
-  "homepage": "https://github.com/testiumjs/testium-driver-wd#readme"
+  "homepage": "https://github.com/testiumjs/testium-driver-wd#readme",
+  "devDependencies": {
+    "babel": "^5.8.23",
+    "blue-tape": "^0.1.10",
+    "tap": "^2.0.0",
+    "testium-core": "^1.0.0"
+  },
+  "dependencies": {
+    "wd": "^0.3.12"
+  }
 }
