@@ -4,8 +4,12 @@
   "description": "Testium backend powered by wd",
   "main": "lib/testium-driver-wd.js",
   "scripts": {
-    "test": "cd examples/hello && babel-tap 'test/**/*.js'"
+    "test": "eslint lib test && mocha test/integration/navigation.test.js",
+    "posttest": "npub verify"
   },
+  "files": [
+    "lib"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/testiumjs/testium-driver-wd.git"
@@ -22,10 +26,29 @@
   },
   "homepage": "https://github.com/testiumjs/testium-driver-wd#readme",
   "devDependencies": {
-    "babel-tap": "^3.0.0",
-    "testium-core": "^1.1.0"
+    "assertive": "^2.0.2",
+    "babel-core": "^5.8.25",
+    "babel-eslint": "^4.1.3",
+    "eslint": "^1.7.3",
+    "eslint-config-airbnb": "~0.1.0",
+    "mocha": "^2.3.3",
+    "npub": "^2.2.0",
+    "testium-core": "^1.3.0",
+    "testium-example-app": "^1.0.5"
   },
   "dependencies": {
-    "wd": "^0.3.12"
+    "bluebird": "^2.10.2",
+    "debug": "^2.2.0",
+    "lodash": "~3.10.1",
+    "testium-cookie": "^1.0.0",
+    "wd": "~0.3.12"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "license": {
+      "exclude": [
+        "."
+      ]
+    }
   }
 }
