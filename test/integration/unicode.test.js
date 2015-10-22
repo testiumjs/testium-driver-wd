@@ -1,7 +1,7 @@
 import {getBrowser} from '../mini-testium-mocha';
 import assert from 'assertive';
 
-describe('unicode support', () => {
+xdescribe('unicode support', () => {
   let browser;
   before(async () => (browser = await getBrowser()));
 

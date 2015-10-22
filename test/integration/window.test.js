@@ -1,7 +1,7 @@
 import {getBrowser} from '../mini-testium-mocha';
 import assert from 'assertive';
 
-describe('window api', () => {
+xdescribe('window api', () => {
   let browser;
   before(async () => (browser = await getBrowser()));
 

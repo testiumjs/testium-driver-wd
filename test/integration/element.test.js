@@ -5,7 +5,7 @@ function stripColors(message) {
   return message.replace(/\u001b\[[^m]*m/g, '');
 }
 
-describe('element', () => {
+xdescribe('element', () => {
   let browser;
   before(async () => (browser = await getBrowser()));
 

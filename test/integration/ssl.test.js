@@ -1,7 +1,7 @@
 import {getBrowser} from '../mini-testium-mocha';
 import assert from 'assertive';
 
-describe('ssl/tls', () => {
+xdescribe('ssl/tls', () => {
   let browser;
   before(async () => (browser = await getBrowser()));
 

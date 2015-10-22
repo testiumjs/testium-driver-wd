@@ -5,7 +5,7 @@ import Config from 'testium-core/lib/config';
 
 const browserName = Config.load().get('browser');
 
-describe('dialogs', () => {
+xdescribe('dialogs', () => {
   if (browserName === 'phantomjs') {
     xit('skipping tests because browser phantomjs doesn\'t support alerts');
     return;

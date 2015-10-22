@@ -40,7 +40,7 @@ describe('navigation', () => {
     assert.equal('/other-page.html', await browser.getPath());
   });
 
-  it.only('by refreshing', async () => {
+  it('by refreshing', async () => {
     await browser.navigateTo('/');
     assert.equal(200, await browser.getStatusCode());
 

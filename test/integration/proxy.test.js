@@ -1,6 +1,6 @@
 import {getBrowser} from '../mini-testium-mocha';
 
-describe('proxy', () => {
+xdescribe('proxy', () => {
   let browser;
   before(async () => (browser = await getBrowser()));
 

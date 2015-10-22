@@ -3,7 +3,7 @@ import {get} from 'http';
 import {getBrowser} from '../mini-testium-mocha';
 import assert from 'assertive';
 
-describe('Non-browser test', () => {
+xdescribe('Non-browser test', () => {
   let browser;
   before(async () => (browser = await getBrowser()));
 
