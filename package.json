@@ -4,7 +4,7 @@
   "description": "Testium backend powered by wd",
   "main": "lib/testium-driver-wd.js",
   "scripts": {
-    "test": "eslint lib test && mocha test/integration/navigation.test.js",
+    "test": "eslint lib test && mocha test/integration/{cookie,navigation}.test.js",
     "posttest": "npub verify"
   },
   "files": [

@@ -1,6 +1,12 @@
 import {browser} from '../mini-testium-mocha';
 import assert from 'assertive';
 
+function assertRejects(promise) {
+  return promise.then(() => {
+    throw new Error('Did not fail as expected');
+  }, error => error);
+}
+
 describe('navigation', () => {
   before(browser.beforeHook);
 
@@ -9,110 +15,121 @@ describe('navigation', () => {
     assert.equal(200, await browser.getStatusCode());
   });
 
-  // it('supports query args', () => {
-  //   browser.navigateTo('/', { query: { 'a b': 'München', x: 0 } });
-  //   assert.equal(200, browser.getStatusCode());
+  it('supports query args', async () => {
+    await browser.navigateTo('/', { query: { 'a b': 'München', x: 0 } });
+    assert.equal(200, await browser.getStatusCode());
 
-  //   browser.waitForPath('/?a%20b=M%C3%BCnchen&x=0', 100);
-  // });
+    await browser.waitForPath('/?a%20b=M%C3%BCnchen&x=0', 100);
+  });
 
-  // it('with a query string and query arg', () => {
-  //   browser.navigateTo('/?x=0', { query: { 'a b': 'München' } });
-  //   assert.equal(200, browser.getStatusCode());
+  it('with a query string and query arg', async () => {
+    await browser.navigateTo('/?x=0', { query: { 'a b': 'München' } });
+    assert.equal(200, await browser.getStatusCode());
 
-  //   browser.waitForPath('/?x=0&a%20b=M%C3%BCnchen', 100);
-  // });
+    await browser.waitForPath('/?x=0&a%20b=M%C3%BCnchen', 100);
+  });
 
-  // it('by clicking a link', () => {
-  //   browser.navigateTo('/');
-  //   assert.equal(200, browser.getStatusCode());
+  it('by clicking a link', async () => {
+    await browser.navigateTo('/');
+    assert.equal(200, await browser.getStatusCode());
 
-  //   browser.click('.link-to-other-page');
-  //   assert.equal('/other-page.html', browser.getPath());
-  // });
+    await browser
+      .elementByCssSelector('.link-to-other-page')
+      .click();
 
-  // it('by refreshing', () => {
-  //   browser.navigateTo('/');
-  //   assert.equal(200, browser.getStatusCode());
+    assert.equal('/other-page.html', await browser.getPath());
+  });
 
-  //   browser.refresh();
-  //   assert.equal(200, browser.getStatusCode());
+  it.only('by refreshing', async () => {
+    await browser.navigateTo('/');
+    assert.equal(200, await browser.getStatusCode());
 
-  //   // No real way to assert this worked
-  // });
+    await browser.safeExecute('(' + function changePage() {
+      /* eslint no-var:0 */
+      var el = document.createElement('div');
+      el.className = 'exists-before-refresh';
+      document.body.appendChild(el);
+    }.toString() + ')();');
+    // Making sure the element exists
+    await browser.elementByCssSelector('.exists-before-refresh');
 
-  // describe('waiting for a url', () => {
-  //   it('can work with a string', () => {
-  //     browser.navigateTo('/redirect-after.html');
-  //     assert.equal(200, browser.getStatusCode());
+    await browser.refresh();
+    // The element should not be gone.
+    assert.equal(null,
+      await browser.elementByCssSelectorOrNull('.exists-before-refresh'));
+  });
 
-  //     browser.waitForPath('/index.html');
-  //   });
+  describe('waiting for a url', () => {
+    it('can work with a string', async () => {
+      await browser.navigateTo('/redirect-after.html');
+      assert.equal(200, await browser.getStatusCode());
 
-  //   it('can work with a regex', () => {
-  //     browser.navigateTo('/redirect-after.html');
-  //     assert.equal(200, browser.getStatusCode());
+      await browser.waitForPath('/index.html');
+    });
 
-  //     browser.waitForUrl(/\/index.html/);
-  //   });
+    it('can work with a regex', async () => {
+      await browser.navigateTo('/redirect-after.html');
+      assert.equal(200, await browser.getStatusCode());
 
-  //   it('can fail', () => {
-  //     browser.navigateTo('/index.html');
-  //     assert.equal(200, browser.getStatusCode());
+      await browser.waitForUrl(/\/index.html/);
+    });
 
-  //     const error = assert.throws(() => browser.waitForUrl('/some-random-place.html', 5));
-  //     const expectedError = /^Timed out \(5ms\) waiting for url \("\/some-random-place\.html"\)\. Last value was: "http:\/\/127\.0\.0\.1:[\d]+\/index\.html"$/;
-  //     assert.match(expectedError, error.message);
-  //   });
+    it('can fail', async () => {
+      await browser.navigateTo('/index.html');
+      assert.equal(200, await browser.getStatusCode());
 
-  //   describe('groks url and query object', () => {
-  //     it('can make its own query regexp', () => {
-  //       browser.navigateTo('/redirect-to-query.html');
-  //       browser.waitForUrl('/index.html', {
-  //         'a b': 'A B',
-  //         c: '1,7',
-  //       });
-  //       assert.equal(200, browser.getStatusCode());
-  //     });
+      const error = await assertRejects(browser.waitForUrl('/some-random-place.html', 5));
+      assert.match(/Condition wasn't satisfied!/, error.message);
+    });
 
-  //     it('can find query arguments in any order', () => {
-  //       browser.navigateTo('/redirect-to-query.html');
-  //       browser.waitForUrl('/index.html', {
-  //         c: '1,7',
-  //         'a b': 'A B',
-  //       });
-  //     });
+    describe('groks url and query object', () => {
+      it('can make its own query regexp', async () => {
+        await browser.navigateTo('/redirect-to-query.html');
+        await browser.waitForUrl('/index.html', {
+          'a b': 'A B',
+          c: '1,7',
+        });
+        assert.equal(200, await browser.getStatusCode());
+      });
 
-  //     it('can handle regexp query arguments', () => {
-  //       browser.navigateTo('/redirect-to-query.html');
-  //       browser.waitForUrl('/index.html', {
-  //         c: /[\d,]+/,
-  //         'a b': 'A B',
-  //       });
-  //     });
+      it('can find query arguments in any order', async () => {
+        await browser.navigateTo('/redirect-to-query.html');
+        await browser.waitForUrl('/index.html', {
+          c: '1,7',
+          'a b': 'A B',
+        });
+      });
 
-  //     it('detects non-matches too', () => {
-  //       browser.navigateTo('/redirect-to-query.html');
+      it('can handle regexp query arguments', async () => {
+        await browser.navigateTo('/redirect-to-query.html');
+        await browser.waitForUrl('/index.html', {
+          c: /[\d,]+/,
+          'a b': 'A B',
+        });
+      });
 
-  //       const error = assert.throws(() => browser.waitForUrl('/index.html', { no: 'q' }, 200));
-  //       assert.match(/Timed out .* waiting for url/, error.message);
-  //     });
-  //   });
-  // });
+      it('detects non-matches too', async () => {
+        await browser.navigateTo('/redirect-to-query.html');
 
-  // describe('waiting for a path', () => {
-  //   it('can work with a string', () => {
-  //     browser.navigateTo('/redirect-after.html');
-  //     assert.equal(200, browser.getStatusCode());
+        const error = await assertRejects(browser.waitForUrl('/index.html', { no: 'q' }, 200));
+        assert.match(/Condition wasn't satisfied!/, error.message);
+      });
+    });
+  });
 
-  //     browser.waitForPath('/index.html');
-  //   });
+  describe('waiting for a path', () => {
+    it('can work with a string', async () => {
+      await browser.navigateTo('/redirect-after.html');
+      assert.equal(200, await browser.getStatusCode());
 
-  //   it('can work with a regex', () => {
-  //     browser.navigateTo('/redirect-after.html');
-  //     assert.equal(200, browser.getStatusCode());
+      await browser.waitForPath('/index.html');
+    });
 
-  //     browser.waitForPath(/index.html/);
-  //   });
-  // });
+    it('can work with a regex', async () => {
+      await browser.navigateTo('/redirect-after.html');
+      assert.equal(200, await browser.getStatusCode());
+
+      await browser.waitForPath(/index.html/);
+    });
+  });
 });
