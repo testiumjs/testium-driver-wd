@@ -26,7 +26,6 @@
   },
   "homepage": "https://github.com/testiumjs/testium-driver-wd#readme",
   "devDependencies": {
-    "assertive": "^2.0.2",
     "babel-core": "^5.8.25",
     "babel-eslint": "^4.1.3",
     "eslint": "^1.7.3",
@@ -37,6 +36,7 @@
     "testium-example-app": "^1.0.5"
   },
   "dependencies": {
+    "assertive": "^2.0.2",
     "bluebird": "^2.10.2",
     "debug": "^2.2.0",
     "lodash": "~3.10.1",
