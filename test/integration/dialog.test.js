@@ -22,6 +22,11 @@ describe('dialogs', () => {
   });
 
   describe('alert', () => {
+    if (browserName === 'chrome') {
+      xit('Chrome sometimes crashes with many alerts');
+      return;
+    }
+
     beforeEach(() => browser.clickOn('.link_to_open_an_alert'));
 
     it('can get an alert text', async () => {
