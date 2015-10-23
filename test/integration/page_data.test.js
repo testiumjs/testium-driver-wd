@@ -15,6 +15,8 @@ describe('page data', () => {
   it('size', async () =>
     assert.deepEqual({ height: 768, width: 1024 }, await browser.getPageSize()));
 
-  it('screenshot', async () =>
-    assert.truthy(await browser.getScreenshot()));
+  it('screenshot', async () => {
+    const screenshot = await browser.getScreenshot();
+    assert.expect(screenshot.length > 0);
+  });
 });
