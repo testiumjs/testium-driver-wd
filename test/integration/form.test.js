@@ -54,4 +54,12 @@ describe('form', () => {
     const value = await element.getValue();
     assert.equal('Input value was not typed', 'new stuff', value);
   });
+
+  it('correctly passes multibyte unicode back and forth', async () => {
+    const multibyteText = '日本語 text';
+    const element = await browser.getElement('#blank-input');
+    await element.type(multibyteText);
+    const result = await element.getValue();
+    assert.equal(result, multibyteText);
+  });
 });
