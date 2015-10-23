@@ -49,7 +49,7 @@ describe('element', () => {
 
     it('fails if element exists, but is not visible', async () => {
       const error = await assertRejects(browser.assertElementIsDisplayed('#hidden_thing'));
-      const expectedError = 'Element should be displayed for selector: #hidden_thing';
+      const expectedError = 'Element "#hidden_thing" should be displayed';
       assert.equal(expectedError, stripColors(error.message));
     });
 
@@ -58,12 +58,15 @@ describe('element', () => {
   });
 
   describe('assertElementNotDisplayed', () => {
-    it('succeeds if element does not exist', () =>
-      browser.assertElementNotDisplayed('.non-existing'));
+    it('fails if element does not exist', async () => {
+      const error = await assertRejects(browser.assertElementNotDisplayed('.non-existing'));
+      const expectedError = 'Element not found for selector: .non-existing';
+      assert.equal(expectedError, stripColors(error.message));
+    });
 
     it('fails if element exists, but is visible', async () => {
       const error = await assertRejects(browser.assertElementNotDisplayed('h1'));
-      const expectedError = 'Element should not be displayed for selector: h1';
+      const expectedError = 'Element "h1" shouldn\'t be displayed';
       assert.equal(expectedError, stripColors(error.message));
     });
 
@@ -74,7 +77,7 @@ describe('element', () => {
   describe('assertElementExists', () => {
     it('fails if element does not exist', async () => {
       const error = await assertRejects(browser.assertElementExists('.non-existing'));
-      const expectedError = 'Element should exist for selector: .non-existing';
+      const expectedError = 'Element ".non-existing" should exist';
       assert.equal(expectedError, stripColors(error.message));
     });
 
@@ -88,7 +91,7 @@ describe('element', () => {
 
     it('fails if element exists', async () => {
       const error = await assertRejects(browser.assertElementDoesntExist('h1'));
-      const expectedError = 'Element should not exist for selector: h1';
+      const expectedError = 'Element "h1" shouldn\'t exist';
       assert.equal(expectedError, stripColors(error.message));
     });
   });
@@ -162,7 +165,7 @@ describe('element', () => {
     });
   });
 
-  xdescribe('waitForElementExist', () => {
+  describe('waitForElementExist', () => {
     before(() => browser.navigateTo('/dynamic.html'));
 
     it('finds an element after waiting', async () => {
@@ -177,12 +180,12 @@ describe('element', () => {
 
     it('fails to find an element that never exists', async () => {
       const error = await assertRejects(browser.waitForElementExist('.does-not-exist', 10));
-      assert.equal('Timeout (10ms) waiting for element (.does-not-exist) to exist in page.',
+      assert.equal('Timeout (10ms): Element ".does-not-exist" should exist',
         error.message);
     });
   });
 
-  xdescribe('waitForElementNotExist', () => {
+  describe('waitForElementNotExist', () => {
     beforeEach(() => browser.navigateTo('/other-page.html'));
 
     function setupElement(keepAround) {
@@ -199,61 +202,60 @@ describe('element', () => {
       }, 300);
     }
 
-    it('succeeds once an element is gone', () => {
-      browser.evaluate(setupElement);
-      browser.assert.elementIsVisible('.remove_later');
-      browser.waitForElementNotExist('.remove_later');
+    it('succeeds once an element is gone', async () => {
+      await browser.evaluate(setupElement);
+      await browser.assertElementIsDisplayed('.remove_later');
+      await browser.waitForElementNotExist('.remove_later');
     });
 
-    it('fails when element still exists', () => {
-      browser.evaluate(/* keepAround = */ true, setupElement);
-      browser.assert.elementIsVisible('.remove_later');
-      const error = assert.throws(() =>
-        browser.waitForElementNotExist('.remove_later', 10));
-      assert.equal('Timeout (10ms) waiting for element (.remove_later) not to exist in page.',
+    it('fails when element still exists', async () => {
+      await browser.evaluate(/* keepAround = */ true, setupElement);
+      await browser.assertElementIsDisplayed('.remove_later');
+      const error = await assertRejects(browser.waitForElementNotExist('.remove_later', 10));
+      assert.equal('Timeout (10ms): Element ".remove_later" shouldn\'t exist',
         error.message);
     });
   });
 
-  xdescribe('waitForElementVisible', () => {
+  describe('waitForElementDisplayed', () => {
     before(() => browser.navigateTo('/dynamic.html'));
 
-    it('finds an element after waiting', () => {
-      browser.assert.elementNotVisible('.load_later');
-      browser.waitForElementVisible('.load_later');
+    it('finds an element after waiting', async () => {
+      await browser.assertElementNotDisplayed('.load_later');
+      await browser.waitForElementDisplayed('.load_later');
     });
 
-    it('fails to find a visible element within the timeout', () => {
-      const error = assert.throws(() =>
-        browser.waitForElementVisible('.load_never', 10));
-      assert.equal('Timeout (10ms) waiting for element (.load_never) to be visible.', error.message);
+    it('fails to find a visible element within the timeout', async () => {
+      const error = await assertRejects(browser.waitForElementDisplayed('.load_never', 10));
+      assert.equal('Timeout (10ms): Element ".load_never" should be displayed',
+        error.message);
     });
 
-    it('fails to find an element that never exists', () => {
-      const error = assert.throws(() =>
-        browser.waitForElementVisible('.does-not-exist', 10));
-      assert.equal('Timeout (10ms) waiting for element (.does-not-exist) to be visible.', error.message);
+    it('fails to find an element that never exists', async () => {
+      const error = await assertRejects(browser.waitForElementDisplayed('.does-not-exist', 10));
+      assert.equal('Timeout (10ms): Element not found for selector: .does-not-exist',
+        error.message);
     });
   });
 
-  xdescribe('waitForElementNotVisible', () => {
+  describe('waitForElementNotDisplayed', () => {
     before(() => browser.navigateTo('/dynamic.html'));
 
-    it('does not find an existing element after waiting for it to disappear', () => {
-      browser.assert.elementIsVisible('.hide_later');
-      browser.waitForElementNotVisible('.hide_later');
+    it('does not find an existing element after waiting for it to disappear', async () => {
+      await browser.assertElementIsDisplayed('.hide_later');
+      await browser.waitForElementNotDisplayed('.hide_later');
     });
 
-    it('fails to find a not-visible element within the timeout', () => {
-      const error = assert.throws(() =>
-        browser.waitForElementNotVisible('.hide_never', 10));
-      assert.equal('Timeout (10ms) waiting for element (.hide_never) to not be visible.', error.message);
+    it('fails to find a not-visible element within the timeout', async () => {
+      const error = await assertRejects(browser.waitForElementNotDisplayed('.hide_never', 10));
+      assert.equal('Timeout (10ms): Element ".hide_never" shouldn\'t be displayed',
+        error.message);
     });
 
-    it('fails to find an element that never exists', () => {
-      const error = assert.throws(() =>
-        browser.waitForElementNotVisible('.does-not-exist', 10));
-      assert.equal('Timeout (10ms) waiting for element (.does-not-exist) to not be visible.', error.message);
+    it('fails to find an element that never exists', async () => {
+      const error = await assertRejects(browser.waitForElementNotDisplayed('.does-not-exist', 10));
+      assert.equal('Timeout (10ms): Element not found for selector: .does-not-exist',
+        error.message);
     });
   });
 
