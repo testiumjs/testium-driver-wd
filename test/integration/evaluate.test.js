@@ -1,22 +1,20 @@
-import {getBrowser} from '../mini-testium-mocha';
+import {browser} from '../mini-testium-mocha';
 import assert from 'assertive';
 
-xdescribe('evaluate', () => {
-  let browser;
-  before(async () => (browser = await getBrowser()));
+describe('evaluate', () => {
+  before(browser.beforeHook);
 
   before(() => browser.navigateTo('/'));
 
-  it('runs JavaScript passed as a String', () => {
-    const value = browser.evaluate('return 3;');
-    assert.equal(3, value);
+  it('runs JavaScript passed as a String', async () => {
+    assert.equal(3, await browser.evaluate('return 3;'));
   });
 
-  it('runs JavaScript passed as a Function', () => {
-    assert.equal(6, browser.evaluate(() => 6));
+  it('runs JavaScript passed as a Function', async () => {
+    assert.equal(6, await browser.evaluate(() => 6));
   });
 
-  it('runs JavaScript passed as a Function with optional prepended args', () => {
-    assert.equal(18, browser.evaluate(3, 6, (a, b) => a * b));
+  it('runs JavaScript passed as a Function with optional prepended args', async () => {
+    assert.equal(18, await browser.evaluate(3, 6, (a, b) => a * b));
   });
 });

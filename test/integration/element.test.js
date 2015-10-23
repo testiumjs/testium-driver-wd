@@ -259,32 +259,33 @@ describe('element', () => {
     });
   });
 
-  xdescribe('#getElement', () => {
+  describe('#getElement', () => {
     before(() => browser.navigateTo('/'));
 
-    it('succeeds if selector is a String', () => {
-      const element = browser.getElement('body');
-      element.getElement('.message');
+    it('succeeds if selector is a String', async () => {
+      const element = await browser.getElement('body');
+      await element.getElement('.message');
     });
 
-    it('return null if not found an element on the message element', () => {
-      const messageElement = browser.getElement('.message');
-      const element = messageElement.getElement('.message');
-      assert.falsey(element);
+    it('return null if not found an element on the message element', async () => {
+      const messageElement = await browser.getElement('.message');
+      const element = await messageElement.getElementOrNull('.message');
+      assert.equal(null, element);
     });
   });
 
-  xdescribe('#getElements', () => {
+  describe('#getElements', () => {
     before(() => browser.navigateTo('/'));
 
-    it('succeeds if selector is a String', () => {
-      const element = browser.getElement('body');
-      element.getElements('.message');
+    it('succeeds if selector is a String', async () => {
+      const element = await browser.getElement('body');
+      const messages = await element.getElements('.message');
+      assert.equal(3, messages.length);
     });
 
-    it('return empty array if not found an element on the message element', () => {
-      const messageElement = browser.getElement('.message');
-      const elements = messageElement.getElements('.message');
+    it('return empty array if not found an element on the message element', async () => {
+      const messageElement = await browser.getElement('.message');
+      const elements = await messageElement.getElements('.message');
       assert.equal(0, elements.length);
     });
   });
