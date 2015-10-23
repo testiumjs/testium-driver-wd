@@ -1,196 +1,188 @@
-import {getBrowser} from '../mini-testium-mocha';
+import {browser} from '../mini-testium-mocha';
 import assert from 'assertive';
 
 function stripColors(message) {
   return message.replace(/\u001b\[[^m]*m/g, '');
 }
 
-xdescribe('element', () => {
-  let browser;
-  before(async () => (browser = await getBrowser()));
+function assertRejects(promise) {
+  return promise.then(() => {
+    throw new Error('Did not fail as expected');
+  }, error => error);
+}
+
+describe('element', () => {
+  before(browser.beforeHook);
 
   before(() => browser.navigateTo('/'));
 
-  it('can get an element\'s text', () => {
-    const element = browser.getElement('h1');
-    const text = element.get('text');
+  it('can get an element\'s text', async () => {
+    const text = await browser.getElement('h1').text();
     assert.equal('Element text was not found', 'Test Page!', text);
   });
 
-  it('can get special properties from an element', () => {
+  it('can get special properties from an element', async () => {
     // the "checked" property (when it doesn't exist)
     // returns a non-standard response from selenium;
     // let's make sure we can handle it properly
-    const element = browser.getElement('#checkbox');
-    const checked = element.get('checked');
+    const element = await browser.getElement('#checkbox');
+    const checked = await element.getAttribute('checked');
     assert.equal('checked is null', null, checked);
   });
 
-  it('returns null when the element can not be found', () => {
-    const element = browser.getElement('.non-existing');
+  it('returns null when the element can not be found', async () => {
+    const element = await browser.getElementOrNull('.non-existing');
     assert.equal('Element magically appeared on the page', null, element);
   });
 
-  it('can get several elements', () => {
-    const elements = browser.getElements('.message');
+  it('can get several elements', async () => {
+    const elements = await browser.getElements('.message');
     assert.equal('Messages were not all found', 3, elements.length);
   });
 
-  describe('elementIsVisible', () => {
-    it('fails if element does not exist', () => {
-      const error = assert.throws(() => browser.assert.elementIsVisible('.non-existing'));
-      const expectedError = 'Assertion failed: Element not found for selector: .non-existing\nExpected null to be truthy';
+  describe('assertElementIsDisplayed', () => {
+    it('fails if element does not exist', async () => {
+      const error = await assertRejects(browser.assertElementIsDisplayed('.non-existing'));
+      const expectedError = 'Element not found for selector: .non-existing';
       assert.equal(expectedError, stripColors(error.message));
     });
 
-    it('fails if element exists, but is not visible', () => {
-      const error = assert.throws(() => browser.assert.elementIsVisible('#hidden_thing'));
-      const expectedError = 'Assertion failed: Element should be visible for selector: #hidden_thing\nExpected false to be truthy';
+    it('fails if element exists, but is not visible', async () => {
+      const error = await assertRejects(browser.assertElementIsDisplayed('#hidden_thing'));
+      const expectedError = 'Element should be displayed for selector: #hidden_thing';
       assert.equal(expectedError, stripColors(error.message));
     });
 
-    it('succeeds if element exists and is visible', () => {
-      browser.assert.elementIsVisible('h1');
-    });
+    it('succeeds if element exists and is visible', () =>
+      browser.assertElementIsDisplayed('h1'));
   });
 
-  describe('elementNotVisible', () => {
-    it('fails if element does not exist', () => {
-      const error = assert.throws(() => browser.assert.elementNotVisible('.non-existing'));
-      const expectedError = 'Assertion failed: Element not found for selector: .non-existing\nExpected null to be truthy';
+  describe('assertElementNotDisplayed', () => {
+    it('succeeds if element does not exist', () =>
+      browser.assertElementNotDisplayed('.non-existing'));
+
+    it('fails if element exists, but is visible', async () => {
+      const error = await assertRejects(browser.assertElementNotDisplayed('h1'));
+      const expectedError = 'Element should not be displayed for selector: h1';
       assert.equal(expectedError, stripColors(error.message));
     });
 
-    it('fails if element exists, but is visible', () => {
-      const error = assert.throws(() => browser.assert.elementNotVisible('h1'));
-      const expectedError = 'Assertion failed: Element should not be visible for selector: h1\nExpected true to be falsey';
-      assert.equal(expectedError, stripColors(error.message));
-    });
-
-    it('succeeds if element exists and is not visible', () => {
-      browser.assert.elementNotVisible('#hidden_thing');
-    });
+    it('succeeds if element exists and is not visible', () =>
+      browser.assertElementNotDisplayed('#hidden_thing'));
   });
 
-  describe('elementExists', () => {
-    it('fails if element does not exist', () => {
-      const error = assert.throws(() => browser.assert.elementExists('.non-existing'));
-      const expectedError = 'Assertion failed: Element not found for selector: .non-existing\nExpected null to be truthy';
+  describe('assertElementExists', () => {
+    it('fails if element does not exist', async () => {
+      const error = await assertRejects(browser.assertElementExists('.non-existing'));
+      const expectedError = 'Element should exist for selector: .non-existing';
       assert.equal(expectedError, stripColors(error.message));
     });
 
-    it('succeeds if element exists', () => {
-      browser.assert.elementExists('h1');
-    });
+    it('succeeds if element exists', () =>
+      browser.assertElementExists('h1'));
   });
 
-  describe('elementDoesntExist', () => {
-    it('succeeds if element does not exist', () => {
-      browser.assert.elementDoesntExist('.non-existing');
-    });
+  describe('assertElementDoesntExist', () => {
+    it('succeeds if element does not exist', () =>
+      browser.assertElementDoesntExist('.non-existing'));
 
-    it('fails if element exists', () => {
-      const error = assert.throws(() => browser.assert.elementDoesntExist('h1'));
-      const expectedError = 'Assertion failed: Element found for selector: h1\nExpected Element to be falsey';
+    it('fails if element exists', async () => {
+      const error = await assertRejects(browser.assertElementDoesntExist('h1'));
+      const expectedError = 'Element should not exist for selector: h1';
       assert.equal(expectedError, stripColors(error.message));
     });
   });
 
   describe('elementHasText', () => {
-    it('finds and returns a single element', () => {
-      const element = browser.assert.elementHasText('.only', 'only one here');
-      assert.equal('resolve the element\'s class', 'only', element.get('class'));
+    it('finds and returns a single element', async () => {
+      const element = await browser.assertElementHasText('.only', 'only one here');
+      assert.equal('resolve the element\'s class', 'only', await element.getAttribute('class'));
     });
 
-    it('finds an element with the wrong text', () => {
-      const error = assert.throws(() =>
-        browser.assert.elementHasText('.only', 'the wrong text'));
+    it('finds an element with the wrong text', async () => {
+      const error = await assertRejects(browser.assertElementHasText('.only', 'the wrong text'));
 
-      const expected = 'Assertion failed: elementHasText: .only\ninclude expected needle to be found in haystack\n- needle: \"the wrong text\"\nhaystack: \"only one here\"';
+      const expected = '.only should have text\n- needle: \"the wrong text\"\n- text: \"only one here\"';
       assert.equal(expected, stripColors(error.message));
     });
 
-    it('finds no elements', () => {
-      const error = assert.throws(() =>
-        browser.assert.elementHasText('.does-not-exist', 'some text'));
+    it('finds no elements', async () => {
+      const error = await assertRejects(
+        browser.assertElementHasText('.does-not-exist', 'some text'));
 
       assert.equal('Element not found for selector: .does-not-exist', error.message);
     });
 
-    it('finds many elements', () => {
-      const error = assert.throws(() =>
-        browser.assert.elementHasText('.message', 'some text'));
+    it('finds many elements', async () => {
+      const error = await assertRejects(browser.assertElementHasText('.message', 'some text'));
 
-      assert.equal('assertion needs a unique selector!\n.message has 3 hits in the page', error.message);
+      assert.equal('Selector .message has 3 hits on the page, assertions require unique elements', error.message);
     });
 
-    it('succeeds with empty string', () => {
-      browser.assert.elementHasText('#blank-input', '');
-    });
+    it('succeeds with empty string', () =>
+      browser.assertElementHasText('#blank-input', ''));
   });
 
   describe('elementLacksText', () => {
-    it('asserts an element lacks some text, and returns the element', () => {
-      const element = browser.assert.elementLacksText('.only', 'this text not present');
-      assert.equal('resolve the element\'s class', 'only', element.get('class'));
+    it('asserts an element lacks some text, and returns the element', async () => {
+      const element = await browser.assertElementLacksText('.only', 'this text not present');
+      assert.equal('resolve the element\'s class', 'only', await element.getAttribute('class'));
     });
 
-    it('finds an element incorrectly having some text', () => {
-      const error = assert.throws(() =>
-        browser.assert.elementLacksText('.only', 'only'));
+    it('finds an element incorrectly having some text', async () => {
+      const error = await assertRejects(browser.assertElementLacksText('.only', 'only'));
 
-      const expected = 'Assertion failed: elementLacksText: .only\nnotInclude expected needle not to be found in haystack\n- needle: \"only\"\nhaystack: \"only one here\"';
+      const expected = '.only should not have text\n- needle: \"only\"\n- text: \"only one here\"';
       assert.equal(expected, stripColors(error.message));
     });
   });
 
   describe('elementHasValue', () => {
-    it('finds and returns a single element', () => {
-      const element = browser.assert.elementHasValue('#text-input', 'initialvalue');
-      assert.equal('resolve the element\'s id', 'text-input', element.get('id'));
+    it('finds and returns a single element', async () => {
+      const element = await browser.assertElementHasValue('#text-input', 'initialvalue');
+      assert.equal('resolve the element\'s id', 'text-input', await element.getAttribute('id'));
     });
 
-    it('succeeds with empty string', () => {
-      browser.assert.elementHasValue('#blank-input', '');
-    });
+    it('succeeds with empty string', () =>
+      browser.assertElementHasValue('#blank-input', ''));
   });
 
   describe('elementLacksValue', () => {
-    it('asserts an element lacks some value, and returns the element', () => {
-      const element = browser.assert.elementLacksValue('#text-input', 'this text not present');
-      assert.equal('resolve the element\'s id', 'text-input', element.get('id'));
+    it('asserts an element lacks some value, and returns the element', async () => {
+      const element = await browser.assertElementLacksValue('#text-input', 'this text not present');
+      assert.equal('resolve the element\'s id', 'text-input', await element.getAttribute('id'));
     });
 
-    it('finds an element incorrectly having some text', () => {
-      const error = assert.throws(() =>
-        browser.assert.elementLacksValue('#text-input', 'initialvalue'));
+    it('finds an element incorrectly having some text', async () => {
+      const error = await assertRejects(
+        browser.assertElementLacksValue('#text-input', 'initialvalue'));
 
-      const expected = 'Assertion failed: elementLacksValue: #text-input\nnotInclude expected needle not to be found in haystack\n- needle: \"initialvalue\"\nhaystack: \"initialvalue\"';
+      const expected = '#text-input should not have value\n- needle: \"initialvalue\"\n- value: \"initialvalue\"';
       assert.equal(expected, stripColors(error.message));
     });
   });
 
-  describe('waitForElementExist', () => {
+  xdescribe('waitForElementExist', () => {
     before(() => browser.navigateTo('/dynamic.html'));
 
-    it('finds an element after waiting', () => {
-      browser.assert.elementNotVisible('.load_later');
-      browser.waitForElementExist('.load_later');
+    it('finds an element after waiting', async () => {
+      await browser.assertElementNotDisplayed('.load_later');
+      await browser.waitForElementExist('.load_later');
     });
 
-    it('finds a hidden element', () => {
-      browser.assert.elementNotVisible('.load_never');
-      browser.waitForElementExist('.load_never');
+    it('finds a hidden element', async () => {
+      await browser.assertElementNotDisplayed('.load_never');
+      await browser.waitForElementExist('.load_never');
     });
 
-    it('fails to find an element that never exists', () => {
-      const error = assert.throws(() =>
-        browser.waitForElementExist('.does-not-exist', 10));
-      assert.equal('Timeout (10ms) waiting for element (.does-not-exist) to exist in page.', error.message);
+    it('fails to find an element that never exists', async () => {
+      const error = await assertRejects(browser.waitForElementExist('.does-not-exist', 10));
+      assert.equal('Timeout (10ms) waiting for element (.does-not-exist) to exist in page.',
+        error.message);
     });
   });
 
-  describe('waitForElementNotExist', () => {
+  xdescribe('waitForElementNotExist', () => {
     beforeEach(() => browser.navigateTo('/other-page.html'));
 
     function setupElement(keepAround) {
@@ -223,7 +215,7 @@ xdescribe('element', () => {
     });
   });
 
-  describe('waitForElementVisible', () => {
+  xdescribe('waitForElementVisible', () => {
     before(() => browser.navigateTo('/dynamic.html'));
 
     it('finds an element after waiting', () => {
@@ -244,7 +236,7 @@ xdescribe('element', () => {
     });
   });
 
-  describe('waitForElementNotVisible', () => {
+  xdescribe('waitForElementNotVisible', () => {
     before(() => browser.navigateTo('/dynamic.html'));
 
     it('does not find an existing element after waiting for it to disappear', () => {
@@ -265,7 +257,7 @@ xdescribe('element', () => {
     });
   });
 
-  describe('#getElement', () => {
+  xdescribe('#getElement', () => {
     before(() => browser.navigateTo('/'));
 
     it('succeeds if selector is a String', () => {
@@ -280,7 +272,7 @@ xdescribe('element', () => {
     });
   });
 
-  describe('#getElements', () => {
+  xdescribe('#getElements', () => {
     before(() => browser.navigateTo('/'));
 
     it('succeeds if selector is a String', () => {
