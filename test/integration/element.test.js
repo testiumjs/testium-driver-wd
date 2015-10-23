@@ -26,7 +26,7 @@ describe('element', () => {
     // returns a non-standard response from selenium;
     // let's make sure we can handle it properly
     const element = await browser.getElement('#checkbox');
-    const checked = await element.getAttribute('checked');
+    const checked = await element.get('checked');
     assert.equal('checked is null', null, checked);
   });
 
@@ -99,7 +99,7 @@ describe('element', () => {
   describe('elementHasText', () => {
     it('finds and returns a single element', async () => {
       const element = await browser.assertElementHasText('.only', 'only one here');
-      assert.equal('resolve the element\'s class', 'only', await element.getAttribute('class'));
+      assert.equal('resolve the element\'s class', 'only', await element.get('class'));
     });
 
     it('finds an element with the wrong text', async () => {
@@ -129,7 +129,7 @@ describe('element', () => {
   describe('elementLacksText', () => {
     it('asserts an element lacks some text, and returns the element', async () => {
       const element = await browser.assertElementLacksText('.only', 'this text not present');
-      assert.equal('resolve the element\'s class', 'only', await element.getAttribute('class'));
+      assert.equal('resolve the element\'s class', 'only', await element.get('class'));
     });
 
     it('finds an element incorrectly having some text', async () => {
@@ -143,7 +143,7 @@ describe('element', () => {
   describe('elementHasValue', () => {
     it('finds and returns a single element', async () => {
       const element = await browser.assertElementHasValue('#text-input', 'initialvalue');
-      assert.equal('resolve the element\'s id', 'text-input', await element.getAttribute('id'));
+      assert.equal('resolve the element\'s id', 'text-input', await element.get('id'));
     });
 
     it('succeeds with empty string', () =>
@@ -153,7 +153,7 @@ describe('element', () => {
   describe('elementLacksValue', () => {
     it('asserts an element lacks some value, and returns the element', async () => {
       const element = await browser.assertElementLacksValue('#text-input', 'this text not present');
-      assert.equal('resolve the element\'s id', 'text-input', await element.getAttribute('id'));
+      assert.equal('resolve the element\'s id', 'text-input', await element.get('id'));
     });
 
     it('finds an element incorrectly having some text', async () => {
