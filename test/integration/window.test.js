@@ -35,7 +35,7 @@ xdescribe('window api', () => {
     });
 
     it('can be opened', () => {
-      browser.click('#open-popup');
+      browser.clickOn('#open-popup');
       browser.switchToWindow('popup1');
       const popupContent = browser.getElement('.popup-only').get('text');
       browser.closeWindow();

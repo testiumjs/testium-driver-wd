@@ -1,86 +1,83 @@
-import {getBrowser} from '../mini-testium-mocha';
+import {browser} from '../mini-testium-mocha';
 import assert from 'assertive';
 
-import Config from 'testium-core/lib/config';
+import {getConfig} from 'testium-core';
 
-const browserName = Config.load().get('browser');
+const browserName = getConfig().get('browser');
 
-xdescribe('dialogs', () => {
+describe('dialogs', () => {
   if (browserName === 'phantomjs') {
     xit('skipping tests because browser phantomjs doesn\'t support alerts');
     return;
   }
 
-  let browser;
-  before(async () => (browser = await getBrowser()));
+  before(browser.beforeHook);
 
   let target;
-  before(() => {
-    browser.navigateTo('/');
-    browser.assert.httpStatus(200);
+  before(async () => {
+    await browser.navigateTo('/').assertStatusCode(200);
 
-    target = browser.getElement('#alert_target');
-    browser.click('.link_to_clear_alert_target');
+    target = await browser.getElement('#alert_target');
+    await browser.clickOn('.link_to_clear_alert_target');
   });
 
-  xdescribe('alert', () => {
-    beforeEach(() => browser.click('.link_to_open_an_alert'));
+  describe('alert', () => {
+    beforeEach(() => browser.clickOn('.link_to_open_an_alert'));
 
-    it('can get an alert text', () => {
-      const text = browser.getAlertText();
-      browser.acceptAlert();
+    it('can get an alert text', async () => {
+      const text = await browser.getAlertText();
+      await browser.acceptAlert();
       assert.equal('Alert text was not found', 'An alert!', text);
     });
 
-    it('can accept an alert', () => {
-      browser.acceptAlert();
-      assert.equal('alerted', target.get('text'));
+    it('can accept an alert', async () => {
+      await browser.acceptAlert();
+      assert.equal('alerted', await target.text());
     });
 
-    it('can dismiss an alert', () => {
-      browser.dismissAlert();
-      assert.equal('alerted', target.get('text'));
+    it('can dismiss an alert', async () => {
+      await browser.dismissAlert();
+      assert.equal('alerted', await target.text());
     });
   });
 
   describe('confirm', () => {
-    beforeEach(() => browser.click('.link_to_open_a_confirm'));
+    beforeEach(() => browser.clickOn('.link_to_open_a_confirm'));
 
-    it('can get confirm text', () => {
-      const text = browser.getAlertText();
-      browser.acceptAlert();
+    it('can get confirm text', async () => {
+      const text = await browser.getAlertText();
+      await browser.acceptAlert();
       assert.equal('Confirm text was not found', 'A confirmation!', text);
     });
 
-    it('can accept a confirm', () => {
-      browser.acceptAlert();
-      assert.equal('confirmed', target.get('text'));
+    it('can accept a confirm', async () => {
+      await browser.acceptAlert();
+      assert.equal('confirmed', await target.text());
     });
 
-    it('can dismiss a confirm', () => {
-      browser.dismissAlert();
-      assert.equal('dismissed', target.get('text'));
+    it('can dismiss a confirm', async () => {
+      await browser.dismissAlert();
+      assert.equal('dismissed', await target.text());
     });
   });
 
   describe('prompt', () => {
-    beforeEach(() => browser.click('.link_to_open_a_prompt'));
+    beforeEach(() => browser.clickOn('.link_to_open_a_prompt'));
 
-    it('can get prompt text', () => {
-      const text = browser.getAlertText();
-      browser.acceptAlert();
+    it('can get prompt text', async () => {
+      const text = await browser.getAlertText();
+      await browser.acceptAlert();
       assert.equal('Confirm text was not found', 'A prompt!', text);
     });
 
-    it('can send text to and accept a prompt', () => {
-      browser.typeAlert('Some words');
-      browser.acceptAlert();
-      assert.equal('Some words', target.get('text'));
+    it('can send text to and accept a prompt', async () => {
+      await browser.typeAlert('Some words').acceptAlert();
+      assert.equal('Some words', await target.text());
     });
 
-    it('can dismiss a prompt', () => {
-      browser.dismissAlert();
-      assert.equal('dismissed', target.get('text'));
+    it('can dismiss a prompt', async () => {
+      await browser.dismissAlert();
+      assert.equal('dismissed', await target.text());
     });
   });
 });
