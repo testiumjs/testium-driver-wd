@@ -1,5 +1,5 @@
 import {browser} from '../mini-testium-mocha';
-import {delay} from 'Bluebird';
+import {delay} from 'bluebird';
 
 describe('proxy', () => {
   before(browser.beforeHook);
