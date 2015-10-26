@@ -1,6 +1,12 @@
 import {browser} from '../mini-testium-mocha';
 import assert from 'assertive';
 
+function assertRejects(promise) {
+  return promise.then(() => {
+    throw new Error('Did not fail as expected');
+  }, error => error);
+}
+
 describe('window api', () => {
   before(browser.beforeHook);
 
@@ -16,6 +22,9 @@ describe('window api', () => {
       assert.equal('iframe content!', iframeContent);
       assert.equal(null, primaryContent);
     });
+
+    it('fails with invalid frame', () =>
+      assertRejects(browser.switchToFrame('invalid-frame')));
 
     it('can be found when nested', async () => {
       await browser.switchToFrame('cool-frame');
