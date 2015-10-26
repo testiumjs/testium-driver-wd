@@ -26,6 +26,13 @@ describe('form', () => {
     assert.equal('Input value was not typed', 'new stuff', value);
   });
 
+  it('can type into an input via shortcut', async () => {
+    await browser.clear('#text-input');
+    await browser.type('#text-input', 'new stuff');
+    const value = await browser.getElement('#text-input').getValue();
+    assert.equal('Input value was not typed', 'new stuff', value);
+  });
+
   it('can replace the input\'s value', async () => {
     const element = await browser.getElement('#text-input');
     const valueBefore = await element.getValue();
