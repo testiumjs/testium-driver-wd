@@ -13,7 +13,7 @@ describe('console', () => {
   // for console.logs differently.
   // Use at your own risk.
   it('can all be retrieved', async () => {
-    const { browserName } = await browser.sessionCapabilities();
+    const { browserName } = browser.capabilities;
     let logs;
 
     switch (browserName) {
