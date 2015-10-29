@@ -10,39 +10,35 @@ function assertRejects(promise) {
 describe('navigation', () => {
   before(browser.beforeHook);
 
-  it('supports just a path', async () => {
-    await browser.navigateTo('/');
-    assert.equal(200, await browser.getStatusCode());
+  it('supports just a path', () => {
+    return browser.navigateTo('/').assertStatusCode(200);
   });
 
-  it('supports query args', async () => {
-    await browser.navigateTo('/', { query: { 'a b': 'München', x: 0 } });
-    assert.equal(200, await browser.getStatusCode());
-
-    await browser.waitForPath('/?a%20b=M%C3%BCnchen&x=0', 100);
+  it('supports query args', () => {
+    return browser
+      .navigateTo('/', { query: { 'a b': 'München', x: 0 } })
+      .assertStatusCode(200)
+      .waitForPath('/?a%20b=M%C3%BCnchen&x=0', 100);
   });
 
-  it('with a query string and query arg', async () => {
-    await browser.navigateTo('/?x=0', { query: { 'a b': 'München' } });
-    assert.equal(200, await browser.getStatusCode());
-
-    await browser.waitForPath('/?x=0&a%20b=M%C3%BCnchen', 100);
+  it('with a query string and query arg', () => {
+    return browser
+      .navigateTo('/?x=0', { query: { 'a b': 'München' } })
+      .assertStatusCode(200)
+      .waitForPath('/?x=0&a%20b=M%C3%BCnchen', 100);
   });
 
   it('by clicking a link', async () => {
-    await browser.navigateTo('/');
-    assert.equal(200, await browser.getStatusCode());
-
     await browser
-      .elementByCssSelector('.link-to-other-page')
-      .click();
+      .navigateTo('/')
+      .assertStatusCode(200)
+      .clickOn('.link-to-other-page');
 
     assert.equal('/other-page.html', await browser.getPath());
   });
 
   it('by refreshing', async () => {
-    await browser.navigateTo('/');
-    assert.equal(200, await browser.getStatusCode());
+    await browser.navigateTo('/').assertStatusCode(200);
 
     await browser.safeExecute('(' + function changePage() {
       /* eslint no-var:0 */
@@ -50,13 +46,13 @@ describe('navigation', () => {
       el.className = 'exists-before-refresh';
       document.body.appendChild(el);
     }.toString() + ')();');
-    // Making sure the element exists
-    await browser.elementByCssSelector('.exists-before-refresh');
 
-    await browser.refresh();
-    // The element should not be gone.
-    assert.equal(null,
-      await browser.elementByCssSelectorOrNull('.exists-before-refresh'));
+    await browser
+      // Making sure the element exists
+      .assertElementExists('.exists-before-refresh')
+      .refresh()
+      // The element should not be gone.
+      .assertElementDoesntExist('.exists-before-refresh');
   });
 
   describe('waiting for a url', () => {
@@ -118,18 +114,18 @@ describe('navigation', () => {
   });
 
   describe('waiting for a path', () => {
-    it('can work with a string', async () => {
-      await browser.navigateTo('/redirect-after.html');
-      assert.equal(200, await browser.getStatusCode());
-
-      await browser.waitForPath('/index.html');
+    it('can work with a string', () => {
+      return browser
+        .navigateTo('/redirect-after.html')
+        .assertStatusCode(200)
+        .waitForPath('/index.html');
     });
 
-    it('can work with a regex', async () => {
-      await browser.navigateTo('/redirect-after.html');
-      assert.equal(200, await browser.getStatusCode());
-
-      await browser.waitForPath(/index.html/);
+    it('can work with a regex', () => {
+      return browser
+        .navigateTo('/redirect-after.html')
+        .assertStatusCode(200)
+        .waitForPath(/index.html/);
     });
   });
 });

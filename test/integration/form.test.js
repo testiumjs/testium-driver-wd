@@ -1,61 +1,72 @@
-import {getBrowser} from '../mini-testium-mocha';
+import {browser} from '../mini-testium-mocha';
 import assert from 'assertive';
 
-xdescribe('evaluate', () => {
-  let browser;
-  before(async () => (browser = await getBrowser()));
+describe('form', () => {
+  before(browser.beforeHook);
 
-  before(() => {
-    browser.navigateTo('/');
-    browser.assert.httpStatus(200);
-  });
+  before(() => browser.navigateTo('/').assertStatusCode(200));
 
-  it('can get an input\'s value', () => {
-    const element = browser.getElement('#text-input');
-    const value = element.get('value');
+  it('can get an input\'s value', async () => {
+    const element = await browser.getElement('#text-input');
+    const value = await element.getValue();
     assert.equal('Input value was not found', 'initialvalue', value);
   });
 
-  it('can clear an input\'s value', () => {
-    const element = browser.getElement('#text-input');
-    element.clear();
-    const value = element.get('value');
+  it('can clear an input\'s value', async () => {
+    const element = await browser.getElement('#text-input');
+    await element.clear();
+    const value = await element.getValue();
     assert.equal('Input value was not cleared', '', value);
   });
 
-  it('can type into an input', () => {
-    const element = browser.getElement('#text-input');
-    element.type('new stuff');
-    const value = element.get('value');
+  it('can type into an input', async () => {
+    const element = await browser.getElement('#text-input');
+    await element.type('new stuff');
+    const value = await element.getValue();
     assert.equal('Input value was not typed', 'new stuff', value);
   });
 
-  it('can replace the input\'s value', () => {
-    const element = browser.getElement('#text-input');
-    const valueBefore = element.get('value');
+  it('can type into an input via shortcut', async () => {
+    await browser.clear('#text-input');
+    await browser.type('#text-input', 'new stuff');
+    const value = await browser.getElement('#text-input').getValue();
+    assert.equal('Input value was not typed', 'new stuff', value);
+  });
+
+  it('can replace the input\'s value', async () => {
+    const element = await browser.getElement('#text-input');
+    const valueBefore = await element.getValue();
     assert.notEqual('Input value is already empty', '', valueBefore);
-    browser.clearAndType('#text-input', 'new stuff2');
-    const valueAfter = element.get('value');
+    await browser.clearAndType('#text-input', 'new stuff2');
+    const valueAfter = await element.getValue();
     assert.equal('Input value was not typed', 'new stuff2', valueAfter);
   });
 
-  it('can get a textarea\'s value', () => {
-    const element = browser.getElement('#text-area');
-    const value = element.get('value');
+  it('can get a textarea\'s value', async () => {
+    const element = await browser.getElement('#text-area');
+    const value = await element.getValue();
     assert.equal('Input value was not found', 'initialvalue', value);
   });
 
-  it('can clear an textarea\'s value', () => {
-    const element = browser.getElement('#text-area');
-    element.clear();
-    const value = element.get('value');
+  it('can clear an textarea\'s value', async () => {
+    const element = await browser.getElement('#text-area');
+    await element.clear();
+    const value = await element.getValue();
     assert.equal('Input value was not cleared', '', value);
   });
 
-  it('can type into a textarea', () => {
-    const element = browser.getElement('#text-area');
-    element.type('new stuff');
-    const value = element.get('value');
+  it('can type into a textarea', async () => {
+    const element = await browser.getElement('#text-area');
+    await element.type('new stuff');
+    const value = await element.getValue();
     assert.equal('Input value was not typed', 'new stuff', value);
+  });
+
+  it('correctly passes multibyte unicode back and forth', async () => {
+    const multibyteText = '日本語 text';
+    const element = await browser.getElement('#blank-input');
+    await element.type(multibyteText);
+    const result = await element.getValue();
+    assert.equal(result, multibyteText);
   });
 });

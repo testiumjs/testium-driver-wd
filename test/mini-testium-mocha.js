@@ -11,4 +11,4 @@ browser.beforeHook = async function prepareBrowserHook() {
   browser = testium.browser;
 };
 
-after(() => browser && browser.close());
+after(() => browser && browser.quit && browser.quit());

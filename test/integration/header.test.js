@@ -1,24 +1,20 @@
-import {getBrowser} from '../mini-testium-mocha';
+import {browser} from '../mini-testium-mocha';
 import assert from 'assertive';
 
-xdescribe('header', () => {
-  let browser;
-  before(async () => (browser = await getBrowser()));
+describe('header', () => {
+  before(browser.beforeHook);
 
   describe('can be retrieved', () => {
-    before(() => {
-      browser.navigateTo('/');
-      browser.assert.httpStatus(200);
-    });
+    before(() => browser.navigateTo('/').assertStatusCode(200));
 
-    it('as a group', () => {
-      const headers = browser.getHeaders();
+    it('as a group', async () => {
+      const headers = await browser.getHeaders();
       const contentType = headers['content-type'];
       assert.equal('text/html', contentType);
     });
 
-    it('individually', () => {
-      const contentType = browser.getHeader('content-type');
+    it('individually', async () => {
+      const contentType = await browser.getHeader('content-type');
       assert.equal('text/html', contentType);
     });
   });
@@ -27,8 +23,8 @@ xdescribe('header', () => {
     before(() =>
       browser.navigateTo('/echo', { headers: { 'x-something': 'that place' } }));
 
-    it('to new values', () => {
-      const source = browser.getElement('body').get('text');
+    it('to new values', async () => {
+      const source = await browser.getElement('body').text();
       const body = JSON.parse(source);
       assert.equal(body.headers['x-something'], 'that place');
     });

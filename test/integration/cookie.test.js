@@ -50,4 +50,22 @@ describe('cookie', () => {
     const cookie = await browser.getCookie('test_cookie');
     assert.falsey(cookie);
   });
+
+  describe('setCookieValue', () => {
+    before(() =>
+      browser
+        .navigateTo('/some/nested/url')
+        .setCookie({ name: 'non_root', value: 'a' })
+        .setCookieValue('root', 'b')
+        .navigateTo('/'));
+
+    it('can\'t read the non-root cookie', async () => {
+      assert.falsey(await browser.getCookie('non_root'));
+    });
+
+    it('can read the root cookie', async () => {
+      assert.truthy(await browser.getCookie('root'));
+      assert.equal('b', await browser.getCookieValue('root'));
+    });
+  });
 });
