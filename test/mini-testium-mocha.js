@@ -6,7 +6,7 @@ import createDriver from '../';
 
 export let browser = {};
 
-browser.beforeHook = async function prepareBrowserHook() {
+browser.beforeHook = async () => {
   const testium = await getTestium({ driver: createDriver });
   browser = testium.browser;
 };
