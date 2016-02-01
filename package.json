@@ -64,8 +64,8 @@
   "homepage": "https://github.com/testiumjs/testium-driver-wd#readme",
   "devDependencies": {
     "babel-core": "^5.8.25",
-    "eslint": "^1.7.3",
-    "eslint-config-groupon": "^1.1.0",
+    "eslint": "^1.9.0",
+    "eslint-config-groupon": "^2.0.0",
     "mocha": "^2.3.3",
     "npub": "^2.2.0",
     "testium-core": "^1.3.0",

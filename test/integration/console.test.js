@@ -1,4 +1,4 @@
-import {browser} from '../mini-testium-mocha';
+import { browser } from '../mini-testium-mocha';
 import assert from 'assertive';
 
 describe('console', () => {
@@ -17,27 +17,27 @@ describe('console', () => {
     let logs;
 
     switch (browserName) {
-    case 'firefox':
+      case 'firefox':
       // firefox ignores this entirely
-      break;
+        break;
 
-    case 'chrome':
-      logs = await browser.getConsoleLogs();
-      assert.truthy('console.logs length', logs.length > 0);
+      case 'chrome':
+        logs = await browser.getConsoleLogs();
+        assert.truthy('console.logs length', logs.length > 0);
 
-      logs = await browser.getConsoleLogs();
-      assert.equal(0, logs.length);
+        logs = await browser.getConsoleLogs();
+        assert.equal(0, logs.length);
 
-      await browser.clickOn('#log-button');
+        await browser.clickOn('#log-button');
 
-      logs = await browser.getConsoleLogs();
-      assert.truthy('console.logs length', logs.length > 0);
-      break;
+        logs = await browser.getConsoleLogs();
+        assert.truthy('console.logs length', logs.length > 0);
+        break;
 
-    default:
-      logs = await browser.getConsoleLogs();
-      assert.truthy('console.logs length', logs.length > 0);
-      break;
+      default:
+        logs = await browser.getConsoleLogs();
+        assert.truthy('console.logs length', logs.length > 0);
+        break;
     }
   });
 });

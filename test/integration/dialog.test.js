@@ -1,7 +1,7 @@
-import {browser} from '../mini-testium-mocha';
+import { browser } from '../mini-testium-mocha';
 import assert from 'assertive';
 
-import {getConfig} from 'testium-core';
+import { getConfig } from 'testium-core';
 
 const browserName = getConfig().get('browser');
 
