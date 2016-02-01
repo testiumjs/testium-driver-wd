@@ -3,5 +3,5 @@ exports.mixedInBaseMethod = function mixedInBaseMethod(numbers) {
 };
 
 exports.mixedInMethod = function mixedInMethod() {
-  return this.mixedInBaseMethod([ 1, 2, 3, 4 ]);
+  return this.mixedInBaseMethod([1, 2, 3, 4]);
 };
