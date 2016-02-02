@@ -69,4 +69,20 @@ describe('form', () => {
     const result = await element.getValue();
     assert.equal(result, multibyteText);
   });
+
+  it('can fill multiple fields', async () => {
+    const fields = {
+      '#text-input': 'new stuff',
+      '#blank-input': 'new stuff2',
+      '#text-area': 'In far galaxy, a long long time ago...',
+    };
+
+    await browser.fillFields(fields);
+
+    for (const field of Object.keys(fields)) {
+      const expectedValue = fields[field];
+      const value = await browser.getElement(field).getValue();
+      assert.equal('Input value was not typed', expectedValue, value);
+    }
+  });
 });
