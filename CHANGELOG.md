@@ -1,3 +1,14 @@
+1.2.0
+-----
+fe7a4d6 Merge pull request #10 from testiumjs/fill-fields
+7b9b213 feat: Add `fillFields` to fill multiple form fields
+616e5c0 Merge pull request #9 from testiumjs/jk-eslint-style
+bab0e66 style: eslint --fix
+18daf87 Merge pull request #8 from testiumjs/jk-use-groupon-config
+7a3d524 Use eslint-config-groupon
+d9d13b1 Merge pull request #7 from testiumjs/jk-contributors
+edd48a2 Port contributor info, add code of conduct
+
 1.1.0
 -----
 Big release that tries to achieve parity with the sync driver.
