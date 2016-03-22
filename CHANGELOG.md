@@ -1,3 +1,12 @@
+### 1.2.1
+
+* Apply latest nlm generator - **[@i-tier-bot](https://github.com/i-tier-bot)** [#11](https://github.com/testiumjs/testium-driver-wd/pull/11)
+  - [`54b18ce`](https://github.com/testiumjs/testium-driver-wd/commit/54b18ce17c476b9070efb5cd39e19be784510316) **chore:** Apply latest nlm generator
+  - [`ffe2020`](https://github.com/testiumjs/testium-driver-wd/commit/ffe2020b93c97b81847b355ae3ca5def0e07462f) **chore:** Shuffle contributors for better release commits
+  - [`baa037b`](https://github.com/testiumjs/testium-driver-wd/commit/baa037b7c5565e731148222b602fdaae8e58f4aa) **fix:** Lodash v4: pairs -> toPairs
+  - [`77ad855`](https://github.com/testiumjs/testium-driver-wd/commit/77ad8557bcbd940ffc4d2eab2fee6d3665d85c0f) **chore:** Add missing license headers
+
+
 1.2.0
 -----
 fe7a4d6 Merge pull request #10 from testiumjs/fill-fields
