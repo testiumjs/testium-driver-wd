@@ -44,8 +44,8 @@
     "testium-example-app": "^2.0.0"
   },
   "author": {
-    "name": "Sean Massa",
-    "email": "endangeredmassa@gmail.com"
+    "name": "Groupon",
+    "email": "opensource@groupon.com"
   },
   "contributors": [
     {
@@ -79,6 +79,10 @@
     {
       "name": "Parag Gupta",
       "email": "paraggupta1993@gmail.com"
+    },
+    {
+      "name": "Sean Massa",
+      "email": "endangeredmassa@gmail.com"
     }
   ],
   "keywords": [
