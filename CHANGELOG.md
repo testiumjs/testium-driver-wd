@@ -1,3 +1,9 @@
+### 1.2.2
+
+* test: add buttonUp/Down moveTo tests - **[@dbushong](https://github.com/dbushong)** [#13](https://github.com/testiumjs/testium-driver-wd/pull/13)
+  - [`76c19eb`](https://github.com/testiumjs/testium-driver-wd/commit/76c19ebd4d24794f7010a3d5a8c52c93a5af5044) **test:** add buttonUp/Down moveTo tests
+
+
 ### 1.2.1
 
 * Apply latest nlm generator - **[@i-tier-bot](https://github.com/i-tier-bot)** [#11](https://github.com/testiumjs/testium-driver-wd/pull/11)
