@@ -1,3 +1,9 @@
+### 1.2.3
+
+* fix: typo of debug prefix - **[@dbushong](https://github.com/dbushong)** [#14](https://github.com/testiumjs/testium-driver-wd/pull/14)
+  - [`3b22ebc`](https://github.com/testiumjs/testium-driver-wd/commit/3b22ebccc8f2459ec11419fe6b5af0a97f445acf) **fix:** typo of debug prefix
+
+
 ### 1.2.2
 
 * test: add buttonUp/Down moveTo tests - **[@dbushong](https://github.com/dbushong)** [#13](https://github.com/testiumjs/testium-driver-wd/pull/13)
