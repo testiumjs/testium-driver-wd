@@ -1,3 +1,9 @@
+### 1.2.4
+
+* Compatible with phantomjs 2.1 - **[@jkrems](https://github.com/jkrems)** [#15](https://github.com/testiumjs/testium-driver-wd/pull/15)
+  - [`253b3b5`](https://github.com/testiumjs/testium-driver-wd/commit/253b3b527abaaaffc4af83969993d6d890912ba8) **fix:** Compatible with phantomjs 2.1
+
+
 ### 1.2.3
 
 * fix: typo of debug prefix - **[@dbushong](https://github.com/dbushong)** [#14](https://github.com/testiumjs/testium-driver-wd/pull/14)
