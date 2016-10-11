@@ -8,6 +8,8 @@ describe('cookie', () => {
     await browser.setCookie({
       name: 'test_cookie',
       value: '3',
+      path: '/',
+      domain: '127.0.0.1',
     });
 
     const cookie = await browser.getCookie('test_cookie');
@@ -16,8 +18,8 @@ describe('cookie', () => {
 
   it('can be set in groups', async () => {
     await browser.setCookies([
-      { name: 'test_cookie1', value: '5' },
-      { name: 'test_cookie2', value: '7' },
+      { name: 'test_cookie1', value: '5', domain: '127.0.0.1', path: '/' },
+      { name: 'test_cookie2', value: '7', domain: '127.0.0.1', path: '/' },
     ]);
 
     const cookie1 = await browser.getCookie('test_cookie1');
@@ -31,6 +33,8 @@ describe('cookie', () => {
     await browser.setCookie({
       name: 'test_cookie',
       value: '9',
+      domain: '127.0.0.1',
+      path: '/',
     });
     await browser.clearCookies();
 
@@ -43,6 +47,8 @@ describe('cookie', () => {
     await browser.setCookie({
       name: 'test_cookie',
       value: '4',
+      domain: '127.0.0.1',
+      path: '/',
     });
 
     await browser.clearCookie('test_cookie');
@@ -55,7 +61,7 @@ describe('cookie', () => {
     before(() =>
       browser
         .navigateTo('/some/nested/url')
-        .setCookie({ name: 'non_root', value: 'a' })
+        .setCookie({ name: 'non_root', value: 'a', domain: '127.0.0.1', path: '/some/nested/url' })
         .setCookieValue('root', 'b')
         .navigateTo('/'));
 
