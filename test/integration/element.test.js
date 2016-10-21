@@ -105,7 +105,8 @@ describe('element', () => {
     it('finds an element with the wrong text', async () => {
       const error = await assertRejects(browser.assertElementHasText('.only', 'the wrong text'));
 
-      const expected = '.only should have text\n- needle: \"the wrong text\"\n- text: \"only one here\"';
+      const expected = '.only should have text\n- needle: ' +
+                       '"the wrong text"\n- text: "only one here"';
       assert.equal(expected, stripColors(error.message));
     });
 
@@ -119,7 +120,8 @@ describe('element', () => {
     it('finds many elements', async () => {
       const error = await assertRejects(browser.assertElementHasText('.message', 'some text'));
 
-      assert.equal('Selector .message has 3 hits on the page, assertions require unique elements', error.message);
+      assert.equal('Selector .message has 3 hits on the page, assertions ' +
+                   'require unique elements', error.message);
     });
 
     it('succeeds with empty string', () =>
@@ -135,7 +137,8 @@ describe('element', () => {
     it('finds an element incorrectly having some text', async () => {
       const error = await assertRejects(browser.assertElementLacksText('.only', 'only'));
 
-      const expected = '.only should not have text\n- needle: \"only\"\n- text: \"only one here\"';
+      const expected = '.only should not have text\n- needle: ' +
+                       '"only"\n- text: "only one here"';
       assert.equal(expected, stripColors(error.message));
     });
   });
@@ -160,7 +163,8 @@ describe('element', () => {
       const error = await assertRejects(
         browser.assertElementLacksValue('#text-input', 'initialvalue'));
 
-      const expected = '#text-input should not have value\n- needle: \"initialvalue\"\n- value: \"initialvalue\"';
+      const expected = '#text-input should not have value\n- needle: ' +
+                       '"initialvalue"\n- value: "initialvalue"';
       assert.equal(expected, stripColors(error.message));
     });
   });
@@ -197,9 +201,7 @@ describe('element', () => {
       document.body.appendChild(el);
 
       if (keepAround) return;
-      setTimeout(function removeElement() {
-        document.body.removeChild(el);
-      }, 300);
+      setTimeout(() => { document.body.removeChild(el); }, 300);
     }
 
     it('succeeds once an element is gone', async () => {
