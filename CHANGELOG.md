@@ -1,3 +1,10 @@
+### 1.3.0
+
+* cookie domain & upgrades - **[@dbushong](https://github.com/dbushong)** [#16](https://github.com/testiumjs/testium-driver-wd/pull/16)
+  - [`7bdcbda`](https://github.com/testiumjs/testium-driver-wd/commit/7bdcbda778b66610384c5027d0f3e7227a861d02) **chore:** bump versions of wd, lint, etc
+  - [`ed27493`](https://github.com/testiumjs/testium-driver-wd/commit/ed274934b5771a6e8a62a4c18f44e8240d28bc14) **feat:** set the cookie domain to the proxy host
+
+
 ### 1.2.4
 
 * Compatible with phantomjs 2.1 - **[@jkrems](https://github.com/jkrems)** [#15](https://github.com/testiumjs/testium-driver-wd/pull/15)
