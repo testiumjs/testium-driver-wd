@@ -10,23 +10,23 @@ function assertRejects(promise) {
 describe('navigation', () => {
   before(browser.beforeHook);
 
-  it('supports just a path', () => {
-    return browser.navigateTo('/').assertStatusCode(200);
-  });
+  it('supports just a path', () =>
+    browser.navigateTo('/').assertStatusCode(200)
+  );
 
-  it('supports query args', () => {
-    return browser
+  it('supports query args', () =>
+    browser
       .navigateTo('/', { query: { 'a b': 'München', x: 0 } })
       .assertStatusCode(200)
-      .waitForPath('/?a%20b=M%C3%BCnchen&x=0', 100);
-  });
+      .waitForPath('/?a%20b=M%C3%BCnchen&x=0', 100)
+  );
 
-  it('with a query string and query arg', () => {
-    return browser
+  it('with a query string and query arg', () =>
+    browser
       .navigateTo('/?x=0', { query: { 'a b': 'München' } })
       .assertStatusCode(200)
-      .waitForPath('/?x=0&a%20b=M%C3%BCnchen', 100);
-  });
+      .waitForPath('/?x=0&a%20b=M%C3%BCnchen', 100)
+  );
 
   it('by clicking a link', async () => {
     await browser
@@ -40,12 +40,12 @@ describe('navigation', () => {
   it('by refreshing', async () => {
     await browser.navigateTo('/').assertStatusCode(200);
 
-    await browser.safeExecute('(' + function changePage() {
-      /* eslint no-var:0 */
+    await browser.safeExecute(`(${function changePage() {
+      // eslint-disable-next-line no-var
       var el = document.createElement('div');
       el.className = 'exists-before-refresh';
       document.body.appendChild(el);
-    }.toString() + ')();');
+    }.toString()})();`);
 
     await browser
       // Making sure the element exists
@@ -114,18 +114,18 @@ describe('navigation', () => {
   });
 
   describe('waiting for a path', () => {
-    it('can work with a string', () => {
-      return browser
+    it('can work with a string', () =>
+      browser
         .navigateTo('/redirect-after.html')
         .assertStatusCode(200)
-        .waitForPath('/index.html');
-    });
+        .waitForPath('/index.html')
+    );
 
-    it('can work with a regex', () => {
-      return browser
+    it('can work with a regex', () =>
+      browser
         .navigateTo('/redirect-after.html')
         .assertStatusCode(200)
-        .waitForPath(/index.html/);
-    });
+        .waitForPath(/index.html/)
+    );
   });
 });
