@@ -1,3 +1,9 @@
+### 1.4.0
+
+* feat: add 2 missing methods - **[@dbushong](https://github.com/dbushong)** [#17](https://github.com/testiumjs/testium-driver-wd/pull/17)
+  - [`b728a17`](https://github.com/testiumjs/testium-driver-wd/commit/b728a17ce04aaf6e690d9170c9e3ee7e41adf12a) **feat:** add 2 missing methods
+
+
 ### 1.3.0
 
 * cookie domain & upgrades - **[@dbushong](https://github.com/dbushong)** [#16](https://github.com/testiumjs/testium-driver-wd/pull/16)
