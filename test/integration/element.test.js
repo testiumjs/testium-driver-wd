@@ -169,6 +169,22 @@ describe('element', () => {
     });
   });
 
+  describe('elementHasAttributes', () => {
+    before(() => browser.navigateTo('/'));
+
+    it('fails if element found does not have attrs', async () => {
+      const error = await assertRejects(
+        browser.assertElementHasAttributes('img.fail', { foo: 'bar' }));
+      const expected = 'Assertion failed: attribute foo\nExpected: "bar"\nActually: null';
+      assert.equal(expected, stripColors(error.message));
+    });
+
+    it('passes if element found has given attrs', async () => {
+      await browser.assertElementHasAttributes('img.fail',
+        { alt: 'a non-existent image' });
+    });
+  });
+
   describe('waitForElementExist', () => {
     before(() => browser.navigateTo('/dynamic.html'));
 

@@ -26,7 +26,7 @@
     }
   },
   "dependencies": {
-    "assertive": "^2.0.2",
+    "assertive": "^2.1.1",
     "bluebird": "^3.3.3",
     "debug": "^2.2.0",
     "lodash": "^4.6.1",
