@@ -1,3 +1,9 @@
+### 1.5.0
+
+* feat: add setCookieValues() method - **[@dbushong](https://github.com/dbushong)** [#18](https://github.com/testiumjs/testium-driver-wd/pull/18)
+  - [`7186580`](https://github.com/testiumjs/testium-driver-wd/commit/718658005e2733059550271fa37caf8f85b88e26) **feat:** add setCookieValues() method
+
+
 ### 1.4.0
 
 * feat: add 2 missing methods - **[@dbushong](https://github.com/dbushong)** [#17](https://github.com/testiumjs/testium-driver-wd/pull/17)
