@@ -1,6 +1,8 @@
 import { browser } from '../mini-testium-mocha';
 import assert from 'assertive';
 
+process.noDeprecation = true;
+
 describe('cookie', () => {
   before(browser.beforeHook);
 
@@ -16,7 +18,7 @@ describe('cookie', () => {
     assert.equal('3', cookie.value);
   });
 
-  it('can be set in groups', async () => {
+  it('can be set in groups with deprecated setCookies()', async () => {
     await browser.setCookies([
       { name: 'test_cookie1', value: '5', domain: '127.0.0.1', path: '/' },
       { name: 'test_cookie2', value: '7', domain: '127.0.0.1', path: '/' },
@@ -27,6 +29,16 @@ describe('cookie', () => {
 
     assert.equal('5', cookie1.value);
     assert.equal('7', cookie2.value);
+  });
+
+  it('can be set in groups with setCookieValues()', async () => {
+    await browser.setCookieValues({
+      test_cookie3: '9',
+      test_cookie4: '11',
+    });
+
+    assert.equal('9', await browser.getCookieValue('test_cookie3'));
+    assert.equal('11', await browser.getCookieValue('test_cookie4'));
   });
 
   it('can be cleared as a group', async () => {
