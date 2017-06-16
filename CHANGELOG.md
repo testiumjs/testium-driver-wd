@@ -1,3 +1,9 @@
+### 1.5.1
+
+* fix: fallback default for setCookieValue - **[@dbushong](https://github.com/dbushong)** [#20](https://github.com/testiumjs/testium-driver-wd/pull/20)
+  - [`1aa6ce4`](https://github.com/testiumjs/testium-driver-wd/commit/1aa6ce401875b7e8ff1f6a906e6e90c9b23fa783) **fix:** fallback default for setCookieValue
+
+
 ### 1.5.0
 
 * feat: add setCookieValues() method - **[@dbushong](https://github.com/dbushong)** [#18](https://github.com/testiumjs/testium-driver-wd/pull/18)
