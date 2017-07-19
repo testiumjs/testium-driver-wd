@@ -128,4 +128,47 @@ describe('navigation', () => {
         .waitForPath(/index.html/)
     );
   });
+
+  describe('loadPage', () => {
+    describe('verifies status 200 by default', () => {
+      it('and resolves', () =>
+        browser
+          .loadPage('/')
+          .assertElementExists('.link-to-other-page')
+      );
+
+      it('and rejects', async () => {
+        const err = await assert.rejects(browser.loadPage('/missing'));
+        assert.match(/Expected:.+200[^]+Actually:.+404/, err.message);
+      });
+    });
+
+    describe('accepts a regexp', () => {
+      it('and resolves', () =>
+        browser.loadPage('/missing', { expectedStatusCode: /^404$/ })
+      );
+
+      it('and rejects', async () => {
+        const err = await assert.rejects(
+          browser.loadPage('/', { expectedStatusCode: /^404$/ })
+        );
+        assert.include('/^404$/\nto match:', err.message);
+      });
+    });
+
+    describe('accepts a function', () => {
+      it('and resolves', () =>
+        browser.loadPage('/missing', {
+          expectedStatusCode(s) { return (s / 2) === 202; },
+        })
+      );
+
+      it('and rejects', async () => {
+        const err = await assert.rejects(
+          browser.loadPage('/', { expectedStatusCode() { return false; } })
+        );
+        assert.include('is as expected', err.message);
+      });
+    });
+  });
 });
