@@ -1,6 +1,6 @@
 {
   "name": "testium-driver-wd",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "description": "Testium backend powered by wd",
   "license": "BSD-3-Clause",
   "main": "lib/testium-driver-wd.js",

@@ -1,3 +1,9 @@
+### 1.6.0
+
+* feat: add browser.loadPage as better navigateTo - **[@dbushong](https://github.com/dbushong)** [#21](https://github.com/testiumjs/testium-driver-wd/pull/21)
+  - [`fa450b4`](https://github.com/testiumjs/testium-driver-wd/commit/fa450b4b9b5c9faeee742901bca34bd355b15426) **feat:** add browser.loadPage as better navigateTo
+
+
 ### 1.5.1
 
 * fix: fallback default for setCookieValue - **[@dbushong](https://github.com/dbushong)** [#20](https://github.com/testiumjs/testium-driver-wd/pull/20)
