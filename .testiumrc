@@ -4,6 +4,6 @@
     "command": "testium-example-app"
   },
   "mixins": {
-    "wd": [ "test/mixin.js" ]
+    "wd": [ "test/mixin.js", "test-mixin-module" ]
   }
 }
