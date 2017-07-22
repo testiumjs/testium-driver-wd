@@ -1,3 +1,9 @@
+### 1.6.1
+
+* fix: support `mixins.wd[] = 'some-module'` - **[@dbushong](https://github.com/dbushong)** [#22](https://github.com/testiumjs/testium-driver-wd/pull/22)
+  - [`97ca84f`](https://github.com/testiumjs/testium-driver-wd/commit/97ca84f4fd66448bb29ef1f0c11ff864c0099457) **fix:** support `mixins.wd[] = 'some-module'`
+
+
 ### 1.6.0
 
 * feat: add browser.loadPage as better navigateTo - **[@dbushong](https://github.com/dbushong)** [#21](https://github.com/testiumjs/testium-driver-wd/pull/21)
