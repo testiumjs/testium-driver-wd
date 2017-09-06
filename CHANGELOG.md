@@ -1,3 +1,9 @@
+### 1.7.1
+
+* fix: don't die if we can't set longStackTrace - **[@dbushong](https://github.com/dbushong)** [#24](https://github.com/testiumjs/testium-driver-wd/pull/24)
+  - [`6363eb3`](https://github.com/testiumjs/testium-driver-wd/commit/6363eb3388087876f7cf377e5a05661b9f52a9cf) **fix:** don't die if we can't set longStackTrace
+
+
 ### 1.7.0
 
 * feat: show long stack traces on errors - **[@dbushong](https://github.com/dbushong)** [#23](https://github.com/testiumjs/testium-driver-wd/pull/23)
