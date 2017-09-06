@@ -1,3 +1,10 @@
+### 1.7.0
+
+* feat: show long stack traces on errors - **[@dbushong](https://github.com/dbushong)** [#23](https://github.com/testiumjs/testium-driver-wd/pull/23)
+  - [`32d44b5`](https://github.com/testiumjs/testium-driver-wd/commit/32d44b576f16a640a0ff41d203c70417a8ba2009) **feat:** show long stack traces on errors
+  - [`d24d8c6`](https://github.com/testiumjs/testium-driver-wd/commit/d24d8c654c8822b43cfddb9299a734c76f60eb7a) **chore:** bump node versions for testing
+
+
 ### 1.6.1
 
 * fix: support `mixins.wd[] = 'some-module'` - **[@dbushong](https://github.com/dbushong)** [#22](https://github.com/testiumjs/testium-driver-wd/pull/22)
