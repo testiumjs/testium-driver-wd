@@ -185,6 +185,22 @@ describe('element', () => {
     });
   });
 
+  describe('assertElementsNumber', () => {
+    before(() => browser.loadPage('/'));
+
+    it('fails if number of elements does not match', async () => {
+      const error = await assertRejects(
+        browser.assertElementsNumber('.message', 2));
+      const expected = '.message should match 2 elements - actually found 3';
+      assert.equal(expected, stripColors(error.message));
+    });
+
+    it('passes for right number of elements and returns them', async () => {
+      const elems = await browser.assertElementsNumber('.message', 3);
+      assert.equal(3, elems.length);
+    });
+  });
+
   describe('waitForElementExist', () => {
     before(() => browser.navigateTo('/dynamic.html'));
 
