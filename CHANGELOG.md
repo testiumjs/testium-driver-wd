@@ -1,3 +1,9 @@
+### 1.8.0
+
+* feat: browser.assertElementsNumber(selector, num) - **[@dbushong](https://github.com/dbushong)** [#25](https://github.com/testiumjs/testium-driver-wd/pull/25)
+  - [`c33702f`](https://github.com/testiumjs/testium-driver-wd/commit/c33702f30e8082aa9b57d8af70e8836c632349db) **feat:** browser.assertElementsNumber(selector, num)
+
+
 ### 1.7.1
 
 * fix: don't die if we can't set longStackTrace - **[@dbushong](https://github.com/dbushong)** [#24](https://github.com/testiumjs/testium-driver-wd/pull/24)
