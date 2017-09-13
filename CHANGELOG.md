@@ -1,3 +1,9 @@
+### 1.8.1
+
+* fix: use proper Q library through wd - **[@dbushong](https://github.com/dbushong)** [#26](https://github.com/testiumjs/testium-driver-wd/pull/26)
+  - [`3c49a2b`](https://github.com/testiumjs/testium-driver-wd/commit/3c49a2b5306d9e6cfcb3e264b02efda7febcae70) **fix:** use proper Q library through wd
+
+
 ### 1.8.0
 
 * feat: browser.assertElementsNumber(selector, num) - **[@dbushong](https://github.com/dbushong)** [#25](https://github.com/testiumjs/testium-driver-wd/pull/25)
