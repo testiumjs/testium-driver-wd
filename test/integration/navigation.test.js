@@ -171,4 +171,21 @@ describe('navigation', () => {
       });
     });
   });
+
+  describe('waiting for document states', () => {
+    describe('wait for document finished loading but sub-resources are still loading', () => {
+      it('resolves', async () => {
+        await browser
+          .loadPage('/')
+          .waitForDocumentReady();
+      });
+    });
+    describe('wait for document sub-resources have finished loading', () => {
+      it('resolves', async () => {
+        await browser
+          .loadPage('/')
+          .waitForLoadEvent();
+      });
+    });
+  });
 });
