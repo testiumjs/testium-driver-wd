@@ -1,3 +1,9 @@
+### 1.9.0
+
+* feat: wait for document states - **[@aaarichter](https://github.com/aaarichter)** [#27](https://github.com/testiumjs/testium-driver-wd/pull/27)
+  - [`0d169cd`](https://github.com/testiumjs/testium-driver-wd/commit/0d169cddb0a978cb1dd91914a0d55472f55bbbee) **feat:** wait for document states
+
+
 ### 1.8.1
 
 * fix: use proper Q library through wd - **[@dbushong](https://github.com/dbushong)** [#26](https://github.com/testiumjs/testium-driver-wd/pull/26)
