@@ -1,3 +1,9 @@
+### 1.9.1
+
+* fix: don't pass expectedStatusCode thru as option - **[@dbushong](https://github.com/dbushong)** [#29](https://github.com/testiumjs/testium-driver-wd/pull/29)
+  - [`846b9f6`](https://github.com/testiumjs/testium-driver-wd/commit/846b9f699280df5d8a86c6b8f5c7ea97abd9f9de) **fix:** don't pass expectedStatusCode thru as option
+
+
 ### 1.9.0
 
 * feat: wait for document states - **[@aaarichter](https://github.com/aaarichter)** [#27](https://github.com/testiumjs/testium-driver-wd/pull/27)
