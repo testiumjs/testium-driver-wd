@@ -1,10 +1,12 @@
-import { get } from 'http';
+'use strict';
 
-import { browser } from '../mini-testium-mocha';
-import assert from 'assertive';
+const get = require('http').get;
+
+const browser = require('../mini-testium-mocha').browser;
+const assert = require('assertive');
 
 describe('Non-browser test', () => {
-  before(browser.beforeHook);
+  before(browser.beforeHook());
 
   it('can make a request without using the browser', done => {
     const url = `${browser.appUrl}/echo`;

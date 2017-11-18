@@ -1,5 +1,8 @@
-import { browser } from '../mini-testium-mocha';
-import assert from 'assertive';
+'use strict';
+
+const browser = require('../mini-testium-mocha').browser;
+const assert = require('assertive');
+const coroutine = require('bluebird').coroutine;
 
 function assertRejects(promise) {
   return promise.then(() => {
@@ -8,50 +11,61 @@ function assertRejects(promise) {
 }
 
 describe('window api', () => {
-  before(browser.beforeHook);
+  before(browser.beforeHook());
 
   describe('frames', () => {
-    before(() =>
-      browser.navigateTo('/windows.html').assertStatusCode(200));
+    before(() => browser.loadPage('/windows.html'));
 
-    it('can be switched', async () => {
-      await browser.switchToFrame('cool-frame');
-      const iframeContent = await browser.getElement('.in-iframe-only').text();
-      await browser.switchToDefaultFrame();
-      const primaryContent = await browser.getElementOrNull('.in-iframe-only');
-      assert.equal('iframe content!', iframeContent);
-      assert.equal(null, primaryContent);
-    });
+    it(
+      'can be switched',
+      coroutine(function*() {
+        yield browser.switchToFrame('cool-frame');
+        const iframeContent = yield browser
+          .getElement('.in-iframe-only')
+          .text();
+        yield browser.switchToDefaultFrame();
+        const primaryContent = yield browser.getElementOrNull(
+          '.in-iframe-only'
+        );
+        assert.equal('iframe content!', iframeContent);
+        assert.equal(null, primaryContent);
+      })
+    );
 
     it('fails with invalid frame', () =>
       assertRejects(browser.switchToFrame('invalid-frame')));
 
-    it('can be found when nested', async () => {
-      await browser.switchToFrame('cool-frame');
+    it(
+      'can be found when nested',
+      coroutine(function*() {
+        yield browser.switchToFrame('cool-frame');
 
-      await browser.assertElementExists('.in-iframe-only');
-      await browser.assertElementDoesntExist('#nested-frame-div');
+        yield browser.assertElementExists('.in-iframe-only');
+        yield browser.assertElementDoesntExist('#nested-frame-div');
 
-      await browser.switchToFrame('nested-frame');
+        yield browser.switchToFrame('nested-frame');
 
-      await browser.assertElementDoesntExist('.in-iframe-only');
-      await browser.assertElementExists('#nested-frame-div');
-    });
+        yield browser.assertElementDoesntExist('.in-iframe-only');
+        yield browser.assertElementExists('#nested-frame-div');
+      })
+    );
   });
 
   describe('popups', () => {
-    before(() =>
-      browser.navigateTo('/windows.html').assertStatusCode(200));
+    before(() => browser.loadPage('/windows.html'));
 
-    it('can be opened', async () => {
-      await browser.clickOn('#open-popup');
-      await browser.switchToWindow('popup1');
-      const popupContent = await browser.getElement('.popup-only').text();
-      await browser.close();
-      await browser.switchToDefaultWindow();
-      const primaryContent = await browser.getElementOrNull('.popup-only');
-      assert.equal('popup content!', popupContent);
-      assert.equal(null, primaryContent);
-    });
+    it(
+      'can be opened',
+      coroutine(function*() {
+        yield browser.clickOn('#open-popup');
+        yield browser.switchToWindow('popup1');
+        const popupContent = yield browser.getElement('.popup-only').text();
+        yield browser.close();
+        yield browser.switchToDefaultWindow();
+        const primaryContent = yield browser.getElementOrNull('.popup-only');
+        assert.equal('popup content!', popupContent);
+        assert.equal(null, primaryContent);
+      })
+    );
   });
 });

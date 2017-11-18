@@ -1,14 +1,17 @@
+'use strict';
+
 // This is a minimal version of `testium-mocha`.
 // We're trying to avoid cyclic dependencies.
-import { getTestium } from 'testium-core';
+const getTestium = require('testium-core').getTestium;
 
-import createDriver from '../';
+const createDriver = require('../');
 
-export let browser = {};
+const browser = {};
+exports.browser = browser;
 
-browser.beforeHook = async () => {
-  const testium = await getTestium({ driver: createDriver });
-  browser = testium.browser;
-};
+browser.beforeHook = () => () =>
+  getTestium({ driver: createDriver }).then(testium => {
+    browser.__proto__ = testium.browser;
+  });
 
 after(() => browser && browser.quit && browser.quit());

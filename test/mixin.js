@@ -1,3 +1,5 @@
+'use strict';
+
 exports.mixedInBaseMethod = function mixedInBaseMethod(numbers) {
   return this.safeEval(numbers.join(' + '));
 };
