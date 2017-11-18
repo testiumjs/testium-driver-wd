@@ -1,3 +1,17 @@
+### 2.0.0
+
+#### Breaking Changes
+
+now requires node >= 4.x
+
+*See: [`f079e1b`](https://github.com/testiumjs/testium-driver-wd/commit/f079e1bbe8335958df860c4869994bfd5757521c)*
+
+#### Commits
+
+* re-run generator and stop using babel - **[@dbushong](https://github.com/dbushong)** [#31](https://github.com/testiumjs/testium-driver-wd/pull/31)
+  - [`f079e1b`](https://github.com/testiumjs/testium-driver-wd/commit/f079e1bbe8335958df860c4869994bfd5757521c) **chore:** re-run generator and stop using babel
+
+
 ### 1.9.1
 
 * fix: don't pass expectedStatusCode thru as option - **[@dbushong](https://github.com/dbushong)** [#29](https://github.com/testiumjs/testium-driver-wd/pull/29)
