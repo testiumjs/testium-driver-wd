@@ -42,4 +42,33 @@ describe('header', () => {
       })
     );
   });
+
+  describe('x-request-id', () => {
+    it(
+      'is defaulted to something useful',
+      coroutine(function*() {
+        const source = yield browser
+          .loadPage('/echo')
+          .getElement('body')
+          .text();
+        const reqId = JSON.parse(source).headers['x-request-id'];
+        // 'header' because this file is named 'header.test.js',
+        // and that's what mini-testium-mocha sets the currentTest to
+        assert.match(/^header [0-9a-f-]{36}$/, reqId);
+      })
+    );
+
+    it(
+      'properly escapes bogus header content chars',
+      coroutine(function*() {
+        browser.__proto__.currentTest = 'w x\n\ny\t💩\tz';
+        const source = yield browser
+          .loadPage('/echo')
+          .getElement('body')
+          .text();
+        const reqId = JSON.parse(source).headers['x-request-id'];
+        assert.match(/^w x-y-z [0-9a-f-]{36}$/, reqId);
+      })
+    );
+  });
 });

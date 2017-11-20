@@ -9,9 +9,15 @@ const createDriver = require('../');
 const browser = {};
 exports.browser = browser;
 
-browser.beforeHook = () => () =>
-  getTestium({ driver: createDriver }).then(testium => {
-    browser.__proto__ = testium.browser;
-  });
+browser.beforeHook = () => {
+  const currentTest = new Error().stack
+    .split(/\n/)[2]
+    .replace(/.+\(.+\/(.+?)(?:\.test)\.(?:js|coffee):\d+:\d+\)$/, '$1');
+  return () =>
+    getTestium({ driver: createDriver }).then(testium => {
+      browser.__proto__ = testium.browser;
+      browser.__proto__.currentTest = currentTest;
+    });
+};
 
 after(() => browser && browser.quit && browser.quit());
