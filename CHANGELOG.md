@@ -1,3 +1,9 @@
+### 2.1.0
+
+* generate a default X-Request-Id header - **[@dbushong](https://github.com/dbushong)** [#32](https://github.com/testiumjs/testium-driver-wd/pull/32)
+  - [`ef74efe`](https://github.com/testiumjs/testium-driver-wd/commit/ef74efe29655c27a2268f82ae04e665e57a42e42) **feat:** generate a default X-Request-Id header
+
+
 ### 2.0.0
 
 #### Breaking Changes
