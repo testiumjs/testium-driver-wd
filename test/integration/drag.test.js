@@ -3,7 +3,7 @@
 const browser = require('../mini-testium-mocha').browser;
 const assert = require('assertive');
 const pick = require('lodash/pick');
-const coroutine = require('bluebird').coroutine;
+const co = require('co');
 
 describe('draggable element', () => {
   before(browser.beforeHook());
@@ -12,7 +12,7 @@ describe('draggable element', () => {
 
   it(
     'is moved',
-    coroutine(function*() {
+    co.wrap(function*() {
       const box = yield browser.getElement('#box');
       const boxLoc = () =>
         box.getLocationInView().then(loc => pick(loc, 'x', 'y'));

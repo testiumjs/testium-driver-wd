@@ -1,10 +1,11 @@
 'use strict';
 
 const browser = require('../mini-testium-mocha').browser;
-const Bluebird = require('bluebird');
+const co = require('co');
 
-const delay = Bluebird.delay;
-const coroutine = Bluebird.coroutine;
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 describe('proxy', () => {
   before(browser.beforeHook());
@@ -19,7 +20,7 @@ describe('proxy', () => {
 
   it(
     'handles request abortion',
-    coroutine(function*() {
+    co.wrap(function*() {
       // loads a page that has a resource that will
       // be black holed
       yield browser.loadPage('/blackholed-resource.html');

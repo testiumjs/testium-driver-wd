@@ -2,7 +2,7 @@
 
 const browser = require('../mini-testium-mocha').browser;
 const assert = require('assertive');
-const coroutine = require('bluebird').coroutine;
+const co = require('co');
 
 describe('form', () => {
   before(browser.beforeHook());
@@ -11,7 +11,7 @@ describe('form', () => {
 
   it(
     "can get an input's value",
-    coroutine(function*() {
+    co.wrap(function*() {
       const element = yield browser.getElement('#text-input');
       const value = yield element.getValue();
       assert.equal('Input value was not found', 'initialvalue', value);
@@ -20,7 +20,7 @@ describe('form', () => {
 
   it(
     "can clear an input's value",
-    coroutine(function*() {
+    co.wrap(function*() {
       const element = yield browser.getElement('#text-input');
       yield element.clear();
       const value = yield element.getValue();
@@ -30,7 +30,7 @@ describe('form', () => {
 
   it(
     'can type into an input',
-    coroutine(function*() {
+    co.wrap(function*() {
       const element = yield browser.getElement('#text-input');
       yield element.type('new stuff');
       const value = yield element.getValue();
@@ -40,7 +40,7 @@ describe('form', () => {
 
   it(
     'can type into an input via shortcut',
-    coroutine(function*() {
+    co.wrap(function*() {
       yield browser.clear('#text-input');
       yield browser.type('#text-input', 'new stuff');
       const value = yield browser.getElement('#text-input').getValue();
@@ -50,7 +50,7 @@ describe('form', () => {
 
   it(
     "can replace the input's value",
-    coroutine(function*() {
+    co.wrap(function*() {
       const element = yield browser.getElement('#text-input');
       const valueBefore = yield element.getValue();
       assert.notEqual('Input value is already empty', '', valueBefore);
@@ -62,7 +62,7 @@ describe('form', () => {
 
   it(
     "can get a textarea's value",
-    coroutine(function*() {
+    co.wrap(function*() {
       const element = yield browser.getElement('#text-area');
       const value = yield element.getValue();
       assert.equal('Input value was not found', 'initialvalue', value);
@@ -71,7 +71,7 @@ describe('form', () => {
 
   it(
     "can clear an textarea's value",
-    coroutine(function*() {
+    co.wrap(function*() {
       const element = yield browser.getElement('#text-area');
       yield element.clear();
       const value = yield element.getValue();
@@ -81,7 +81,7 @@ describe('form', () => {
 
   it(
     'can type into a textarea',
-    coroutine(function*() {
+    co.wrap(function*() {
       const element = yield browser.getElement('#text-area');
       yield element.type('new stuff');
       const value = yield element.getValue();
@@ -91,7 +91,7 @@ describe('form', () => {
 
   it(
     'correctly passes multibyte unicode back and forth',
-    coroutine(function*() {
+    co.wrap(function*() {
       const multibyteText = '日本語 text';
       const element = yield browser.getElement('#blank-input');
       yield element.type(multibyteText);
@@ -102,7 +102,7 @@ describe('form', () => {
 
   it(
     'can fill multiple fields',
-    coroutine(function*() {
+    co.wrap(function*() {
       const fields = {
         '#text-input': 'new stuff',
         '#blank-input': 'new stuff2',

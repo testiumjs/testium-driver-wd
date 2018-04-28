@@ -2,7 +2,7 @@
 
 const browser = require('../mini-testium-mocha').browser;
 const assert = require('assertive');
-const coroutine = require('bluebird').coroutine;
+const co = require('co');
 
 const getConfig = require('testium-core').getConfig;
 
@@ -18,7 +18,7 @@ describe('dialogs', () => {
 
   let target;
   before(
-    coroutine(function*() {
+    co.wrap(function*() {
       yield browser.loadPage('/');
 
       target = yield browser.getElement('#alert_target');
@@ -36,7 +36,7 @@ describe('dialogs', () => {
 
     it(
       'can get an alert text',
-      coroutine(function*() {
+      co.wrap(function*() {
         const text = yield browser.getAlertText();
         yield browser.acceptAlert();
         assert.equal('Alert text was not found', 'An alert!', text);
@@ -45,7 +45,7 @@ describe('dialogs', () => {
 
     it(
       'can accept an alert',
-      coroutine(function*() {
+      co.wrap(function*() {
         yield browser.acceptAlert();
         assert.equal('alerted', yield target.text());
       })
@@ -53,7 +53,7 @@ describe('dialogs', () => {
 
     it(
       'can dismiss an alert',
-      coroutine(function*() {
+      co.wrap(function*() {
         yield browser.dismissAlert();
         assert.equal('alerted', yield target.text());
       })
@@ -65,7 +65,7 @@ describe('dialogs', () => {
 
     it(
       'can get confirm text',
-      coroutine(function*() {
+      co.wrap(function*() {
         const text = yield browser.getAlertText();
         yield browser.acceptAlert();
         assert.equal('Confirm text was not found', 'A confirmation!', text);
@@ -74,7 +74,7 @@ describe('dialogs', () => {
 
     it(
       'can accept a confirm',
-      coroutine(function*() {
+      co.wrap(function*() {
         yield browser.acceptAlert();
         assert.equal('confirmed', yield target.text());
       })
@@ -82,7 +82,7 @@ describe('dialogs', () => {
 
     it(
       'can dismiss a confirm',
-      coroutine(function*() {
+      co.wrap(function*() {
         yield browser.dismissAlert();
         assert.equal('dismissed', yield target.text());
       })
@@ -94,7 +94,7 @@ describe('dialogs', () => {
 
     it(
       'can get prompt text',
-      coroutine(function*() {
+      co.wrap(function*() {
         const text = yield browser.getAlertText();
         yield browser.acceptAlert();
         assert.equal('Confirm text was not found', 'A prompt!', text);
@@ -103,7 +103,7 @@ describe('dialogs', () => {
 
     it(
       'can send text to and accept a prompt',
-      coroutine(function*() {
+      co.wrap(function*() {
         yield browser.typeAlert('Some words').acceptAlert();
         assert.equal('Some words', yield target.text());
       })
@@ -111,7 +111,7 @@ describe('dialogs', () => {
 
     it(
       'can dismiss a prompt',
-      coroutine(function*() {
+      co.wrap(function*() {
         yield browser.dismissAlert();
         assert.equal('dismissed', yield target.text());
       })

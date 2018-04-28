@@ -2,7 +2,7 @@
 
 const browser = require('../mini-testium-mocha').browser;
 const assert = require('assertive');
-const coroutine = require('bluebird').coroutine;
+const co = require('co');
 
 describe('page data', () => {
   before(browser.beforeHook());
@@ -18,7 +18,7 @@ describe('page data', () => {
 
   it(
     'screenshot',
-    coroutine(function*() {
+    co.wrap(function*() {
       const screenshot = yield browser.getScreenshot();
       assert.expect(screenshot.length > 0);
     })

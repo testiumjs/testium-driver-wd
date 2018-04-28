@@ -2,14 +2,14 @@
 
 const browser = require('../mini-testium-mocha').browser;
 const assert = require('assertive');
-const coroutine = require('bluebird').coroutine;
+const co = require('co');
 
 describe('ssl/tls', () => {
   before(browser.beforeHook());
 
   it(
     'TLS is supported',
-    coroutine(function*() {
+    co.wrap(function*() {
       yield browser.navigateTo('https://www.howsmyssl.com/a/check');
       const raw = yield browser.getElement('pre').text();
       const sslReport = JSON.parse(raw);

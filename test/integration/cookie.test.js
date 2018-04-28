@@ -2,7 +2,7 @@
 
 const browser = require('../mini-testium-mocha').browser;
 const assert = require('assertive');
-const coroutine = require('bluebird').coroutine;
+const co = require('co');
 
 process.noDeprecation = true;
 
@@ -11,7 +11,7 @@ describe('cookie', () => {
 
   it(
     'can be set individually',
-    coroutine(function*() {
+    co.wrap(function*() {
       yield browser.setCookie({
         name: 'test_cookie',
         value: '3',
@@ -26,7 +26,7 @@ describe('cookie', () => {
 
   it(
     'can be set in groups with deprecated setCookies()',
-    coroutine(function*() {
+    co.wrap(function*() {
       yield browser.setCookies([
         { name: 'test_cookie1', value: '5', domain: '127.0.0.1', path: '/' },
         { name: 'test_cookie2', value: '7', domain: '127.0.0.1', path: '/' },
@@ -42,7 +42,7 @@ describe('cookie', () => {
 
   it(
     'can be set in groups with setCookieValues()',
-    coroutine(function*() {
+    co.wrap(function*() {
       yield browser.setCookieValues({
         test_cookie3: '9',
         test_cookie4: '11',
@@ -55,7 +55,7 @@ describe('cookie', () => {
 
   it(
     'can be cleared as a group',
-    coroutine(function*() {
+    co.wrap(function*() {
       yield browser.setCookie({
         name: 'test_cookie',
         value: '9',
@@ -72,7 +72,7 @@ describe('cookie', () => {
 
   it(
     'can be cleared individually',
-    coroutine(function*() {
+    co.wrap(function*() {
       yield browser.setCookie({
         name: 'test_cookie',
         value: '4',
@@ -103,14 +103,14 @@ describe('cookie', () => {
 
     it(
       "can't read the non-root cookie",
-      coroutine(function*() {
+      co.wrap(function*() {
         assert.falsey(yield browser.getCookie('non_root'));
       })
     );
 
     it(
       'can read the root cookie',
-      coroutine(function*() {
+      co.wrap(function*() {
         assert.truthy(yield browser.getCookie('root'));
         assert.equal('b', yield browser.getCookieValue('root'));
       })

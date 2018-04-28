@@ -2,7 +2,7 @@
 
 const browser = require('../mini-testium-mocha').browser;
 const assert = require('assertive');
-const coroutine = require('bluebird').coroutine;
+const co = require('co');
 
 function assertRejects(promise) {
   return promise.then(() => {
@@ -30,7 +30,7 @@ describe('navigation', () => {
 
   it(
     'by clicking a link',
-    coroutine(function*() {
+    co.wrap(function*() {
       yield browser
         .navigateTo('/')
         .assertStatusCode(200)
@@ -42,7 +42,7 @@ describe('navigation', () => {
 
   it(
     'by refreshing',
-    coroutine(function*() {
+    co.wrap(function*() {
       yield browser.navigateTo('/').assertStatusCode(200);
 
       yield browser.safeExecute(
@@ -67,7 +67,7 @@ describe('navigation', () => {
   describe('waiting for a url', () => {
     it(
       'can work with a string',
-      coroutine(function*() {
+      co.wrap(function*() {
         yield browser.navigateTo('/redirect-after.html');
         assert.equal(200, yield browser.getStatusCode());
 
@@ -77,7 +77,7 @@ describe('navigation', () => {
 
     it(
       'can work with a regex',
-      coroutine(function*() {
+      co.wrap(function*() {
         yield browser.navigateTo('/redirect-after.html');
         assert.equal(200, yield browser.getStatusCode());
 
@@ -87,7 +87,7 @@ describe('navigation', () => {
 
     it(
       'can fail',
-      coroutine(function*() {
+      co.wrap(function*() {
         yield browser.navigateTo('/index.html');
         assert.equal(200, yield browser.getStatusCode());
 
@@ -101,7 +101,7 @@ describe('navigation', () => {
     describe('groks url and query object', () => {
       it(
         'can make its own query regexp',
-        coroutine(function*() {
+        co.wrap(function*() {
           yield browser.navigateTo('/redirect-to-query.html');
           yield browser.waitForUrl('/index.html', {
             'a b': 'A B',
@@ -113,7 +113,7 @@ describe('navigation', () => {
 
       it(
         'can find query arguments in any order',
-        coroutine(function*() {
+        co.wrap(function*() {
           yield browser.navigateTo('/redirect-to-query.html');
           yield browser.waitForUrl('/index.html', {
             c: '1,7',
@@ -124,7 +124,7 @@ describe('navigation', () => {
 
       it(
         'can handle regexp query arguments',
-        coroutine(function*() {
+        co.wrap(function*() {
           yield browser.navigateTo('/redirect-to-query.html');
           yield browser.waitForUrl('/index.html', {
             c: /[\d,]+/,
@@ -135,7 +135,7 @@ describe('navigation', () => {
 
       it(
         'detects non-matches too',
-        coroutine(function*() {
+        co.wrap(function*() {
           yield browser.navigateTo('/redirect-to-query.html');
 
           const error = yield assertRejects(
@@ -168,7 +168,7 @@ describe('navigation', () => {
 
       it(
         'and rejects',
-        coroutine(function*() {
+        co.wrap(function*() {
           const err = yield assert.rejects(browser.loadPage('/missing'));
           assert.match(/Expected:.+200[^]+Actually:.+404/, err.message);
         })
@@ -181,7 +181,7 @@ describe('navigation', () => {
 
       it(
         'and rejects',
-        coroutine(function*() {
+        co.wrap(function*() {
           const err = yield assert.rejects(
             browser.loadPage('/', { expectedStatusCode: /^404$/ })
           );
@@ -200,7 +200,7 @@ describe('navigation', () => {
 
       it(
         'and rejects',
-        coroutine(function*() {
+        co.wrap(function*() {
           const err = yield assert.rejects(
             browser.loadPage('/', {
               expectedStatusCode() {
@@ -218,7 +218,7 @@ describe('navigation', () => {
     describe('wait for document finished loading but sub-resources are still loading', () => {
       it(
         'resolves',
-        coroutine(function*() {
+        co.wrap(function*() {
           yield browser.loadPage('/').waitForDocumentReady();
         })
       );
@@ -226,7 +226,7 @@ describe('navigation', () => {
     describe('wait for document sub-resources have finished loading', () => {
       it(
         'resolves',
-        coroutine(function*() {
+        co.wrap(function*() {
           yield browser.loadPage('/').waitForLoadEvent();
         })
       );
