@@ -1,3 +1,9 @@
+### 2.2.0
+
+* drop bluebird dependency - **[@dbushong](https://github.com/dbushong)** [#33](https://github.com/testiumjs/testium-driver-wd/pull/33)
+  - [`d90a8e5`](https://github.com/testiumjs/testium-driver-wd/commit/d90a8e5c6e7cb151ba9cf1f7d19b9a105372b0cb) **feat:** drop bluebird dependency
+
+
 ### 2.1.0
 
 * generate a default X-Request-Id header - **[@dbushong](https://github.com/dbushong)** [#32](https://github.com/testiumjs/testium-driver-wd/pull/32)
