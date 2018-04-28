@@ -2,7 +2,7 @@
 
 const browser = require('../mini-testium-mocha').browser;
 const assert = require('assertive');
-const coroutine = require('bluebird').coroutine;
+const co = require('co');
 
 function stripColors(message) {
   return message.replace(/\u001b\[[^m]*m/g, '');
@@ -21,7 +21,7 @@ describe('element', () => {
 
   it(
     "can get an element's text",
-    coroutine(function*() {
+    co.wrap(function*() {
       const text = yield browser.getElement('h1').text();
       assert.equal('Element text was not found', 'Test Page!', text);
     })
@@ -29,7 +29,7 @@ describe('element', () => {
 
   it(
     'can get special properties from an element',
-    coroutine(function*() {
+    co.wrap(function*() {
       // the "checked" property (when it doesn't exist)
       // returns a non-standard response from selenium;
       // let's make sure we can handle it properly
@@ -41,7 +41,7 @@ describe('element', () => {
 
   it(
     'returns null when the element can not be found',
-    coroutine(function*() {
+    co.wrap(function*() {
       const element = yield browser.getElementOrNull('.non-existing');
       assert.equal('Element magically appeared on the page', null, element);
     })
@@ -49,7 +49,7 @@ describe('element', () => {
 
   it(
     'can get several elements',
-    coroutine(function*() {
+    co.wrap(function*() {
       const elements = yield browser.getElements('.message');
       assert.equal('Messages were not all found', 3, elements.length);
     })
@@ -58,7 +58,7 @@ describe('element', () => {
   describe('assertElementIsDisplayed', () => {
     it(
       'fails if element does not exist',
-      coroutine(function*() {
+      co.wrap(function*() {
         const error = yield assertRejects(
           browser.assertElementIsDisplayed('.non-existing')
         );
@@ -69,7 +69,7 @@ describe('element', () => {
 
     it(
       'fails if element exists, but is not visible',
-      coroutine(function*() {
+      co.wrap(function*() {
         const error = yield assertRejects(
           browser.assertElementIsDisplayed('#hidden_thing')
         );
@@ -85,7 +85,7 @@ describe('element', () => {
   describe('assertElementNotDisplayed', () => {
     it(
       'fails if element does not exist',
-      coroutine(function*() {
+      co.wrap(function*() {
         const error = yield assertRejects(
           browser.assertElementNotDisplayed('.non-existing')
         );
@@ -96,7 +96,7 @@ describe('element', () => {
 
     it(
       'fails if element exists, but is visible',
-      coroutine(function*() {
+      co.wrap(function*() {
         const error = yield assertRejects(
           browser.assertElementNotDisplayed('h1')
         );
@@ -112,7 +112,7 @@ describe('element', () => {
   describe('assertElementExists', () => {
     it(
       'fails if element does not exist',
-      coroutine(function*() {
+      co.wrap(function*() {
         const error = yield assertRejects(
           browser.assertElementExists('.non-existing')
         );
@@ -130,7 +130,7 @@ describe('element', () => {
 
     it(
       'fails if element exists',
-      coroutine(function*() {
+      co.wrap(function*() {
         const error = yield assertRejects(
           browser.assertElementDoesntExist('h1')
         );
@@ -143,7 +143,7 @@ describe('element', () => {
   describe('elementHasText', () => {
     it(
       'finds and returns a single element',
-      coroutine(function*() {
+      co.wrap(function*() {
         const element = yield browser.assertElementHasText(
           '.only',
           'only one here'
@@ -158,7 +158,7 @@ describe('element', () => {
 
     it(
       'finds an element with the wrong text',
-      coroutine(function*() {
+      co.wrap(function*() {
         const error = yield assertRejects(
           browser.assertElementHasText('.only', 'the wrong text')
         );
@@ -172,7 +172,7 @@ describe('element', () => {
 
     it(
       'finds no elements',
-      coroutine(function*() {
+      co.wrap(function*() {
         const error = yield assertRejects(
           browser.assertElementHasText('.does-not-exist', 'some text')
         );
@@ -186,7 +186,7 @@ describe('element', () => {
 
     it(
       'finds many elements',
-      coroutine(function*() {
+      co.wrap(function*() {
         const error = yield assertRejects(
           browser.assertElementHasText('.message', 'some text')
         );
@@ -206,7 +206,7 @@ describe('element', () => {
   describe('elementLacksText', () => {
     it(
       'asserts an element lacks some text, and returns the element',
-      coroutine(function*() {
+      co.wrap(function*() {
         const element = yield browser.assertElementLacksText(
           '.only',
           'this text not present'
@@ -221,7 +221,7 @@ describe('element', () => {
 
     it(
       'finds an element incorrectly having some text',
-      coroutine(function*() {
+      co.wrap(function*() {
         const error = yield assertRejects(
           browser.assertElementLacksText('.only', 'only')
         );
@@ -237,7 +237,7 @@ describe('element', () => {
   describe('elementHasValue', () => {
     it(
       'finds and returns a single element',
-      coroutine(function*() {
+      co.wrap(function*() {
         const element = yield browser.assertElementHasValue(
           '#text-input',
           'initialvalue'
@@ -257,7 +257,7 @@ describe('element', () => {
   describe('elementLacksValue', () => {
     it(
       'asserts an element lacks some value, and returns the element',
-      coroutine(function*() {
+      co.wrap(function*() {
         const element = yield browser.assertElementLacksValue(
           '#text-input',
           'this text not present'
@@ -272,7 +272,7 @@ describe('element', () => {
 
     it(
       'finds an element incorrectly having some text',
-      coroutine(function*() {
+      co.wrap(function*() {
         const error = yield assertRejects(
           browser.assertElementLacksValue('#text-input', 'initialvalue')
         );
@@ -290,7 +290,7 @@ describe('element', () => {
 
     it(
       'fails if element found does not have attrs',
-      coroutine(function*() {
+      co.wrap(function*() {
         const error = yield assertRejects(
           browser.assertElementHasAttributes('img.fail', { foo: 'bar' })
         );
@@ -302,7 +302,7 @@ describe('element', () => {
 
     it(
       'passes if element found has given attrs',
-      coroutine(function*() {
+      co.wrap(function*() {
         yield browser.assertElementHasAttributes('img.fail', {
           alt: 'a non-existent image',
         });
@@ -315,7 +315,7 @@ describe('element', () => {
 
     it(
       'fails if number of elements does not match',
-      coroutine(function*() {
+      co.wrap(function*() {
         const error = yield assertRejects(
           browser.assertElementsNumber('.message', 2)
         );
@@ -326,7 +326,7 @@ describe('element', () => {
 
     it(
       'passes for right number of elements and returns them',
-      coroutine(function*() {
+      co.wrap(function*() {
         const elems = yield browser.assertElementsNumber('.message', 3);
         assert.equal(3, elems.length);
       })
@@ -338,7 +338,7 @@ describe('element', () => {
 
     it(
       'finds an element after waiting',
-      coroutine(function*() {
+      co.wrap(function*() {
         yield browser.assertElementNotDisplayed('.load_later');
         yield browser.waitForElementExist('.load_later');
       })
@@ -346,7 +346,7 @@ describe('element', () => {
 
     it(
       'finds a hidden element',
-      coroutine(function*() {
+      co.wrap(function*() {
         yield browser.assertElementNotDisplayed('.load_never');
         yield browser.waitForElementExist('.load_never');
       })
@@ -354,7 +354,7 @@ describe('element', () => {
 
     it(
       'fails to find an element that never exists',
-      coroutine(function*() {
+      co.wrap(function*() {
         const error = yield assertRejects(
           browser.waitForElementExist('.does-not-exist', 10)
         );
@@ -369,7 +369,7 @@ describe('element', () => {
   describe('waitForElementNotExist', () => {
     beforeEach(() => browser.loadPage('/other-page.html'));
 
-    /* eslint-disable no-undef, no-var */
+    /* eslint-disable no-undef, no-var, prefer-arrow-callback */
     function setupElement(keepAround) {
       // We are running this in the browser context, so no fancy ES6
       var el = document.createElement('div');
@@ -382,7 +382,7 @@ describe('element', () => {
         document.body.removeChild(el);
       }, 300);
     }
-    /* eslint-enable no-undef, no-var */
+    /* eslint-enable no-undef, no-var, prefer-arrow-callback */
 
     it('succeeds once an element is gone', () =>
       browser
@@ -392,7 +392,7 @@ describe('element', () => {
 
     it(
       'fails when element still exists',
-      coroutine(function*() {
+      co.wrap(function*() {
         yield browser.evaluate(/* keepAround = */ true, setupElement);
         yield browser.assertElementIsDisplayed('.remove_later');
         const error = yield assertRejects(
@@ -416,7 +416,7 @@ describe('element', () => {
 
     it(
       'fails to find a visible element within the timeout',
-      coroutine(function*() {
+      co.wrap(function*() {
         const error = yield assertRejects(
           browser.waitForElementDisplayed('.load_never', 10)
         );
@@ -429,7 +429,7 @@ describe('element', () => {
 
     it(
       'fails to find an element that never exists',
-      coroutine(function*() {
+      co.wrap(function*() {
         const error = yield assertRejects(
           browser.waitForElementDisplayed('.does-not-exist', 10)
         );
@@ -451,7 +451,7 @@ describe('element', () => {
 
     it(
       'fails to find a not-visible element within the timeout',
-      coroutine(function*() {
+      co.wrap(function*() {
         const error = yield assertRejects(
           browser.waitForElementNotDisplayed('.hide_never', 10)
         );
@@ -464,7 +464,7 @@ describe('element', () => {
 
     it(
       'fails to find an element that never exists',
-      coroutine(function*() {
+      co.wrap(function*() {
         const error = yield assertRejects(
           browser.waitForElementNotDisplayed('.does-not-exist', 10)
         );
@@ -481,7 +481,7 @@ describe('element', () => {
 
     it(
       'succeeds if selector is a String',
-      coroutine(function*() {
+      co.wrap(function*() {
         const element = yield browser.getElement('body');
         yield element.getElement('.message');
       })
@@ -489,7 +489,7 @@ describe('element', () => {
 
     it(
       'return null if not found an element on the message element',
-      coroutine(function*() {
+      co.wrap(function*() {
         const messageElement = yield browser.getElement('.message');
         const element = yield messageElement.getElementOrNull('.message');
         assert.equal(null, element);
@@ -502,7 +502,7 @@ describe('element', () => {
 
     it(
       'succeeds if selector is a String',
-      coroutine(function*() {
+      co.wrap(function*() {
         const element = yield browser.getElement('body');
         const messages = yield element.getElements('.message');
         assert.equal(3, messages.length);
@@ -511,7 +511,7 @@ describe('element', () => {
 
     it(
       'return empty array if not found an element on the message element',
-      coroutine(function*() {
+      co.wrap(function*() {
         const messageElement = yield browser.getElement('.message');
         const elements = yield messageElement.getElements('.message');
         assert.equal(0, elements.length);

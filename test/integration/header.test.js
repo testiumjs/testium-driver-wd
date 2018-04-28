@@ -2,7 +2,7 @@
 
 const browser = require('../mini-testium-mocha').browser;
 const assert = require('assertive');
-const coroutine = require('bluebird').coroutine;
+const co = require('co');
 
 describe('header', () => {
   before(browser.beforeHook());
@@ -12,7 +12,7 @@ describe('header', () => {
 
     it(
       'as a group',
-      coroutine(function*() {
+      co.wrap(function*() {
         const headers = yield browser.getHeaders();
         const contentType = headers['content-type'];
         assert.equal('text/html', contentType);
@@ -21,7 +21,7 @@ describe('header', () => {
 
     it(
       'individually',
-      coroutine(function*() {
+      co.wrap(function*() {
         const contentType = yield browser.getHeader('content-type');
         assert.equal('text/html', contentType);
       })
@@ -35,7 +35,7 @@ describe('header', () => {
 
     it(
       'to new values',
-      coroutine(function*() {
+      co.wrap(function*() {
         const source = yield browser.getElement('body').text();
         const body = JSON.parse(source);
         assert.equal(body.headers['x-something'], 'that place');
@@ -46,7 +46,7 @@ describe('header', () => {
   describe('x-request-id', () => {
     it(
       'is defaulted to something useful',
-      coroutine(function*() {
+      co.wrap(function*() {
         const source = yield browser
           .loadPage('/echo')
           .getElement('body')
@@ -60,7 +60,7 @@ describe('header', () => {
 
     it(
       'properly escapes bogus header content chars',
-      coroutine(function*() {
+      co.wrap(function*() {
         browser.__proto__.currentTest = 'w x\n\ny\t💩\tz';
         const source = yield browser
           .loadPage('/echo')

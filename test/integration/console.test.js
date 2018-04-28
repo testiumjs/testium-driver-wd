@@ -2,7 +2,7 @@
 
 const browser = require('../mini-testium-mocha').browser;
 const assert = require('assertive');
-const coroutine = require('bluebird').coroutine;
+const co = require('co');
 
 describe('console', () => {
   before(browser.beforeHook());
@@ -14,7 +14,7 @@ describe('console', () => {
   // Use at your own risk.
   it(
     'can all be retrieved',
-    coroutine(function*() {
+    co.wrap(function*() {
       const browserName = browser.capabilities.browserName;
       let logs;
 

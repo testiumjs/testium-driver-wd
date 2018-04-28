@@ -2,7 +2,7 @@
 
 const browser = require('../mini-testium-mocha').browser;
 const assert = require('assertive');
-const coroutine = require('bluebird').coroutine;
+const co = require('co');
 
 function assertRejects(promise) {
   return promise.then(() => {
@@ -18,7 +18,7 @@ describe('window api', () => {
 
     it(
       'can be switched',
-      coroutine(function*() {
+      co.wrap(function*() {
         yield browser.switchToFrame('cool-frame');
         const iframeContent = yield browser
           .getElement('.in-iframe-only')
@@ -37,7 +37,7 @@ describe('window api', () => {
 
     it(
       'can be found when nested',
-      coroutine(function*() {
+      co.wrap(function*() {
         yield browser.switchToFrame('cool-frame');
 
         yield browser.assertElementExists('.in-iframe-only');
@@ -56,7 +56,7 @@ describe('window api', () => {
 
     it(
       'can be opened',
-      coroutine(function*() {
+      co.wrap(function*() {
         yield browser.clickOn('#open-popup');
         yield browser.switchToWindow('popup1');
         const popupContent = yield browser.getElement('.popup-only').text();
