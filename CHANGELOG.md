@@ -1,3 +1,9 @@
+### 2.3.0
+
+* use all `desiredCapabilities` in driver - **[@dbushong](https://github.com/dbushong)** [#34](https://github.com/testiumjs/testium-driver-wd/pull/34)
+  - [`e47b081`](https://github.com/testiumjs/testium-driver-wd/commit/e47b081114423aad425cad9353c24e744591577f) **feat:** use all `desiredCapabilities` in driver
+
+
 ### 2.2.0
 
 * drop bluebird dependency - **[@dbushong](https://github.com/dbushong)** [#33](https://github.com/testiumjs/testium-driver-wd/pull/33)
