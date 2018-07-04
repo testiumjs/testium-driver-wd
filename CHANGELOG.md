@@ -1,3 +1,10 @@
+### 2.4.0
+
+* feat: expose getChromeDevtoolsPort method - **[@anil-groupon](https://github.com/anil-groupon)** [#35](https://github.com/testiumjs/testium-driver-wd/pull/35)
+  - [`4517c0a`](https://github.com/testiumjs/testium-driver-wd/commit/4517c0ac99138e64f58e3e3c8b42003384e0b38e) **feat:** expose getChromeDevtoolsPort method
+  - [`2299ec7`](https://github.com/testiumjs/testium-driver-wd/commit/2299ec7cb7a1da7c00f8c5a2cad92688dd0f3b81) **fix:** eslint
+
+
 ### 2.3.0
 
 * use all `desiredCapabilities` in driver - **[@dbushong](https://github.com/dbushong)** [#34](https://github.com/testiumjs/testium-driver-wd/pull/34)
