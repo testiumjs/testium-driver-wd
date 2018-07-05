@@ -1,3 +1,11 @@
+### 2.5.0
+
+* Add puppeteer and lighthouse integration - **[@jkrems](https://github.com/jkrems)** [#36](https://github.com/testiumjs/testium-driver-wd/pull/36)
+  - [`b7582a5`](https://github.com/testiumjs/testium-driver-wd/commit/b7582a5123865f9946fa0664b2e804a401f8a8c9) **feat:** Add puppeteer and lighthouse integration
+  - [`33d7144`](https://github.com/testiumjs/testium-driver-wd/commit/33d71440c2905c071e3a31b8ef39e75979794e68) **chore:** Stop testing on node 4 (EOL)
+  - [`15d98aa`](https://github.com/testiumjs/testium-driver-wd/commit/15d98aaffa6aacfe6c582931e0c23294e9a02b17) **feat:** Expose lighthouse config argument
+
+
 ### 2.4.0
 
 * feat: expose getChromeDevtoolsPort method - **[@anil-groupon](https://github.com/anil-groupon)** [#35](https://github.com/testiumjs/testium-driver-wd/pull/35)
