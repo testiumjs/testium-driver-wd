@@ -34,7 +34,7 @@
     "puppeteer": "^1.5.0",
     "testium-cookie": "^1.0.0",
     "uuid": "^3.1.0",
-    "wd": "^1.0.0"
+    "wd": "^1.10.1"
   },
   "devDependencies": {
     "chromedriver": "^2.40.0",
