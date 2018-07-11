@@ -1,3 +1,9 @@
+### 2.5.1
+
+* chore: upgrade wd to v1.10.1 - **[@aaarichter](https://github.com/aaarichter)** [#37](https://github.com/testiumjs/testium-driver-wd/pull/37)
+  - [`d280f02`](https://github.com/testiumjs/testium-driver-wd/commit/d280f029f639c81d549a88fd01caaa73ad171e1f) **chore:** upgrade wd to v1.10.1
+
+
 ### 2.5.0
 
 * Add puppeteer and lighthouse integration - **[@jkrems](https://github.com/jkrems)** [#36](https://github.com/testiumjs/testium-driver-wd/pull/36)
