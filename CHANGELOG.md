@@ -1,3 +1,14 @@
+### 2.6.0
+
+* feat: Add supporting APIs for lighthouse - **[@anil-groupon](https://github.com/anil-groupon)** [#38](https://github.com/testiumjs/testium-driver-wd/pull/38)
+  - [`51fb38f`](https://github.com/testiumjs/testium-driver-wd/commit/51fb38f92921c8bd1db540c2013c8c323d756b34) **feat:** Add supporting APIs for lighthouse
+  - [`47115be`](https://github.com/testiumjs/testium-driver-wd/commit/47115be5fbfe7d5055937b953a5699f1fa8db4bd) **chore:** fix linting
+  - [`dbf5b7a`](https://github.com/testiumjs/testium-driver-wd/commit/dbf5b7a555a7b78946ae11378e4df30aed233faf) **chore:** handle comments
+  - [`a34b9d1`](https://github.com/testiumjs/testium-driver-wd/commit/a34b9d175ad8940dcacd6fe4192449d232f74188) **chore:** fix linting
+  - [`dc34a68`](https://github.com/testiumjs/testium-driver-wd/commit/dc34a68af21dd77d8aa6eafed5ec886821921c5d) **chore:** test fixes
+  - [`070ad14`](https://github.com/testiumjs/testium-driver-wd/commit/070ad14e54e348e53a843c2830112c614f2ab467) **chore:** throw error when audits results can't be fetched
+
+
 ### 2.5.1
 
 * chore: upgrade wd to v1.10.1 - **[@aaarichter](https://github.com/aaarichter)** [#37](https://github.com/testiumjs/testium-driver-wd/pull/37)
