@@ -1,3 +1,10 @@
+### 2.7.0
+
+* feat: have loadPage() wait for load event by default - **[@davidmichaelryan](https://github.com/davidmichaelryan)** [#39](https://github.com/testiumjs/testium-driver-wd/pull/39)
+  - [`3344ea9`](https://github.com/testiumjs/testium-driver-wd/commit/3344ea9849b98c3aab0a8bdfa356e4fbe60fc566) **feat:** have loadPage() wait for load event by default
+  - [`e155867`](https://github.com/testiumjs/testium-driver-wd/commit/e155867ad3f890caf1e4745f3f3d51584f1e9bb5) **chore:** address comments
+
+
 ### 2.6.0
 
 * feat: Add supporting APIs for lighthouse - **[@anil-groupon](https://github.com/anil-groupon)** [#38](https://github.com/testiumjs/testium-driver-wd/pull/38)
