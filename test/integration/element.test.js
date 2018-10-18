@@ -9,9 +9,12 @@ function stripColors(message) {
 }
 
 function assertRejects(promise) {
-  return promise.then(() => {
-    throw new Error('Did not fail as expected');
-  }, error => error);
+  return promise.then(
+    () => {
+      throw new Error('Did not fail as expected');
+    },
+    error => error
+  );
 }
 
 describe('element', () => {

@@ -5,9 +5,12 @@ const assert = require('assertive');
 const co = require('co');
 
 function assertRejects(promise) {
-  return promise.then(() => {
-    throw new Error('Did not fail as expected');
-  }, error => error);
+  return promise.then(
+    () => {
+      throw new Error('Did not fail as expected');
+    },
+    error => error
+  );
 }
 
 describe('navigation', () => {
@@ -209,6 +212,31 @@ describe('navigation', () => {
             })
           );
           assert.include('is as expected', err.message);
+        })
+      );
+    });
+
+    describe('waiting for load event', () => {
+      it(
+        'happens by default',
+        co.wrap(function*() {
+          yield browser.loadPage('/index.html');
+          const state = yield browser.safeExecute(
+            `(${function getDocumentState() {
+              /* eslint-disable-next-line no-undef */
+              return document.readyState;
+            }})();`
+          );
+          assert.equal('complete', state);
+        })
+      );
+
+      it(
+        'can be overridden without browser rejecting',
+        co.wrap(function*() {
+          yield browser.loadPage('/index.html', {
+            waitForLoadEvent: false,
+          });
         })
       );
     });
