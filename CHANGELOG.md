@@ -1,3 +1,11 @@
+### 2.7.1
+
+* chore: update dependencies - **[@aaarichter](https://github.com/aaarichter)** [#41](https://github.com/testiumjs/testium-driver-wd/pull/41)
+  - [`28588d5`](https://github.com/testiumjs/testium-driver-wd/commit/28588d5d494a6d839ebf472c0c30eabaa5724a93) **chore:** update dependencies
+  - [`4f4c33d`](https://github.com/testiumjs/testium-driver-wd/commit/4f4c33d3361a9c53c84ed8e74d048872f5093bfe) **fix:** path change of accessibility audit
+  - [`0f62ecd`](https://github.com/testiumjs/testium-driver-wd/commit/0f62ecd678c12899bd159cda8053b54fc82fbf52) **fix:** small change in LH result parser
+
+
 ### 2.7.0
 
 * feat: have loadPage() wait for load event by default - **[@davidmichaelryan](https://github.com/davidmichaelryan)** [#39](https://github.com/testiumjs/testium-driver-wd/pull/39)
