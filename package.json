@@ -28,7 +28,6 @@
   "dependencies": {
     "assertive": "^2.4.1",
     "debug": "^4.1.1",
-    "deepmerge": "^3.2.0",
     "gofer": "^3.7.3",
     "lighthouse": "^4.1.0",
     "lodash": "^4.17.11",
