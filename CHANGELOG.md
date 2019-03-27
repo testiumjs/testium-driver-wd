@@ -1,3 +1,10 @@
+### 2.8.0
+
+* feat: optional accessibility check with loadPage - **[@anil-groupon](https://github.com/anil-groupon)** [#43](https://github.com/testiumjs/testium-driver-wd/pull/43)
+  - [`379327c`](https://github.com/testiumjs/testium-driver-wd/commit/379327c685f263376ca38aa05eb1d63663b2aecf) **feat:** optional accessibility check with loadPage
+  - [`830c5e7`](https://github.com/testiumjs/testium-driver-wd/commit/830c5e75796ac678cec5c52398cc7c7ece222c9b) **fix:** linting issue
+
+
 ### 2.7.1
 
 * chore: update dependencies - **[@aaarichter](https://github.com/aaarichter)** [#41](https://github.com/testiumjs/testium-driver-wd/pull/41)
