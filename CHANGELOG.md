@@ -1,3 +1,9 @@
+### 2.8.1
+
+* fix: pass flags to lighthouse audit from loadPage - **[@anil-groupon](https://github.com/anil-groupon)** [#44](https://github.com/testiumjs/testium-driver-wd/pull/44)
+  - [`f13b310`](https://github.com/testiumjs/testium-driver-wd/commit/f13b310b38a4c8b2d49be017fa810d6972372803) **fix:** pass flag to lighthouse from loadPage
+
+
 ### 2.8.0
 
 * feat: optional accessibility check with loadPage - **[@anil-groupon](https://github.com/anil-groupon)** [#43](https://github.com/testiumjs/testium-driver-wd/pull/43)
