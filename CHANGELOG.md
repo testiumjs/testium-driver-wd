@@ -1,3 +1,9 @@
+### 2.9.0
+
+* feat: Add new evaluateAsync function - **[@JimLiu](https://github.com/JimLiu)** [#45](https://github.com/testiumjs/testium-driver-wd/pull/45)
+  - [`0fa2987`](https://github.com/testiumjs/testium-driver-wd/commit/0fa2987cc20315adff46a2d507d815eb9d5f564c) **feat:** Add new evaluateAsync function
+
+
 ### 2.8.1
 
 * fix: pass flags to lighthouse audit from loadPage - **[@anil-groupon](https://github.com/anil-groupon)** [#44](https://github.com/testiumjs/testium-driver-wd/pull/44)
