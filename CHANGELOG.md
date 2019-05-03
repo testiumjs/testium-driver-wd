@@ -1,3 +1,9 @@
+### 2.10.0
+
+* feat: new a11yAudit function - **[@JimLiu](https://github.com/JimLiu)** [#46](https://github.com/testiumjs/testium-driver-wd/pull/46)
+  - [`64dc418`](https://github.com/testiumjs/testium-driver-wd/commit/64dc4188e3cf6ed61adf79ce8f5b9868a9789b38) **feat:** new a11yAudit function
+
+
 ### 2.9.0
 
 * feat: Add new evaluateAsync function - **[@JimLiu](https://github.com/JimLiu)** [#45](https://github.com/testiumjs/testium-driver-wd/pull/45)
