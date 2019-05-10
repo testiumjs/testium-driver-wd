@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "assertive": "^2.1.0",
-    "chromedriver": "^2.45.0",
+    "chromedriver": "^74.0.0",
     "co": "^4.6.0",
     "eslint": "^5.1.0",
     "eslint-config-groupon": "^7.2.0",
