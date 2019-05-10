@@ -18,6 +18,10 @@
     "test": "mocha",
     "posttest": "nlm verify"
   },
+  "engines": {
+    "yarn": "0.0.0",
+    "npm": "^6.0.0"
+  },
   "nlm": {
     "license": {
       "files": [
@@ -37,14 +41,15 @@
     "wd": "^1.11.1"
   },
   "devDependencies": {
+    "assertive": "^2.1.0",
     "chromedriver": "^2.45.0",
     "co": "^4.6.0",
-    "eslint": "^4.7.1",
-    "eslint-config-groupon": "^6.0.0",
+    "eslint": "^5.1.0",
+    "eslint-config-groupon": "^7.2.0",
     "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-mocha": "^4.12.1",
-    "eslint-plugin-node": "^5.1.1",
-    "eslint-plugin-prettier": "^2.2.0",
+    "eslint-plugin-mocha": "^5.1.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-prettier": "^2.6.2",
     "mocha": "^5.2.0",
     "nlm": "^3.6.0",
     "prettier": "^1.6.1",
