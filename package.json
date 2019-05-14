@@ -38,7 +38,7 @@
     "puppeteer": "^1.15.0",
     "testium-cookie": "^1.0.2",
     "uuid": "^3.3.2",
-    "wd": "^1.11.1"
+    "wd": "^1.11.2"
   },
   "devDependencies": {
     "assertive": "^2.1.0",

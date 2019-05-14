@@ -1,5 +1,9 @@
 {
   "launch": true,
+  "browser": "chrome",
+  "chrome": {
+    "headless": true
+  },
   "app": {
     "command": "testium-example-app"
   },
