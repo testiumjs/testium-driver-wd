@@ -38,7 +38,6 @@
   },
   "devDependencies": {
     "chromedriver": "^2.45.0",
-    "co": "^4.6.0",
     "eslint": "^4.7.1",
     "eslint-config-groupon": "^6.0.0",
     "eslint-plugin-import": "^2.8.0",

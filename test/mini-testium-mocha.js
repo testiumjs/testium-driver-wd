@@ -14,7 +14,7 @@ browser.beforeHook = () => {
     .split(/\n/)[2]
     .replace(/.+\(.+\/(.+?)(?:\.test)\.(?:js|coffee):\d+:\d+\)$/, '$1');
   return () =>
-    getTestium({ driver: createDriver }).then(testium => {
+    getTestium({ driver: createDriver, browser: 'chrome' }).then(testium => {
       browser.__proto__ = testium.browser;
       browser.__proto__.currentTest = currentTest;
     });
