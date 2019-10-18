@@ -1,3 +1,11 @@
+### 2.10.1
+
+* chore: remove co - **[@aotarola](https://github.com/aotarola)** [#47](https://github.com/testiumjs/testium-driver-wd/pull/47)
+  - [`2aa7e68`](https://github.com/testiumjs/testium-driver-wd/commit/2aa7e683931f0c2a354f229992f0966a4ba274aa) **chore:** remove co
+  - [`8044508`](https://github.com/testiumjs/testium-driver-wd/commit/8044508cfcb1794124cd17304bcaf0ba0982e818) **test:** linter string
+  - [`b7dbe8a`](https://github.com/testiumjs/testium-driver-wd/commit/b7dbe8ab566028697497875aef2341cf77bbba51) **chore:** update deps & syntax
+
+
 ### 2.10.0
 
 * feat: new a11yAudit function - **[@JimLiu](https://github.com/JimLiu)** [#46](https://github.com/testiumjs/testium-driver-wd/pull/46)
