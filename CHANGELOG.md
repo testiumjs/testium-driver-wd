@@ -1,3 +1,12 @@
+### 2.10.2
+
+* package updates - **[@aaarichter](https://github.com/aaarichter)** [#48](https://github.com/testiumjs/testium-driver-wd/pull/48)
+  - [`3d3d8a8`](https://github.com/testiumjs/testium-driver-wd/commit/3d3d8a86a48207d3f51c887a4df5826d5135aae8) **chore:** update dependencies
+  - [`fc0132f`](https://github.com/testiumjs/testium-driver-wd/commit/fc0132fe392cd5afa6db47d63f9610853f8177b8) **chore:** upgrade semver, gofer, eslint-plugin-node
+  - [`e012867`](https://github.com/testiumjs/testium-driver-wd/commit/e0128672d708ae9b83d08a302b99e017f6e11b41) **chore:** upgrade semver, eslint-plugin-node
+  - [`ae3e676`](https://github.com/testiumjs/testium-driver-wd/commit/ae3e67628fdcba80ac8c51ea8d18820a6b8a9893) **fix:** add package.json
+
+
 ### 2.10.1
 
 * chore: remove co - **[@aotarola](https://github.com/aotarola)** [#47](https://github.com/testiumjs/testium-driver-wd/pull/47)
