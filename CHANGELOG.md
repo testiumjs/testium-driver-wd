@@ -1,3 +1,10 @@
+### 2.10.3
+
+* chore: upgrade packages - **[@aaarichter](https://github.com/aaarichter)** [#49](https://github.com/testiumjs/testium-driver-wd/pull/49)
+  - [`da15f43`](https://github.com/testiumjs/testium-driver-wd/commit/da15f4351bb3b65418ec6a3876528e41c1f15a6b) **chore:** upgrade packages
+  - [`9bc4e63`](https://github.com/testiumjs/testium-driver-wd/commit/9bc4e632b71ea8b8187211302be78ce86c736e14) **chore:** downgrade package to support node 8
+
+
 ### 2.10.2
 
 * package updates - **[@aaarichter](https://github.com/aaarichter)** [#48](https://github.com/testiumjs/testium-driver-wd/pull/48)
