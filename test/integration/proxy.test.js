@@ -10,8 +10,11 @@ describe('proxy', () => {
   before(browser.beforeHook());
 
   describe('handles errors', () => {
-    it('with no content type and preserves status code', () =>
-      browser.loadPage('/').loadPage('/error', { expectedStatusCode: 500 }));
+    it('with no content type and preserves status code', () => {
+      return browser
+        .loadPage('/')
+        .loadPage('/error', { expectedStatusCode: 500 });
+    });
 
     it('that crash and preserves status code', () =>
       browser.loadPage('/crash', { expectedStatusCode: 500 }));

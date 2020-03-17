@@ -1,9 +1,13 @@
 {
   "launch": true,
+  "browser": "chrome",
   "app": {
     "command": "testium-example-app"
   },
   "mixins": {
     "wd": [ "test/mixin.js", "test-mixin-module" ]
+  },
+  "chrome": {
+    "headless": true
   }
 }

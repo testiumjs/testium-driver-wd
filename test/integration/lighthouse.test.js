@@ -9,7 +9,7 @@ const browserName = getConfig().get('browser');
 
 describe('navigation', () => {
   if (browserName !== 'chrome') {
-    xit('Skipping lighthouse tests. They only work for chrome.');
+    it.skip('Skipping lighthouse tests. They only work for chrome.');
     return;
   }
 
@@ -34,6 +34,7 @@ describe('navigation', () => {
         .navigateTo('/draggable.html')
         .assertStatusCode(200)
         .a11yAudit();
+
       assert.equal(2, results.length);
       assert.equal('document-title', results[0].auditId);
       assert.equal('html-has-lang', results[1].auditId);

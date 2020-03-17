@@ -7,9 +7,9 @@ const browser = require('../mini-testium-mocha').browser;
 
 const browserName = getConfig().get('browser');
 
-describe('navigation', () => {
+describe.skip('navigation', () => {
   if (browserName !== 'chrome') {
-    xit('Skipping puppeteer tests. They only work for chrome.');
+    it.skip('Skipping puppeteer tests. They only work for chrome.');
     return;
   }
 

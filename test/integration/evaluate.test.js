@@ -38,7 +38,7 @@ describe('evaluate', () => {
 
 describe('evaluateAsync', () => {
   if (browserName === 'phantomjs') {
-    xit(
+    it.skip(
       "skipping tests because browser phantomjs doesn't support evaluateAsync"
     );
     return;

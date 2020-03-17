@@ -1,8 +1,7 @@
 'use strict';
 
 const browser = require('../mini-testium-mocha').browser;
-const assert = require('assertive');
-const pick = require('lodash/pick');
+const assert = require('assert');
 
 describe('draggable element', () => {
   before(browser.beforeHook());
@@ -12,9 +11,9 @@ describe('draggable element', () => {
   it('is moved', async () => {
     const box = await browser.getElement('#box');
     const boxLoc = () =>
-      box.getLocationInView().then(loc => pick(loc, 'x', 'y'));
+      box.getLocationInView().then(loc => ({ x: loc.x, y: loc.y }));
 
-    await assert.deepEqual({ x: 0, y: 0 }, boxLoc());
+    assert.deepStrictEqual(await boxLoc(), { x: 0, y: 0 });
 
     await box
       .moveTo(20, 20)
@@ -22,6 +21,6 @@ describe('draggable element', () => {
       .moveTo(100, 100)
       .buttonUp();
 
-    await assert.deepEqual({ x: 80, y: 80 }, boxLoc());
+    assert.deepStrictEqual(await boxLoc(), { x: 80, y: 80 });
   });
 });
