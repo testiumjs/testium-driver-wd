@@ -1,3 +1,5 @@
+/* eslint-env browser */
+
 'use strict';
 
 const browser = require('../mini-testium-mocha').browser;
@@ -110,6 +112,54 @@ describe('element', () => {
     });
   });
 
+  describe('Element clicking', () => {
+    function setupClickEvent(selector, expectedClass) {
+      return browser.evaluate(selector, expectedClass, (s, c) => {
+        document.querySelectorAll(s).forEach(elem => {
+          const event = () => elem.classList.add(c);
+          elem.removeEventListener('click', event);
+          elem.addEventListener('click', event);
+        });
+      });
+    }
+
+    describe('clickOn', () => {
+      it('triggers click event', () =>
+        setupClickEvent('.okay', 'only-once')
+          .clickOn('.okay')
+          .assertElementsNumber('.only-once', 1));
+
+      it('triggers click event on first matching element', () =>
+        setupClickEvent('.message', 'only-one-message')
+          .clickOn('.message')
+          .assertElementsNumber('.only-one-message', 1));
+
+      it("throws when selector doesn't match", () => {
+        const selector = '.foo';
+        const expected = `Element not found for selector: ${selector}`;
+
+        return browser
+          .clickOn(selector)
+          .catch(e => assert.include(expected, e.message));
+      });
+    });
+
+    describe('clickOnAll', () => {
+      it('triggeres click event on all matching elements', () =>
+        setupClickEvent('.message', 'clicked')
+          .clickOnAll('.message')
+          .assertElementsNumber('.clicked', 3));
+
+      it("throws when selector doesn't match", () => {
+        const selector = '.foo';
+        const expected = `Element not found for selector: ${selector}`;
+
+        return browser
+          .clickOnAll(selector)
+          .catch(e => assert.include(expected, e.message));
+      });
+    });
+  });
   describe('elementHasText', () => {
     it('finds and returns a single element', async () => {
       const element = await browser.assertElementHasText(
