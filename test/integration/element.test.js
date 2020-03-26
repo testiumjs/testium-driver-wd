@@ -2,7 +2,7 @@
 
 'use strict';
 
-const browser = require('../mini-testium-mocha').browser;
+const { browser } = require('../mini-testium-mocha');
 const assert = require('assertive');
 
 function stripColors(message) {

@@ -1,6 +1,6 @@
 'use strict';
 
-const browser = require('../mini-testium-mocha').browser;
+const { browser } = require('../mini-testium-mocha');
 
 function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));

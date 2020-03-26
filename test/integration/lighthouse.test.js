@@ -3,7 +3,7 @@
 const assert = require('assertive');
 const getConfig = require('testium-core').getConfig;
 
-const browser = require('../mini-testium-mocha').browser;
+const { browser } = require('../mini-testium-mocha');
 
 const browserName = getConfig().get('browser');
 
