@@ -45,7 +45,7 @@
     "lighthouse": "^5.6.0",
     "lodash": "^4.17.15",
     "puppeteer-core": "^2.1.1",
-    "testium-cookie": "^1.0.2",
+    "testium-cookie": "^2.0.0",
     "uuid": "^7.0.2",
     "wd": "^1.12.1"
   },
