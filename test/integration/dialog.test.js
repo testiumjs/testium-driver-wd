@@ -1,6 +1,6 @@
 'use strict';
 
-const browser = require('../mini-testium-mocha').browser;
+const { browser } = require('../mini-testium-mocha');
 const assert = require('assertive');
 
 const getConfig = require('testium-core').getConfig;
@@ -8,16 +8,15 @@ const getConfig = require('testium-core').getConfig;
 const browserName = getConfig().get('browser');
 
 describe('dialogs', () => {
+  let target;
+
   if (browserName === 'phantomjs') {
-    xit("skipping tests because browser phantomjs doesn't support alerts");
+    it.skip("skipping tests because browser phantomjs doesn't support alerts");
     return;
   }
 
   before(browser.beforeHook());
 
-  after(() => browser.close());
-
-  let target;
   before(async () => {
     await browser.loadPage('/');
 
@@ -26,11 +25,6 @@ describe('dialogs', () => {
   });
 
   describe('alert', () => {
-    if (browserName === 'chrome') {
-      xit('Chrome sometimes crashes with many alerts');
-      return;
-    }
-
     beforeEach(() => browser.clickOn('.link_to_open_an_alert'));
 
     it('can get an alert text', async () => {

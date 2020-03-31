@@ -1,6 +1,6 @@
 'use strict';
 
-const browser = require('../mini-testium-mocha').browser;
+const { browser } = require('../mini-testium-mocha');
 const assert = require('assertive');
 const getConfig = require('testium-core').getConfig;
 
@@ -38,7 +38,7 @@ describe('evaluate', () => {
 
 describe('evaluateAsync', () => {
   if (browserName === 'phantomjs') {
-    xit(
+    it.skip(
       "skipping tests because browser phantomjs doesn't support evaluateAsync"
     );
     return;

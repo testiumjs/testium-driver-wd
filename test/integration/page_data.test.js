@@ -1,7 +1,10 @@
 'use strict';
 
-const browser = require('../mini-testium-mocha').browser;
+const { browser } = require('../mini-testium-mocha');
 const assert = require('assertive');
+const getConfig = require('testium-core').getConfig;
+
+const browserName = getConfig().get('browser');
 
 describe('page data', () => {
   before(browser.beforeHook());
@@ -10,7 +13,10 @@ describe('page data', () => {
 
   it('title', () => assert.equal('Test Title', browser.getPageTitle()));
 
-  it('source', () => assert.include('DOCTYPE', browser.getPageSource()));
+  // chromedriver excludes DOCTYPE
+  if (browserName !== 'chrome') {
+    it('source', () => assert.include('DOCTYPE', browser.getPageSource()));
+  }
 
   it('size', () =>
     assert.deepEqual({ height: 768, width: 1024 }, browser.getPageSize()));

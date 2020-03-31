@@ -1,6 +1,8 @@
+/* eslint-env browser */
+
 'use strict';
 
-const browser = require('../mini-testium-mocha').browser;
+const { browser } = require('../mini-testium-mocha');
 const assert = require('assertive');
 
 function stripColors(message) {
@@ -107,6 +109,55 @@ describe('element', () => {
       const error = await assertRejects(browser.assertElementDoesntExist('h1'));
       const expectedError = 'Element "h1" shouldn\'t exist';
       assert.equal(expectedError, stripColors(error.message));
+    });
+  });
+
+  describe('Element clicking', () => {
+    function setupClickEvent(selector, expectedClass) {
+      return browser.evaluate(selector, expectedClass, (s, c) => {
+        document.querySelectorAll(s).forEach(elem => {
+          const event = () => elem.classList.add(c);
+          elem.removeEventListener('click', event);
+          elem.addEventListener('click', event);
+        });
+      });
+    }
+
+    describe('clickOn', () => {
+      it('triggers click event', () =>
+        setupClickEvent('.okay', 'only-once')
+          .clickOn('.okay')
+          .assertElementsNumber('.only-once', 1));
+
+      it('throws when selector matches more than one element', async () => {
+        const error = assertRejects(
+          setupClickEvent('.message', 'only-one-message').clickOn('.message')
+        );
+
+        assert.equal(
+          'selector ".message" matched more than 1 element. Use .clickOnAll() or a more specific selector instead',
+          error
+        );
+      });
+
+      it('throws when selector matches no element', () => {
+        const error = assertRejects(browser.clickOn('.foo'));
+
+        assert.equal('selector ".foo" matched no element.', error);
+      });
+    });
+
+    describe('clickOnAll', () => {
+      it('triggeres click event on all matching elements', () =>
+        setupClickEvent('.message', 'clicked')
+          .clickOnAll('.message')
+          .assertElementsNumber('.clicked', 3));
+
+      it("doesn't throw when selector doesn't match elements", async () => {
+        const error = assertRejects(browser.clickOnAll('.foo'));
+
+        assert.equal(undefined, error);
+      });
     });
   });
 
@@ -250,17 +301,78 @@ describe('element', () => {
   describe('assertElementsNumber', () => {
     before(() => browser.loadPage('/'));
 
-    it('fails if number of elements does not match', async () => {
-      const error = await assertRejects(
-        browser.assertElementsNumber('.message', 2)
-      );
-      const expected = '.message should match 2 elements - actually found 3';
-      assert.equal(expected, stripColors(error.message));
+    describe('with number argument', () => {
+      it('fails if number of elements does not match', async () => {
+        const error = await assertRejects(
+          browser.assertElementsNumber('.message', 2)
+        );
+        const expected =
+          'selector ".message" should match 2 elements - actually found 3';
+        assert.equal(expected, stripColors(error.message));
+      });
+
+      it('passes for right number of elements and returns them', async () => {
+        const elems = await browser.assertElementsNumber('.message', 3);
+        assert.equal(3, elems.length);
+      });
     });
 
-    it('passes for right number of elements and returns them', async () => {
-      const elems = await browser.assertElementsNumber('.message', 3);
-      assert.equal(3, elems.length);
+    describe('with "equal" option argument', () => {
+      it('fails if number of elements does not match', async () => {
+        const error = await assertRejects(
+          browser.assertElementsNumber('.message', { equal: 2 })
+        );
+        const expected =
+          'selector ".message" should match 2 elements - actually found 3';
+        assert.equal(expected, stripColors(error.message));
+      });
+
+      it('passes for right number of elements and returns them', async () => {
+        const elems = await browser.assertElementsNumber('.message', {
+          equal: 3,
+        });
+        assert.equal(3, elems.length);
+      });
+    });
+
+    describe('with "min" option argument', () => {
+      before(() => browser.loadPage('/'));
+
+      it('fails if number of elements does not match minimum', async () => {
+        const error = await assertRejects(
+          browser.assertElementsNumber('.message', { min: 5 })
+        );
+        const expected =
+          'selector ".message" should have at least 5 elements - actually found 3';
+        assert.equal(expected, stripColors(error.message));
+      });
+
+      it('passes for right minimum number of elements and returns them', async () => {
+        const elems = await browser.assertElementsNumber('.message', {
+          min: 2,
+        });
+        assert.equal(3, elems.length);
+      });
+    });
+
+    describe('with "max" option argument', () => {
+      before(() => browser.loadPage('/'));
+
+      it('fails if number of elements does not match maximum allowed elements', async () => {
+        const error = await assertRejects(
+          browser.assertElementsNumber('.message', { max: 1 })
+        );
+        const expected =
+          'selector ".message" should have at most 1 elements - actually found 3';
+        assert.equal(expected, stripColors(error.message));
+      });
+
+      it('passes for right amount of elements and returns them', async () => {
+        const elems = await browser.assertElementsNumber('.message', {
+          max: 5,
+        });
+        assert.equal(3, elems.length);
+      });
     });
   });
 
