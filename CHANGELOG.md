@@ -1,3 +1,46 @@
+### 3.0.0 - 2020-03-31
+
+#### Breaking Changes
+
+- Node 8 is no longer supported
+
+*See: [`faa6282`](https://github.com/testiumjs/testium-driver-wd/commit/faa62829355d196aebcb8856df6f289f92105318)*
+
+- the accessibility audit list changed from the manual audit list to the LH default one
+- the LH result object (v5.x) might be different to the previous one (v3.x)
+
+*See: [`1f31f26`](https://github.com/testiumjs/testium-driver-wd/commit/1f31f2668dc3d231581e4d1ea32c4723df49bd6c)*
+
+- renamed `assertLighthouseScore` with `assertAccessibilityScore` and removed `flags` and `config` arguments
+- `assertAccessibilityScore` and other lighthouse assertions now return the parsed result
+- the result function `isSuccess` now asserts the passed value against the calculated score.
+
+*See: [`31051be`](https://github.com/testiumjs/testium-driver-wd/commit/31051be32a69475d8f3212464cc27c3d2a61f9e1)*
+
+withPuppeteerPage() will have a puppeteer 2.x Page object as function argument
+
+*See: [`be85173`](https://github.com/testiumjs/testium-driver-wd/commit/be851738db28ef5baab2ef4668289309c51e844c)*
+
+`browser.clickOn(selector)` will throw when more than one element is matched
+
+*See: [`140cf29`](https://github.com/testiumjs/testium-driver-wd/commit/140cf2913eca94eb005e6628545e1160c137e0a5)*
+
+#### Commits
+
+* feat: lighthouse v5.6, puppeteer-core 2.x & drop Node 8 support - **[@aaarichter](https://github.com/aaarichter)** [#50](https://github.com/testiumjs/testium-driver-wd/pull/50)
+  - [`faa6282`](https://github.com/testiumjs/testium-driver-wd/commit/faa62829355d196aebcb8856df6f289f92105318) **chore:** drop Node 8 support
+  - [`1f31f26`](https://github.com/testiumjs/testium-driver-wd/commit/1f31f2668dc3d231581e4d1ea32c4723df49bd6c) **feat:** upgrade lighthouse 5.6 & add methods to run all LH categories
+  - [`3828d21`](https://github.com/testiumjs/testium-driver-wd/commit/3828d2169a49b6e318abf9e8e1ab2d4d3ab50686) **test:** fix various tests and make chrome default test browser
+  - [`31051be`](https://github.com/testiumjs/testium-driver-wd/commit/31051be32a69475d8f3212464cc27c3d2a61f9e1) **refactor:** clean up lighthouse functions
+  - [`be85173`](https://github.com/testiumjs/testium-driver-wd/commit/be851738db28ef5baab2ef4668289309c51e844c) **feat:** upgrade to puppeteer 2.x
+  - [`fec8d51`](https://github.com/testiumjs/testium-driver-wd/commit/fec8d51e4a1df7109cc7039ea3181eb06d697bce) **fix:** remove legacy lighthouse loading code
+  - [`a324db1`](https://github.com/testiumjs/testium-driver-wd/commit/a324db1092d335de703aedca0abfd22176d01af3) **feat:** add clickOnAll() to allow clicking all matching elements
+  - [`140cf29`](https://github.com/testiumjs/testium-driver-wd/commit/140cf2913eca94eb005e6628545e1160c137e0a5) **fix:** throw `clickOn()` when selector matches more than one element (addresses #28) - see: [#28](https://github.com/testiumjs/testium-driver-wd/issues/28)
+  - [`42b275e`](https://github.com/testiumjs/testium-driver-wd/commit/42b275e2292746ee88ac95cd9b5dd85441037bc0) **style:** lint
+  - [`c562366`](https://github.com/testiumjs/testium-driver-wd/commit/c5623661f24a7ad1cbc4224aab174616d36bc776) **fix:** address feedback
+  - [`df99704`](https://github.com/testiumjs/testium-driver-wd/commit/df997044caab9ff004523d33188a27de6f45f19c) **chore:** upgrade testium-cookie 2.x
+
+
 ### 2.10.3
 
 * chore: upgrade packages - **[@aaarichter](https://github.com/aaarichter)** [#49](https://github.com/testiumjs/testium-driver-wd/pull/49)
