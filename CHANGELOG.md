@@ -1,3 +1,9 @@
+### 3.1.0 - 2020-04-03
+
+* feat: browser.getUrlObj() - **[@aaarichter](https://github.com/aaarichter)** [#51](https://github.com/testiumjs/testium-driver-wd/pull/51)
+  - [`e157fd9`](https://github.com/testiumjs/testium-driver-wd/commit/e157fd9f00c54114c0081b532dd26885ea06450c) **feat:** browser.getUrlObj()
+
+
 ### 3.0.0 - 2020-03-31
 
 #### Breaking Changes
