@@ -20,27 +20,27 @@ describe('navigation', () => {
 
   it('supports query args', () =>
     browser
-      .navigateTo('/', { query: { 'a b': 'München', x: 0 } })
-      .assertStatusCode(200)
+      .loadPage('/', { query: { 'a b': 'München', x: 0 } })
       .waitForPath('/?a%20b=M%C3%BCnchen&x=0', 100));
 
   it('with a query string and query arg', () =>
     browser
-      .navigateTo('/?x=0', { query: { 'a b': 'München' } })
-      .assertStatusCode(200)
+      .loadPage('/?x=0', { query: { 'a b': 'München' } })
       .waitForPath('/?x=0&a%20b=M%C3%BCnchen', 100));
 
+  it('with a query string, hash and query arg', () =>
+    browser
+      .loadPage('/?x=0#test', { query: { 'a b': 'München' } })
+      .waitForPath('/?x=0&a%20b=M%C3%BCnchen#test', 100));
+
   it('by clicking a link', async () => {
-    await browser
-      .navigateTo('/')
-      .assertStatusCode(200)
-      .clickOn('.link-to-other-page');
+    await browser.loadPage('/').clickOn('.link-to-other-page');
 
     assert.equal('/other-page.html', await browser.getPath());
   });
 
   it('by refreshing', async () => {
-    await browser.navigateTo('/').assertStatusCode(200);
+    await browser.loadPage('/');
 
     await browser.safeExecute(
       /* eslint-disable no-var, no-undef */
@@ -209,6 +209,14 @@ describe('navigation', () => {
       it('resolves', async () => {
         await browser.loadPage('/').waitForLoadEvent();
       });
+    });
+  });
+
+  describe('getUrlObj', () => {
+    it('returns an instance of URL', async () => {
+      const urlObj = await browser.loadPage('/?x=0').getUrlObj();
+
+      assert.expect(urlObj instanceof URL);
     });
   });
 });
