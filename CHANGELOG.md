@@ -1,3 +1,9 @@
+### 3.1.1 - 2020-04-07
+
+* style: rename types - **[@aaarichter](https://github.com/aaarichter)** [#52](https://github.com/testiumjs/testium-driver-wd/pull/52)
+  - [`4f8ffe1`](https://github.com/testiumjs/testium-driver-wd/commit/4f8ffe1cda30b1d946f0dd25832e1d540d281ca4) **docs:** update typescript & add getLighthouseData()
+
+
 ### 3.1.0 - 2020-04-03
 
 * feat: browser.getUrlObj() - **[@aaarichter](https://github.com/aaarichter)** [#51](https://github.com/testiumjs/testium-driver-wd/pull/51)
