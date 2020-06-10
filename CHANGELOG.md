@@ -1,3 +1,22 @@
+### 4.0.0 - 2020-06-10
+
+#### Breaking Changes
+
+
+
+*See: [`c69bd29`](https://github.com/testiumjs/testium-driver-wd/commit/c69bd290c16df18f14336df5ef02b15ca19d91f8)*
+
+#### Commits
+
+* chore: upgrade dependencies (puppeteer 3.x & lighthouse 6.x) - **[@aaarichter](https://github.com/aaarichter)** [#54](https://github.com/testiumjs/testium-driver-wd/pull/54)
+  - [`e7ebe77`](https://github.com/testiumjs/testium-driver-wd/commit/e7ebe7792bf025a23c3096f5d6ddc9521c48a53d) **chore:** update dependencies & lint
+  - [`55aca57`](https://github.com/testiumjs/testium-driver-wd/commit/55aca57e58fe44d4e2394a564bdd852600fb2c0f) **chore:** upgrade to puppeeteer 3.x
+  - [`3df1d88`](https://github.com/testiumjs/testium-driver-wd/commit/3df1d88238b1b818115fa5132d381ec57b8f7352) **chore:** set node 14 in travis.yml
+  - [`0db83aa`](https://github.com/testiumjs/testium-driver-wd/commit/0db83aab4130a6d4e8c131e6fae04a6ad3dccc99) **chore:** upgrade uuid
+  - [`c69bd29`](https://github.com/testiumjs/testium-driver-wd/commit/c69bd290c16df18f14336df5ef02b15ca19d91f8) **chore:** upgrade lighthouse from 5.x to 6.x - see: [testiumjs//github.com/GoogleChrome/lighthouse/blob/master/changelog.md#600-2020-05-19](https://github.com/testiumjs//github.com/GoogleChrome/lighthouse/blob/master/changelog.md/issues/600-2020-05-19)
+  - [`2b7b665`](https://github.com/testiumjs/testium-driver-wd/commit/2b7b665ea14b1359a8e2f1d41b3d3fe02200e5a1) **chore:** update dependencies & travis syntax
+
+
 ### 3.1.1 - 2020-04-07
 
 * style: rename types - **[@aaarichter](https://github.com/aaarichter)** [#52](https://github.com/testiumjs/testium-driver-wd/pull/52)
