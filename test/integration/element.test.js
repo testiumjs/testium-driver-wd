@@ -412,7 +412,7 @@ describe('element', () => {
       document.body.appendChild(el);
 
       if (keepAround) return;
-      setTimeout(function() {
+      setTimeout(function () {
         document.body.removeChild(el);
       }, 300);
     }

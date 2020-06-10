@@ -15,11 +15,7 @@ describe('draggable element', () => {
 
     assert.deepStrictEqual(await boxLoc(), { x: 0, y: 0 });
 
-    await box
-      .moveTo(20, 20)
-      .buttonDown()
-      .moveTo(100, 100)
-      .buttonUp();
+    await box.moveTo(20, 20).buttonDown().moveTo(100, 100).buttonUp();
 
     assert.deepStrictEqual(await boxLoc(), { x: 80, y: 80 });
   });

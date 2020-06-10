@@ -35,10 +35,7 @@ describe('header', () => {
 
   describe('x-request-id', () => {
     it('is defaulted to something useful', async () => {
-      const source = await browser
-        .loadPage('/echo')
-        .getElement('body')
-        .text();
+      const source = await browser.loadPage('/echo').getElement('body').text();
       const reqId = JSON.parse(source).headers['x-request-id'];
       // 'header' because this file is named 'header.test.js',
       // and that's what mini-testium-mocha sets the currentTest to
@@ -47,10 +44,7 @@ describe('header', () => {
 
     it('properly escapes bogus header content chars', async () => {
       browser.__proto__.currentTest = 'w x\n\ny\t💩\tz';
-      const source = await browser
-        .loadPage('/echo')
-        .getElement('body')
-        .text();
+      const source = await browser.loadPage('/echo').getElement('body').text();
       const reqId = JSON.parse(source).headers['x-request-id'];
       assert.match(/^w x-y-z [0-9a-f-]{36}$/, reqId);
     });

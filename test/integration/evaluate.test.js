@@ -19,7 +19,7 @@ describe('evaluate', () => {
     assert.equal(
       6,
       // eslint-disable-next-line prefer-arrow-callback
-      await browser.evaluate(function() {
+      await browser.evaluate(function () {
         return 6;
       })
     );
@@ -29,7 +29,7 @@ describe('evaluate', () => {
     assert.equal(
       18,
       // eslint-disable-next-line prefer-arrow-callback
-      await browser.evaluate(3, 6, function(a, b) {
+      await browser.evaluate(3, 6, function (a, b) {
         return a * b;
       })
     );
