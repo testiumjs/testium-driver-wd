@@ -6,9 +6,9 @@ node_js:
 deploy:
   provider: script
   script: npx nlm release
-  skip_cleanup: true
+  cleanup: true
   'on':
     branch: master
-    node: 14
+    node_js: 14
 addons:
   chrome: stable
