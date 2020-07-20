@@ -1,3 +1,9 @@
+### 4.0.1 - 2020-07-20
+
+* chore(deps): bump lodash from 4.17.15 to 4.17.19 - **[@dependabot[bot]](https://github.com/apps/dependabot)** [#55](https://github.com/testiumjs/testium-driver-wd/pull/55)
+  - [`7d05215`](https://github.com/testiumjs/testium-driver-wd/commit/7d052151cc991fc8df8dc64dead7b6dc81c1ea37) **chore:** bump lodash from 4.17.15 to 4.17.19 - see: [4](- [Commits](https://github.com/lodash/lodash/compare/4)
+
+
 ### 4.0.0 - 2020-06-10
 
 #### Breaking Changes
