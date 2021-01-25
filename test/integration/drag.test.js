@@ -1,7 +1,7 @@
 'use strict';
 
-const { browser } = require('../mini-testium-mocha');
 const assert = require('assert');
+const { browser } = require('../mini-testium-mocha');
 
 describe('draggable element', () => {
   before(browser.beforeHook());

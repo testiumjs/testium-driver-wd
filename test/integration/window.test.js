@@ -1,7 +1,7 @@
 'use strict';
 
 const { browser } = require('../mini-testium-mocha');
-const assert = require('assertive');
+const assert = require('assert');
 
 function assertRejects(promise) {
   return promise.then(
@@ -23,8 +23,9 @@ describe('window api', () => {
       const iframeContent = await browser.getElement('.in-iframe-only').text();
       await browser.switchToDefaultFrame();
       const primaryContent = await browser.getElementOrNull('.in-iframe-only');
-      assert.equal('iframe content!', iframeContent);
-      assert.equal(null, primaryContent);
+
+      assert.strictEqual(iframeContent, 'iframe content!');
+      assert.strictEqual(primaryContent, null);
     });
 
     it('fails with invalid frame', () =>
@@ -50,8 +51,9 @@ describe('window api', () => {
       await browser.close();
       await browser.switchToDefaultWindow();
       const primaryContent = await browser.getElementOrNull('.popup-only');
-      assert.equal('popup content!', popupContent);
-      assert.equal(null, primaryContent);
+
+      assert.strictEqual(popupContent, 'popup content!');
+      assert.strictEqual(primaryContent, null);
     });
   });
 });

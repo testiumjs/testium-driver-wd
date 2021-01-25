@@ -1,7 +1,7 @@
 'use strict';
 
+const assert = require('assert');
 const { browser } = require('../mini-testium-mocha');
-const assert = require('assertive');
 
 function assertRejects(promise) {
   return promise.then(
@@ -36,7 +36,7 @@ describe('navigation', () => {
   it('by clicking a link', async () => {
     await browser.loadPage('/').clickOn('.link-to-other-page');
 
-    assert.equal('/other-page.html', await browser.getPath());
+    assert.strictEqual(await browser.getPath(), '/other-page.html');
   });
 
   it('by refreshing', async () => {
@@ -63,26 +63,26 @@ describe('navigation', () => {
   describe('waiting for a url', () => {
     it('can work with a string', async () => {
       await browser.navigateTo('/redirect-after.html');
-      assert.equal(200, await browser.getStatusCode());
+      assert.strictEqual(await browser.getStatusCode(), 200);
 
       await browser.waitForPath('/index.html');
     });
 
     it('can work with a regex', async () => {
       await browser.navigateTo('/redirect-after.html');
-      assert.equal(200, await browser.getStatusCode());
+      assert.strictEqual(await browser.getStatusCode(), 200);
 
       await browser.waitForUrl(/\/index.html/);
     });
 
     it('can fail', async () => {
       await browser.navigateTo('/index.html');
-      assert.equal(200, await browser.getStatusCode());
+      assert.strictEqual(await browser.getStatusCode(), 200);
 
       const error = await assertRejects(
         browser.waitForUrl('/some-random-place.html', 5)
       );
-      assert.match(/Condition wasn't satisfied!/, error.message);
+      assert.match(error.message, /Condition wasn't satisfied!/);
     });
 
     describe('groks url and query object', () => {
@@ -92,7 +92,7 @@ describe('navigation', () => {
           'a b': 'A B',
           c: '1,7',
         });
-        assert.equal(200, await browser.getStatusCode());
+        assert.strictEqual(await browser.getStatusCode(), 200);
       });
 
       it('can find query arguments in any order', async () => {
@@ -117,7 +117,7 @@ describe('navigation', () => {
         const error = await assertRejects(
           browser.waitForUrl('/index.html', { no: 'q' }, 200)
         );
-        assert.match(/Condition wasn't satisfied!/, error.message);
+        assert.match(error.message, /Condition wasn't satisfied!/);
       });
     });
   });
@@ -142,8 +142,10 @@ describe('navigation', () => {
         browser.loadPage('/').assertElementExists('.link-to-other-page'));
 
       it('and rejects', async () => {
-        const err = await assert.rejects(browser.loadPage('/missing'));
-        assert.match(/Expected:.+200[^]+Actually:.+404/, err.message);
+        await assert.rejects(
+          browser.loadPage('/missing'),
+          /Expected:.+200[^]+Actually:.+404/
+        );
       });
     });
 
@@ -152,10 +154,14 @@ describe('navigation', () => {
         browser.loadPage('/missing', { expectedStatusCode: /^404$/ }));
 
       it('and rejects', async () => {
-        const err = await assert.rejects(
-          browser.loadPage('/', { expectedStatusCode: /^404$/ })
+        await assert.rejects(
+          browser.loadPage('/', { expectedStatusCode: /^404$/ }),
+          err => {
+            assert.match(err.message, /\/\^404\$\/\nto match:/);
+
+            return true;
+          }
         );
-        assert.include('/^404$/\nto match:', err.message);
       });
     });
 
@@ -168,14 +174,14 @@ describe('navigation', () => {
         }));
 
       it('and rejects', async () => {
-        const err = await assert.rejects(
+        await assert.rejects(
           browser.loadPage('/', {
             expectedStatusCode() {
               return false;
             },
-          })
+          }),
+          /is as expected/
         );
-        assert.include('is as expected', err.message);
       });
     });
 
@@ -188,7 +194,7 @@ describe('navigation', () => {
             return document.readyState;
           }})();`
         );
-        assert.equal('complete', state);
+        assert.strictEqual(state, 'complete');
       });
 
       it('can be overridden without browser rejecting', async () => {
@@ -216,7 +222,7 @@ describe('navigation', () => {
     it('returns an instance of URL', async () => {
       const urlObj = await browser.loadPage('/?x=0').getUrlObj();
 
-      assert.expect(urlObj instanceof URL);
+      assert.ok(urlObj instanceof URL);
     });
   });
 });

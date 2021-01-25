@@ -1,9 +1,9 @@
 'use strict';
 
+const assert = require('assert');
 const { browser } = require('../mini-testium-mocha');
-const assert = require('assertive');
 
-const getConfig = require('testium-core').getConfig;
+const { getConfig } = require('testium-core');
 
 const browserName = getConfig().get('browser');
 
@@ -30,17 +30,18 @@ describe('dialogs', () => {
     it('can get an alert text', async () => {
       const text = await browser.getAlertText();
       await browser.acceptAlert();
-      assert.equal('Alert text was not found', 'An alert!', text);
+
+      assert.strictEqual(text, 'An alert!', 'Alert text was not found');
     });
 
     it('can accept an alert', async () => {
       await browser.acceptAlert();
-      assert.equal('alerted', await target.text());
+      assert.strictEqual(await target.text(), 'alerted');
     });
 
     it('can dismiss an alert', async () => {
       await browser.dismissAlert();
-      assert.equal('alerted', await target.text());
+      assert.strictEqual(await target.text(), 'alerted');
     });
   });
 
@@ -50,17 +51,20 @@ describe('dialogs', () => {
     it('can get confirm text', async () => {
       const text = await browser.getAlertText();
       await browser.acceptAlert();
-      assert.equal('Confirm text was not found', 'A confirmation!', text);
+
+      assert.strictEqual(text, 'A confirmation!', 'Confirm text was not found');
     });
 
     it('can accept a confirm', async () => {
       await browser.acceptAlert();
-      assert.equal('confirmed', await target.text());
+
+      assert.strictEqual(await target.text(), 'confirmed');
     });
 
     it('can dismiss a confirm', async () => {
       await browser.dismissAlert();
-      assert.equal('dismissed', await target.text());
+
+      assert.strictEqual(await target.text(), 'dismissed');
     });
   });
 
@@ -70,17 +74,20 @@ describe('dialogs', () => {
     it('can get prompt text', async () => {
       const text = await browser.getAlertText();
       await browser.acceptAlert();
-      assert.equal('Confirm text was not found', 'A prompt!', text);
+
+      assert.strictEqual(text, 'A prompt!', 'Confirm text was not found');
     });
 
     it('can send text to and accept a prompt', async () => {
       await browser.typeAlert('Some words').acceptAlert();
-      assert.equal('Some words', await target.text());
+
+      assert.strictEqual(await target.text(), 'Some words');
     });
 
     it('can dismiss a prompt', async () => {
       await browser.dismissAlert();
-      assert.equal('dismissed', await target.text());
+
+      assert.strictEqual(await target.text(), 'dismissed');
     });
   });
 });

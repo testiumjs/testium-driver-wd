@@ -1,7 +1,7 @@
 'use strict';
 
-const assert = require('assertive');
-const getConfig = require('testium-core').getConfig;
+const assert = require('assert');
+const { getConfig } = require('testium-core');
 
 const { browser } = require('../mini-testium-mocha');
 
@@ -21,7 +21,7 @@ describe('lighthouse', () => {
       const results = await browser.getLighthouseData();
       const report = results.report;
 
-      assert.match(/\/draggable\.html$/, JSON.parse(report).finalUrl);
+      assert.match(JSON.parse(report).finalUrl, /\/draggable\.html$/);
     });
   });
 
@@ -53,50 +53,51 @@ describe('lighthouse', () => {
 
     it('returns the parsed audit result', () => {
       const keys = Object.keys(result);
-      assert.include('score', keys);
-      assert.include('audits', keys);
+      ['score', 'audits'].forEach(key =>
+        assert.ok(keys.includes(key), `doesn't include key "${key}"`)
+      );
     });
 
     describe('result', () => {
       it('contains the category score', () =>
-        assert.hasType(Number, result.score));
+        assert.strictEqual(typeof result.score, 'number'));
 
       it('contains audits with details', () => {
-        assert.hasType(Object, result.audits);
-        assert.expect(!!Object.keys(result.audits).length);
+        assert.strictEqual(typeof result.audits, 'object');
+        assert.ok(!!Object.keys(result.audits).length);
       });
 
       describe('result.isSuccess()', () => {
         it('compares score against expected cutoff score', () => {
-          assert.notThrows(() => result.isSuccess(20));
+          assert.doesNotThrow(() => result.isSuccess(20));
           assert.throws(() => result.isSuccess(100));
         });
       });
 
       describe('result.success()', () => {
         it('returns specific audits from all audits with a score', () => {
-          assert.truthy(result.success('color-contrast'));
-          assert.falsey(result.success('document-title'));
+          assert.ok(result.success('color-contrast'));
+          assert.ok(!result.success('document-title'));
         });
 
         it('returns all successful audits', () => {
-          assert.truthy(result.success());
+          assert.ok(result.success());
         });
       });
 
       describe('result.errors()', () => {
         it('returns specific audit from all manually marked audits', () => {
-          assert.truthy(result.errors('document-title'));
-          assert.falsey(result.errors('color-contrast'));
+          assert.ok(result.errors('document-title'));
+          assert.ok(!result.errors('color-contrast'));
         });
 
         it('returns all manually marked audits', () => {
-          assert.truthy(result.errors());
+          assert.ok(result.errors());
         });
       });
       describe('result.errorString()', () => {
         it('returns a concatenated string of all manually marked audits', () => {
-          assert.hasType(String, result.errorString());
+          assert.strictEqual(typeof result.errorString(), 'string');
         });
       });
     });
@@ -120,7 +121,10 @@ describe('lighthouse', () => {
         return browser.assertPerformanceScore(20).then(res => {
           const audits = Object.keys(res.audits);
           for (const audit of skippedAudits) {
-            assert.notInclude(audit, audits);
+            assert.ok(
+              !audits.includes(audit),
+              `${audit} is included in audits`
+            );
           }
         });
       });
@@ -157,15 +161,15 @@ describe('lighthouse', () => {
     it('can audit the accessibility issues', async () => {
       const results = await browser.a11yAudit();
 
-      assert.equal(2, results.length);
-      assert.equal('document-title', results[0].auditId);
-      assert.equal('html-has-lang', results[1].auditId);
+      assert.strictEqual(results.length, 2);
+      assert.strictEqual(results[0].auditId, 'document-title');
+      assert.strictEqual(results[1].auditId, 'html-has-lang');
     });
 
     it('can audit the accessibility issues with ignore array', async () => {
       const results = await browser.a11yAudit({ ignore: ['document-title'] });
-      assert.equal(1, results.length);
-      assert.equal('html-has-lang', results[0].auditId);
+      assert.strictEqual(results.length, 1);
+      assert.strictEqual(results[0].auditId, 'html-has-lang');
     });
 
     it('can audit the accessibility issues with ignore function', async () => {
@@ -173,7 +177,7 @@ describe('lighthouse', () => {
         ignore: violation =>
           ['document-title', 'html-has-lang'].includes(violation.id),
       });
-      assert.equal(0, results.length);
+      assert.strictEqual(results.length, 0);
     });
   });
 });

@@ -1,7 +1,7 @@
 'use strict';
 
+const assert = require('assert');
 const { browser } = require('../mini-testium-mocha');
-const assert = require('assertive');
 
 process.noDeprecation = true;
 
@@ -17,7 +17,8 @@ describe('cookie', () => {
     });
 
     const cookie = await browser.getCookie('test_cookie');
-    assert.equal('3', cookie.value);
+
+    assert.strictEqual(cookie.value, '3');
   });
 
   it('can be set in groups with deprecated setCookies()', async () => {
@@ -29,8 +30,8 @@ describe('cookie', () => {
     const cookie1 = await browser.getCookie('test_cookie1');
     const cookie2 = await browser.getCookie('test_cookie2');
 
-    assert.equal('5', cookie1.value);
-    assert.equal('7', cookie2.value);
+    assert.strictEqual(cookie1.value, '5');
+    assert.strictEqual(cookie2.value, '7');
   });
 
   it('can be set in groups with setCookieValues()', async () => {
@@ -39,8 +40,8 @@ describe('cookie', () => {
       test_cookie4: '11',
     });
 
-    assert.equal('9', await browser.getCookieValue('test_cookie3'));
-    assert.equal('11', await browser.getCookieValue('test_cookie4'));
+    assert.strictEqual(await browser.getCookieValue('test_cookie3'), '9');
+    assert.strictEqual(await browser.getCookieValue('test_cookie4'), '11');
   });
 
   it('can be cleared as a group', async () => {
@@ -54,7 +55,7 @@ describe('cookie', () => {
 
     const cookies = await browser.getCookies();
 
-    assert.equal(0, cookies.length);
+    assert.strictEqual(cookies.length, 0);
   });
 
   it('can be cleared individually', async () => {
@@ -66,9 +67,9 @@ describe('cookie', () => {
     });
 
     await browser.clearCookie('test_cookie');
-
     const cookie = await browser.getCookie('test_cookie');
-    assert.falsey(cookie);
+
+    assert.ok(!cookie);
   });
 
   describe('setCookieValue', () => {
@@ -86,12 +87,12 @@ describe('cookie', () => {
     );
 
     it("can't read the non-root cookie", async () => {
-      assert.falsey(await browser.getCookie('non_root'));
+      assert.ok(!(await browser.getCookie('non_root')));
     });
 
     it('can read the root cookie', async () => {
-      assert.truthy(await browser.getCookie('root'));
-      assert.equal('b', await browser.getCookieValue('root'));
+      assert.ok(await browser.getCookie('root'));
+      assert.strictEqual(await browser.getCookieValue('root'), 'b');
     });
   });
 });

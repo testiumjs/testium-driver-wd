@@ -3,19 +3,10 @@
 'use strict';
 
 const { browser } = require('../mini-testium-mocha');
-const assert = require('assertive');
+const assert = require('assert');
 
 function stripColors(message) {
   return message.replace(/\u001b\[[^m]*m/g, '');
-}
-
-function assertRejects(promise) {
-  return promise.then(
-    () => {
-      throw new Error('Did not fail as expected');
-    },
-    error => error
-  );
 }
 
 describe('element', () => {
@@ -25,7 +16,8 @@ describe('element', () => {
 
   it("can get an element's text", async () => {
     const text = await browser.getElement('h1').text();
-    assert.equal('Element text was not found', 'Test Page!', text);
+
+    assert.strictEqual(text, 'Test Page!', 'Element text was not found');
   });
 
   it('can get special properties from an element', async () => {
@@ -34,34 +26,45 @@ describe('element', () => {
     // let's make sure we can handle it properly
     const element = await browser.getElement('#checkbox');
     const checked = await element.get('checked');
-    assert.equal('checked is null', null, checked);
+
+    assert.strictEqual(checked, null, 'checked is null');
   });
 
   it('returns null when the element can not be found', async () => {
     const element = await browser.getElementOrNull('.non-existing');
-    assert.equal('Element magically appeared on the page', null, element);
+
+    assert.strictEqual(element, null, 'Element magically appeared on the page');
   });
 
   it('can get several elements', async () => {
     const elements = await browser.getElements('.message');
-    assert.equal('Messages were not all found', 3, elements.length);
+
+    assert.strictEqual(elements.length, 3, 'Messages were not all found');
   });
 
   describe('assertElementIsDisplayed', () => {
     it('fails if element does not exist', async () => {
-      const error = await assertRejects(
-        browser.assertElementIsDisplayed('.non-existing')
+      await assert.rejects(
+        () => browser.assertElementIsDisplayed('.non-existing'),
+        err => {
+          const expectedError = 'Element not found for selector: .non-existing';
+
+          assert.strictEqual(stripColors(err.message), expectedError);
+          return true;
+        }
       );
-      const expectedError = 'Element not found for selector: .non-existing';
-      assert.equal(expectedError, stripColors(error.message));
     });
 
     it('fails if element exists, but is not visible', async () => {
-      const error = await assertRejects(
-        browser.assertElementIsDisplayed('#hidden_thing')
+      await assert.rejects(
+        () => browser.assertElementIsDisplayed('#hidden_thing'),
+        err => {
+          const expectedError = 'Element "#hidden_thing" should be displayed';
+
+          assert.strictEqual(stripColors(err.message), expectedError);
+          return true;
+        }
       );
-      const expectedError = 'Element "#hidden_thing" should be displayed';
-      assert.equal(expectedError, stripColors(error.message));
     });
 
     it('succeeds if element exists and is visible', () =>
@@ -70,19 +73,27 @@ describe('element', () => {
 
   describe('assertElementNotDisplayed', () => {
     it('fails if element does not exist', async () => {
-      const error = await assertRejects(
-        browser.assertElementNotDisplayed('.non-existing')
+      await assert.rejects(
+        () => browser.assertElementNotDisplayed('.non-existing'),
+        err => {
+          const expectedError = 'Element not found for selector: .non-existing';
+
+          assert.strictEqual(stripColors(err.message), expectedError);
+          return true;
+        }
       );
-      const expectedError = 'Element not found for selector: .non-existing';
-      assert.equal(expectedError, stripColors(error.message));
     });
 
     it('fails if element exists, but is visible', async () => {
-      const error = await assertRejects(
-        browser.assertElementNotDisplayed('h1')
+      await assert.rejects(
+        () => browser.assertElementNotDisplayed('h1'),
+        err => {
+          const expectedError = 'Element "h1" shouldn\'t be displayed';
+
+          assert.strictEqual(stripColors(err.message), expectedError);
+          return true;
+        }
       );
-      const expectedError = 'Element "h1" shouldn\'t be displayed';
-      assert.equal(expectedError, stripColors(error.message));
     });
 
     it('succeeds if element exists and is not visible', () =>
@@ -91,11 +102,15 @@ describe('element', () => {
 
   describe('assertElementExists', () => {
     it('fails if element does not exist', async () => {
-      const error = await assertRejects(
-        browser.assertElementExists('.non-existing')
+      await assert.rejects(
+        () => browser.assertElementExists('.non-existing'),
+        err => {
+          const expected = 'Element ".non-existing" should exist';
+
+          assert.strictEqual(stripColors(err.message), expected);
+          return true;
+        }
       );
-      const expectedError = 'Element ".non-existing" should exist';
-      assert.equal(expectedError, stripColors(error.message));
     });
 
     it('succeeds if element exists', () => browser.assertElementExists('h1'));
@@ -106,9 +121,16 @@ describe('element', () => {
       browser.assertElementDoesntExist('.non-existing'));
 
     it('fails if element exists', async () => {
-      const error = await assertRejects(browser.assertElementDoesntExist('h1'));
-      const expectedError = 'Element "h1" shouldn\'t exist';
-      assert.equal(expectedError, stripColors(error.message));
+      await assert.rejects(
+        () => browser.assertElementDoesntExist('h1'),
+        err => {
+          const expected = 'Element "h1" shouldn\'t exist';
+
+          assert.strictEqual(stripColors(err.message), expected);
+
+          return true;
+        }
+      );
     });
   });
 
@@ -130,20 +152,24 @@ describe('element', () => {
           .assertElementsNumber('.only-once', 1));
 
       it('throws when selector matches more than one element', async () => {
-        const error = assertRejects(
-          setupClickEvent('.message', 'only-one-message').clickOn('.message')
-        );
-
-        assert.equal(
-          'selector ".message" matched more than 1 element. Use .clickOnAll() or a more specific selector instead',
-          error
+        await assert.rejects(
+          () =>
+            setupClickEvent('.message', 'only-one-message').clickOn('.message'),
+          err => {
+            assert.strictEqual(
+              err.message,
+              'selector ".message" matched more than 1 element. Use .clickOnAll() or a more specific selector instead.'
+            );
+            return true;
+          }
         );
       });
 
-      it('throws when selector matches no element', () => {
-        const error = assertRejects(browser.clickOn('.foo'));
-
-        assert.equal('selector ".foo" matched no element.', error);
+      it('throws when selector matches no element', async () => {
+        await assert.rejects(
+          () => browser.clickOn('.foo'),
+          /selector "\.foo" matched no element\./
+        );
       });
     });
 
@@ -154,9 +180,7 @@ describe('element', () => {
           .assertElementsNumber('.clicked', 3));
 
       it("doesn't throw when selector doesn't match elements", async () => {
-        const error = assertRejects(browser.clickOnAll('.foo'));
-
-        assert.equal(undefined, error);
+        await assert.doesNotReject(() => browser.clickOnAll('.foo'));
       });
     });
   });
@@ -167,44 +191,45 @@ describe('element', () => {
         '.only',
         'only one here'
       );
-      assert.equal(
-        "resolve the element's class",
+      assert.strictEqual(
+        await element.get('class'),
         'only',
-        await element.get('class')
+        "resolve the element's class"
       );
     });
 
     it('finds an element with the wrong text', async () => {
-      const error = await assertRejects(
-        browser.assertElementHasText('.only', 'the wrong text')
-      );
+      await assert.rejects(
+        () => browser.assertElementHasText('.only', 'the wrong text'),
+        err => {
+          const expected =
+            '.only should have text\n- needle: ' +
+            '"the wrong text"\n- text: "only one here"';
 
-      const expected =
-        '.only should have text\n- needle: ' +
-        '"the wrong text"\n- text: "only one here"';
-      assert.equal(expected, stripColors(error.message));
+          assert.strictEqual(stripColors(err.message), expected);
+          return true;
+        }
+      );
     });
 
     it('finds no elements', async () => {
-      const error = await assertRejects(
-        browser.assertElementHasText('.does-not-exist', 'some text')
-      );
-
-      assert.equal(
-        'Element not found for selector: .does-not-exist',
-        error.message
+      await assert.rejects(
+        () => browser.assertElementHasText('.does-not-exist', 'some text'),
+        /Element not found for selector: \.does-not-exist/
       );
     });
 
     it('finds many elements', async () => {
-      const error = await assertRejects(
-        browser.assertElementHasText('.message', 'some text')
-      );
-
-      assert.equal(
-        'Selector .message has 3 hits on the page, assertions ' +
-          'require unique elements',
-        error.message
+      await assert.rejects(
+        () => browser.assertElementHasText('.message', 'some text'),
+        err => {
+          assert.strictEqual(
+            err.message,
+            'Selector .message has 3 hits on the page, assertions ' +
+              'require unique elements'
+          );
+          return true;
+        }
       );
     });
 
@@ -218,22 +243,25 @@ describe('element', () => {
         '.only',
         'this text not present'
       );
-      assert.equal(
-        "resolve the element's class",
+      assert.strictEqual(
+        await element.get('class'),
         'only',
-        await element.get('class')
+        "resolve the element's class"
       );
     });
 
     it('finds an element incorrectly having some text', async () => {
-      const error = await assertRejects(
-        browser.assertElementLacksText('.only', 'only')
-      );
+      await assert.rejects(
+        () => browser.assertElementLacksText('.only', 'only'),
+        err => {
+          const expected =
+            '.only should not have text\n- needle: ' +
+            '"only"\n- text: "only one here"';
 
-      const expected =
-        '.only should not have text\n- needle: ' +
-        '"only"\n- text: "only one here"';
-      assert.equal(expected, stripColors(error.message));
+          assert.strictEqual(stripColors(err.message), expected);
+          return true;
+        }
+      );
     });
   });
 
@@ -243,10 +271,11 @@ describe('element', () => {
         '#text-input',
         'initialvalue'
       );
-      assert.equal(
-        "resolve the element's id",
+
+      assert.strictEqual(
+        await element.get('id'),
         'text-input',
-        await element.get('id')
+        "resolve the element's id"
       );
     });
 
@@ -260,22 +289,25 @@ describe('element', () => {
         '#text-input',
         'this text not present'
       );
-      assert.equal(
-        "resolve the element's id",
+      assert.strictEqual(
+        await element.get('id'),
         'text-input',
-        await element.get('id')
+        "resolve the element's id"
       );
     });
 
     it('finds an element incorrectly having some text', async () => {
-      const error = await assertRejects(
-        browser.assertElementLacksValue('#text-input', 'initialvalue')
-      );
+      await assert.rejects(
+        () => browser.assertElementLacksValue('#text-input', 'initialvalue'),
+        err => {
+          const expected =
+            '#text-input should not have value\n- needle: ' +
+            '"initialvalue"\n- value: "initialvalue"';
 
-      const expected =
-        '#text-input should not have value\n- needle: ' +
-        '"initialvalue"\n- value: "initialvalue"';
-      assert.equal(expected, stripColors(error.message));
+          assert.strictEqual(stripColors(err.message), expected);
+          return true;
+        }
+      );
     });
   });
 
@@ -283,12 +315,16 @@ describe('element', () => {
     before(() => browser.loadPage('/'));
 
     it('fails if element found does not have attrs', async () => {
-      const error = await assertRejects(
-        browser.assertElementHasAttributes('img.fail', { foo: 'bar' })
+      await assert.rejects(
+        () => browser.assertElementHasAttributes('img.fail', { foo: 'bar' }),
+        err => {
+          const expected =
+            'Assertion failed: attribute foo\nExpected: "bar"\nActually: null';
+
+          assert.strictEqual(stripColors(err.message), expected);
+          return true;
+        }
       );
-      const expected =
-        'Assertion failed: attribute foo\nExpected: "bar"\nActually: null';
-      assert.equal(expected, stripColors(error.message));
     });
 
     it('passes if element found has given attrs', async () => {
@@ -303,35 +339,45 @@ describe('element', () => {
 
     describe('with number argument', () => {
       it('fails if number of elements does not match', async () => {
-        const error = await assertRejects(
-          browser.assertElementsNumber('.message', 2)
+        await assert.rejects(
+          () => browser.assertElementsNumber('.message', 2),
+          err => {
+            const expected =
+              'selector ".message" should match 2 elements - actually found 3';
+
+            assert.strictEqual(stripColors(err.message), expected);
+            return true;
+          }
         );
-        const expected =
-          'selector ".message" should match 2 elements - actually found 3';
-        assert.equal(expected, stripColors(error.message));
       });
 
       it('passes for right number of elements and returns them', async () => {
         const elems = await browser.assertElementsNumber('.message', 3);
-        assert.equal(3, elems.length);
+
+        assert.strictEqual(elems.length, 3);
       });
     });
 
     describe('with "equal" option argument', () => {
       it('fails if number of elements does not match', async () => {
-        const error = await assertRejects(
-          browser.assertElementsNumber('.message', { equal: 2 })
+        await assert.rejects(
+          () => browser.assertElementsNumber('.message', { equal: 2 }),
+          err => {
+            const expected =
+              'selector ".message" should match 2 elements - actually found 3';
+
+            assert.strictEqual(stripColors(err.message), expected);
+            return true;
+          }
         );
-        const expected =
-          'selector ".message" should match 2 elements - actually found 3';
-        assert.equal(expected, stripColors(error.message));
       });
 
       it('passes for right number of elements and returns them', async () => {
         const elems = await browser.assertElementsNumber('.message', {
           equal: 3,
         });
-        assert.equal(3, elems.length);
+
+        assert.strictEqual(elems.length, 3);
       });
     });
 
@@ -339,19 +385,24 @@ describe('element', () => {
       before(() => browser.loadPage('/'));
 
       it('fails if number of elements does not match minimum', async () => {
-        const error = await assertRejects(
-          browser.assertElementsNumber('.message', { min: 5 })
+        await assert.rejects(
+          () => browser.assertElementsNumber('.message', { min: 5 }),
+          err => {
+            const expected =
+              'selector ".message" should have at least 5 elements - actually found 3';
+
+            assert.strictEqual(stripColors(err.message), expected);
+            return true;
+          }
         );
-        const expected =
-          'selector ".message" should have at least 5 elements - actually found 3';
-        assert.equal(expected, stripColors(error.message));
       });
 
       it('passes for right minimum number of elements and returns them', async () => {
         const elems = await browser.assertElementsNumber('.message', {
           min: 2,
         });
-        assert.equal(3, elems.length);
+
+        assert.strictEqual(elems.length, 3);
       });
     });
 
@@ -359,19 +410,24 @@ describe('element', () => {
       before(() => browser.loadPage('/'));
 
       it('fails if number of elements does not match maximum allowed elements', async () => {
-        const error = await assertRejects(
-          browser.assertElementsNumber('.message', { max: 1 })
+        await assert.rejects(
+          () => browser.assertElementsNumber('.message', { max: 1 }),
+          err => {
+            const expected =
+              'selector ".message" should have at most 1 elements - actually found 3';
+
+            assert.strictEqual(stripColors(err.message), expected);
+            return true;
+          }
         );
-        const expected =
-          'selector ".message" should have at most 1 elements - actually found 3';
-        assert.equal(expected, stripColors(error.message));
       });
 
       it('passes for right amount of elements and returns them', async () => {
         const elems = await browser.assertElementsNumber('.message', {
           max: 5,
         });
-        assert.equal(3, elems.length);
+
+        assert.strictEqual(elems.length, 3);
       });
     });
   });
@@ -390,12 +446,9 @@ describe('element', () => {
     });
 
     it('fails to find an element that never exists', async () => {
-      const error = await assertRejects(
-        browser.waitForElementExist('.does-not-exist', 10)
-      );
-      assert.equal(
-        'Timeout (10ms): Element ".does-not-exist" should exist',
-        error.message
+      await assert.rejects(
+        () => browser.waitForElementExist('.does-not-exist', 10),
+        /Timeout \(10ms\): Element "\.does-not-exist" should exist/
       );
     });
   });
@@ -427,12 +480,10 @@ describe('element', () => {
     it('fails when element still exists', async () => {
       await browser.evaluate(/* keepAround = */ true, setupElement);
       await browser.assertElementIsDisplayed('.remove_later');
-      const error = await assertRejects(
-        browser.waitForElementNotExist('.remove_later', 10)
-      );
-      assert.equal(
-        'Timeout (10ms): Element ".remove_later" shouldn\'t exist',
-        error.message
+
+      await assert.rejects(
+        () => browser.waitForElementNotExist('.remove_later', 10),
+        /Timeout \(10ms\): Element "\.remove_later" shouldn't exist/
       );
     });
   });
@@ -446,22 +497,16 @@ describe('element', () => {
         .waitForElementDisplayed('.load_later'));
 
     it('fails to find a visible element within the timeout', async () => {
-      const error = await assertRejects(
-        browser.waitForElementDisplayed('.load_never', 10)
-      );
-      assert.equal(
-        'Timeout (10ms): Element ".load_never" should be displayed',
-        error.message
+      await assert.rejects(
+        () => browser.waitForElementDisplayed('.load_never', 10),
+        /Timeout \(10ms\): Element "\.load_never" should be displayed/
       );
     });
 
     it('fails to find an element that never exists', async () => {
-      const error = await assertRejects(
-        browser.waitForElementDisplayed('.does-not-exist', 10)
-      );
-      assert.equal(
-        'Timeout (10ms): Element not found for selector: .does-not-exist',
-        error.message
+      await assert.rejects(
+        () => browser.waitForElementDisplayed('.does-not-exist', 10),
+        /Timeout \(10ms\): Element not found for selector: \.does-not-exist/
       );
     });
   });
@@ -475,22 +520,16 @@ describe('element', () => {
         .waitForElementNotDisplayed('.hide_later'));
 
     it('fails to find a not-visible element within the timeout', async () => {
-      const error = await assertRejects(
-        browser.waitForElementNotDisplayed('.hide_never', 10)
-      );
-      assert.equal(
-        'Timeout (10ms): Element ".hide_never" shouldn\'t be displayed',
-        error.message
+      await assert.rejects(
+        () => browser.waitForElementNotDisplayed('.hide_never', 10),
+        /Timeout \(10ms\): Element "\.hide_never" shouldn't be displayed/
       );
     });
 
     it('fails to find an element that never exists', async () => {
-      const error = await assertRejects(
-        browser.waitForElementNotDisplayed('.does-not-exist', 10)
-      );
-      assert.equal(
-        'Timeout (10ms): Element not found for selector: .does-not-exist',
-        error.message
+      await assert.rejects(
+        () => browser.waitForElementNotDisplayed('.does-not-exist', 10),
+        /Timeout \(10ms\): Element not found for selector: \.does-not-exist/
       );
     });
   });
@@ -506,7 +545,8 @@ describe('element', () => {
     it('return null if not found an element on the message element', async () => {
       const messageElement = await browser.getElement('.message');
       const element = await messageElement.getElementOrNull('.message');
-      assert.equal(null, element);
+
+      assert.strictEqual(element, null);
     });
   });
 
@@ -516,13 +556,15 @@ describe('element', () => {
     it('succeeds if selector is a String', async () => {
       const element = await browser.getElement('body');
       const messages = await element.getElements('.message');
-      assert.equal(3, messages.length);
+
+      assert.strictEqual(messages.length, 3);
     });
 
     it('return empty array if not found an element on the message element', async () => {
       const messageElement = await browser.getElement('.message');
       const elements = await messageElement.getElements('.message');
-      assert.equal(0, elements.length);
+
+      assert.strictEqual(elements.length, 0);
     });
   });
 });

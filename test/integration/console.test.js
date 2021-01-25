@@ -1,7 +1,7 @@
 'use strict';
 
+const assert = require('assert');
 const { browser } = require('../mini-testium-mocha');
-const assert = require('assertive');
 
 describe('console', () => {
   before(browser.beforeHook());
@@ -22,21 +22,20 @@ describe('console', () => {
 
       case 'chrome':
         logs = await browser.getConsoleLogs();
-        assert.truthy('console.logs length', logs.length > 0);
+        assert.ok(logs.length > 0, 'console.logs length');
 
         logs = await browser.getConsoleLogs();
-        assert.equal(0, logs.length);
+        assert.strictEqual(logs.length, 0);
 
         await browser.clickOn('#log-button');
 
         logs = await browser.getConsoleLogs();
-        assert.truthy('console.logs length', logs.length > 0);
+        assert.ok(logs.length > 0, 'console.logs length');
         break;
 
       default:
         logs = await browser.getConsoleLogs();
-        assert.truthy('console.logs length', logs.length > 0);
-        break;
+        assert.ok(logs.length > 0, 'console.logs length');
     }
   });
 });

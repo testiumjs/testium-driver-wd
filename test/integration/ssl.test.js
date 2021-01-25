@@ -1,7 +1,7 @@
 'use strict';
 
 const { browser } = require('../mini-testium-mocha');
-const assert = require('assertive');
+const assert = require('assert');
 
 describe('ssl/tls', () => {
   before(browser.beforeHook());
@@ -10,6 +10,7 @@ describe('ssl/tls', () => {
     await browser.navigateTo('https://www.howsmyssl.com/a/check');
     const raw = await browser.getElement('pre').text();
     const sslReport = JSON.parse(raw);
-    assert.match(/^TLS/, sslReport.tls_version);
+
+    assert.match(sslReport.tls_version, /^TLS/);
   });
 });
