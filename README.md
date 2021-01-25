@@ -1,4 +1,4 @@
-# Testium: wd driver  [![Build Status](https://travis-ci.org/testiumjs/testium-driver-wd.svg?branch=master)](https://travis-ci.org/testiumjs/testium-driver-wd)
+# Testium: wd driver  [![Build Status](https://travis-ci.com/testiumjs/testium-driver-wd.svg?branch=master)](https://travis-ci.com/testiumjs/testium-driver-wd)
 
 Bindings that allow using the promise chain variant of [`wd`](https://github.com/admc/wd/) in Testium.
 

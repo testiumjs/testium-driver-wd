@@ -16,8 +16,24 @@ describe('Matchers', () => {
       );
     });
 
+    it('handles existing query params', () => {
+      assert.ok(
+        url('/index.html?a=42', { b: 'x y' }, '/index.html?b=x%20y&a=42')
+      );
+    });
+
     it('can handle a simple path', () => {
       assert.ok(url('/index.html', {}, 'http://example.com/index.html'));
+    });
+
+    it('compares full urls', () => {
+      assert.ok(
+        url(
+          'http://example.com/index.html',
+          {},
+          'http://example.com/index.html'
+        )
+      );
     });
 
     it('compares the full url', () => {
