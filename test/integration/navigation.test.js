@@ -3,15 +3,6 @@
 const assert = require('assert');
 const { browser } = require('../mini-testium-mocha');
 
-function assertRejects(promise) {
-  return promise.then(
-    () => {
-      throw new Error('Did not fail as expected');
-    },
-    error => error
-  );
-}
-
 describe('navigation', () => {
   before(browser.beforeHook());
 
@@ -79,10 +70,10 @@ describe('navigation', () => {
       await browser.navigateTo('/index.html');
       assert.strictEqual(await browser.getStatusCode(), 200);
 
-      const error = await assertRejects(
-        browser.waitForUrl('/some-random-place.html', 5)
+      await assert.rejects(
+        () => browser.waitForUrl('/some-random-place.html', 5),
+        /Condition wasn't satisfied!/
       );
-      assert.match(error.message, /Condition wasn't satisfied!/);
     });
 
     describe('groks url and query object', () => {
@@ -114,10 +105,10 @@ describe('navigation', () => {
       it('detects non-matches too', async () => {
         await browser.navigateTo('/redirect-to-query.html');
 
-        const error = await assertRejects(
-          browser.waitForUrl('/index.html', { no: 'q' }, 200)
+        await assert.rejects(
+          () => browser.waitForUrl('/index.html', { no: 'q' }, 200),
+          /Condition wasn't satisfied!/
         );
-        assert.match(error.message, /Condition wasn't satisfied!/);
       });
     });
   });
@@ -142,14 +133,14 @@ describe('navigation', () => {
         browser.loadPage('/').assertElementExists('.link-to-other-page'));
 
       it('and rejects', async () => {
-        await assert.rejects(
-          browser.loadPage('/missing'),
-          /Expected:.+200[^]+Actually:.+404/
-        );
+        await assert.rejects(browser.loadPage('/missing'), err => {
+          assert.match(err.message, /Expected: 200\nActually: 404/);
+          return true;
+        });
       });
     });
 
-    describe('accepts a regexp', () => {
+    describe('accepts a regexp for expectedStatusCode', () => {
       it('and resolves', () =>
         browser.loadPage('/missing', { expectedStatusCode: /^404$/ }));
 
@@ -157,7 +148,10 @@ describe('navigation', () => {
         await assert.rejects(
           browser.loadPage('/', { expectedStatusCode: /^404$/ }),
           err => {
-            assert.match(err.message, /\/\^404\$\/\nto match:/);
+            assert.strictEqual(
+              err.message,
+              "Pattern /^404$/ doesn't match statusCode\nActually: 200"
+            );
 
             return true;
           }
@@ -165,7 +159,7 @@ describe('navigation', () => {
       });
     });
 
-    describe('accepts a function', () => {
+    describe('accepts a function for expectedStatusCode', () => {
       it('and resolves', () =>
         browser.loadPage('/missing', {
           expectedStatusCode(s) {
@@ -180,7 +174,7 @@ describe('navigation', () => {
               return false;
             },
           }),
-          /is as expected/
+          /StatusCode is as expected/
         );
       });
     });
