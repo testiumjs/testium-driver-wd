@@ -2,9 +2,10 @@
 
 // This is a minimal version of `testium-mocha`.
 // We're trying to avoid cyclic dependencies.
-const getTestium = require('testium-core').getTestium;
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { getTestium } = require('testium-core');
 
-const createDriver = require('../');
+const createDriver = require('..');
 
 const browser = {};
 exports.browser = browser;
