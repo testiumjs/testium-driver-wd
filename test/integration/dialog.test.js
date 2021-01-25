@@ -27,67 +27,102 @@ describe('dialogs', () => {
   describe('alert', () => {
     beforeEach(() => browser.clickOn('.link_to_open_an_alert'));
 
-    it('can get an alert text', async () => {
-      const text = await browser.getAlertText();
-      await browser.acceptAlert();
-
-      assert.strictEqual(text, 'An alert!', 'Alert text was not found');
+    it('can get an alert text', done => {
+      browser
+        .getAlertText()
+        .then(text => {
+          assert.strictEqual(text, 'An alert!', 'Alert text was not found');
+        })
+        .acceptAlert(done);
     });
 
-    it('can accept an alert', async () => {
-      await browser.acceptAlert();
-      assert.strictEqual(await target.text(), 'alerted');
+    it('can accept an alert', done => {
+      browser.acceptAlert(() => {
+        target.text().then(text => {
+          assert.strictEqual(text, 'alerted');
+          done();
+        });
+      });
     });
 
-    it('can dismiss an alert', async () => {
-      await browser.dismissAlert();
-      assert.strictEqual(await target.text(), 'alerted');
+    it('can dismiss an alert', done => {
+      browser.dismissAlert(() => {
+        target.text().then(text => {
+          assert.strictEqual(text, 'alerted');
+          done();
+        });
+      });
     });
   });
 
   describe('confirm', () => {
     beforeEach(() => browser.clickOn('.link_to_open_a_confirm'));
 
-    it('can get confirm text', async () => {
-      const text = await browser.getAlertText();
-      await browser.acceptAlert();
-
-      assert.strictEqual(text, 'A confirmation!', 'Confirm text was not found');
+    it('can get confirm text', done => {
+      browser
+        .getAlertText()
+        .then(text => {
+          assert.strictEqual(
+            text,
+            'A confirmation!',
+            'Confirm text was not found'
+          );
+        })
+        .acceptAlert(done);
     });
 
-    it('can accept a confirm', async () => {
-      await browser.acceptAlert();
-
-      assert.strictEqual(await target.text(), 'confirmed');
+    it('can accept a confirm', done => {
+      browser.acceptAlert(() => {
+        target.text().then(text => {
+          assert.strictEqual(text, 'confirmed');
+          done();
+        });
+      });
     });
 
-    it('can dismiss a confirm', async () => {
-      await browser.dismissAlert();
-
-      assert.strictEqual(await target.text(), 'dismissed');
+    it('can dismiss a confirm', done => {
+      browser.dismissAlert(() => {
+        target.text().then(text => {
+          assert.strictEqual(text, 'dismissed');
+          done();
+        });
+      });
     });
   });
 
-  describe('prompt', () => {
-    beforeEach(() => browser.clickOn('.link_to_open_a_prompt'));
+  describe('prompt', function () {
+    this.retries(3); // prompts seem to be flaky in chromedriver
+    beforeEach(() =>
+      browser
+        .waitForElementDisplayed('.link_to_open_a_prompt')
+        .clickOn('.link_to_open_a_prompt')
+    );
 
-    it('can get prompt text', async () => {
-      const text = await browser.getAlertText();
-      await browser.acceptAlert();
-
-      assert.strictEqual(text, 'A prompt!', 'Confirm text was not found');
+    it('can get prompt text', done => {
+      browser
+        .getAlertText()
+        .then(text => {
+          assert.strictEqual(text, 'A prompt!', 'Confirm text was not found');
+        })
+        .acceptAlert(done);
     });
 
-    it('can send text to and accept a prompt', async () => {
-      await browser.typeAlert('Some words').acceptAlert();
-
-      assert.strictEqual(await target.text(), 'Some words');
+    it('can send text to and accept a prompt', done => {
+      browser.typeAlert('Some words').acceptAlert(() => {
+        target.text().then(text => {
+          assert.strictEqual(text, 'Some words');
+          done();
+        });
+      });
     });
 
-    it('can dismiss a prompt', async () => {
-      await browser.dismissAlert();
-
-      assert.strictEqual(await target.text(), 'dismissed');
+    it('can dismiss a prompt', done => {
+      browser.dismissAlert(() => {
+        target.text().then(text => {
+          assert.strictEqual(text, 'dismissed');
+          done();
+        });
+      });
     });
   });
 });
