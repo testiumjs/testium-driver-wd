@@ -76,30 +76,26 @@ describe('dialogs', () => {
     });
   });
 
-  describe('prompt', function () {
-    this.retries(3); // prompts seem to be flaky in chromedriver
+  describe('prompt', () => {
+    // this.retries(3); // prompts seem to be flaky in chromedriver
     beforeEach(() =>
       browser
         .waitForElementDisplayed('.link_to_open_a_prompt')
         .clickOn('.link_to_open_a_prompt')
     );
 
-    it('can get prompt text', done => {
-      browser
-        .getAlertText()
-        .then(text => {
-          assert.strictEqual(text, 'A prompt!', 'Confirm text was not found');
-        })
-        .acceptAlert(done);
+    it('can get prompt text', async () => {
+      const text = await browser.getAlertText();
+      await browser.acceptAlert();
+
+      assert.strictEqual(text, 'A prompt!', 'Confirm text was not found');
     });
 
-    it('can send text to and accept a prompt', done => {
-      browser.typeAlert('Some words').acceptAlert(() => {
-        target.text().then(text => {
-          assert.strictEqual(text, 'Some words');
-          done();
-        });
-      });
+    it('can send text to and accept a prompt', async () => {
+      await browser.typeAlert('Some words').acceptAlert();
+      const text = await target.text();
+
+      assert.strictEqual(text, 'Some words');
     });
 
     it('can dismiss a prompt', done => {
