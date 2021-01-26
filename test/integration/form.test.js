@@ -1,7 +1,7 @@
 'use strict';
 
+const assert = require('assert');
 const { browser } = require('../mini-testium-mocha');
-const assert = require('assertive');
 
 describe('form', () => {
   before(browser.beforeHook());
@@ -11,57 +11,67 @@ describe('form', () => {
   it("can get an input's value", async () => {
     const element = await browser.getElement('#text-input');
     const value = await element.getValue();
-    assert.equal('Input value was not found', 'initialvalue', value);
+
+    assert.strictEqual(value, 'initialvalue');
   });
 
   it("can clear an input's value", async () => {
     const element = await browser.getElement('#text-input');
     await element.clear();
     const value = await element.getValue();
-    assert.equal('Input value was not cleared', '', value);
+
+    assert.strictEqual(value, '');
   });
 
   it('can type into an input', async () => {
     const element = await browser.getElement('#text-input');
     await element.type('new stuff');
     const value = await element.getValue();
-    assert.equal('Input value was not typed', 'new stuff', value);
+
+    assert.strictEqual(value, 'new stuff');
   });
 
   it('can type into an input via shortcut', async () => {
     await browser.clear('#text-input');
     await browser.type('#text-input', 'new stuff');
     const value = await browser.getElement('#text-input').getValue();
-    assert.equal('Input value was not typed', 'new stuff', value);
+
+    assert.strictEqual(value, 'new stuff');
   });
 
   it("can replace the input's value", async () => {
     const element = await browser.getElement('#text-input');
     const valueBefore = await element.getValue();
-    assert.notEqual('Input value is already empty', '', valueBefore);
+
+    assert.notStrictEqual(valueBefore, '');
+
     await browser.clearAndType('#text-input', 'new stuff2');
     const valueAfter = await element.getValue();
-    assert.equal('Input value was not typed', 'new stuff2', valueAfter);
+
+    assert.strictEqual(valueAfter, 'new stuff2');
   });
 
   it("can get a textarea's value", async () => {
     const element = await browser.getElement('#text-area');
     const value = await element.getValue();
-    assert.equal('Input value was not found', 'initialvalue', value);
+
+    assert.strictEqual(value, 'initialvalue');
   });
 
   it("can clear an textarea's value", async () => {
     const element = await browser.getElement('#text-area');
     await element.clear();
     const value = await element.getValue();
-    assert.equal('Input value was not cleared', '', value);
+
+    assert.strictEqual(value, '');
   });
 
   it('can type into a textarea', async () => {
     const element = await browser.getElement('#text-area');
     await element.type('new stuff');
     const value = await element.getValue();
-    assert.equal('Input value was not typed', 'new stuff', value);
+
+    assert.strictEqual(value, 'new stuff');
   });
 
   it('correctly passes multibyte unicode back and forth', async () => {
@@ -69,7 +79,8 @@ describe('form', () => {
     const element = await browser.getElement('#blank-input');
     await element.type(multibyteText);
     const result = await element.getValue();
-    assert.equal(result, multibyteText);
+
+    assert.strictEqual(result, multibyteText);
   });
 
   it('can fill multiple fields', async () => {
@@ -84,7 +95,8 @@ describe('form', () => {
     for (const field of Object.keys(fields)) {
       const expectedValue = fields[field];
       const value = await browser.getElement(field).getValue();
-      assert.equal('Input value was not typed', expectedValue, value);
+
+      assert.strictEqual(value, expectedValue);
     }
   });
 });

@@ -1,9 +1,9 @@
 'use strict';
 
+const assert = require('assert');
 const { browser } = require('../mini-testium-mocha');
-const assert = require('assertive');
 
-const getConfig = require('testium-core').getConfig;
+const { getConfig } = require('testium-core');
 
 const browserName = getConfig().get('browser');
 
@@ -28,19 +28,26 @@ describe('dialogs', () => {
     beforeEach(() => browser.clickOn('.link_to_open_an_alert'));
 
     it('can get an alert text', async () => {
-      const text = await browser.getAlertText();
-      await browser.acceptAlert();
-      assert.equal('Alert text was not found', 'An alert!', text);
+      await browser
+        .getAlertText()
+        .then(text => {
+          assert.strictEqual(text, 'An alert!', 'Alert text was not found');
+        })
+        .acceptAlert();
     });
 
     it('can accept an alert', async () => {
       await browser.acceptAlert();
-      assert.equal('alerted', await target.text());
+      const text = await target.text();
+
+      assert.strictEqual(text, 'alerted');
     });
 
     it('can dismiss an alert', async () => {
       await browser.dismissAlert();
-      assert.equal('alerted', await target.text());
+      const text = await target.text();
+
+      assert.strictEqual(text, 'alerted');
     });
   });
 
@@ -48,39 +55,60 @@ describe('dialogs', () => {
     beforeEach(() => browser.clickOn('.link_to_open_a_confirm'));
 
     it('can get confirm text', async () => {
-      const text = await browser.getAlertText();
-      await browser.acceptAlert();
-      assert.equal('Confirm text was not found', 'A confirmation!', text);
+      await browser
+        .getAlertText()
+        .then(text =>
+          assert.strictEqual(
+            text,
+            'A confirmation!',
+            'Confirm text was not found'
+          )
+        )
+        .acceptAlert();
     });
 
     it('can accept a confirm', async () => {
       await browser.acceptAlert();
-      assert.equal('confirmed', await target.text());
+      const text = await target.text();
+
+      assert.strictEqual(text, 'confirmed');
     });
 
     it('can dismiss a confirm', async () => {
       await browser.dismissAlert();
-      assert.equal('dismissed', await target.text());
+      const text = await target.text();
+
+      assert.strictEqual(text, 'dismissed');
     });
   });
 
   describe('prompt', () => {
-    beforeEach(() => browser.clickOn('.link_to_open_a_prompt'));
+    // this.retries(3); // prompts seem to be flaky in chromedriver
+    beforeEach(() =>
+      browser
+        .waitForElementDisplayed('.link_to_open_a_prompt')
+        .clickOn('.link_to_open_a_prompt')
+    );
 
     it('can get prompt text', async () => {
       const text = await browser.getAlertText();
       await browser.acceptAlert();
-      assert.equal('Confirm text was not found', 'A prompt!', text);
+
+      assert.strictEqual(text, 'A prompt!', 'Confirm text was not found');
     });
 
     it('can send text to and accept a prompt', async () => {
       await browser.typeAlert('Some words').acceptAlert();
-      assert.equal('Some words', await target.text());
+      const text = await target.text();
+
+      assert.strictEqual(text, 'Some words');
     });
 
     it('can dismiss a prompt', async () => {
       await browser.dismissAlert();
-      assert.equal('dismissed', await target.text());
+      const text = await target.text();
+
+      assert.strictEqual(text, 'dismissed');
     });
   });
 });

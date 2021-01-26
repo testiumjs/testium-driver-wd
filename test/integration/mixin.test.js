@@ -1,16 +1,16 @@
 'use strict';
 
+const assert = require('assert');
 const { browser } = require('../mini-testium-mocha');
-const assert = require('assertive');
 
 describe('mixin', () => {
   before(browser.beforeHook());
 
   it('exposes the relative path mixed-in method', async () => {
-    assert.equal(10, await browser.mixedInMethod());
+    assert.strictEqual(await browser.mixedInMethod(), 10);
   });
 
   it('exposes the external module mixed-in method', async () => {
-    assert.equal(42, await browser.anotherMethod());
+    assert.strictEqual(await browser.anotherMethod(), 42);
   });
 });
