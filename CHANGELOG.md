@@ -1,3 +1,10 @@
+### v4.0.2 (2021-01-26)
+
+#### 📦️ Code Refactoring
+
+* [#58](https://github.com/testiumjs/testium-driver-wd/pull/58) refactor: replace lodash & assertive usage ([@aaarichter](https://github.com/aaarichter)) 
+
+
 ### 4.0.1 - 2020-07-20
 
 * chore(deps): bump lodash from 4.17.15 to 4.17.19 - **[@dependabot[bot]](https://github.com/apps/dependabot)** [#55](https://github.com/testiumjs/testium-driver-wd/pull/55)
