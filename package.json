@@ -21,13 +21,7 @@
     "posttest": "npm-run-all posttest:*",
     "pretest:lint": "npm-run-all lint:*",
     "posttest:nlm": "nlm verify",
-    "test:unit": "mocha"
-  },
-  "c8": {
-    "reporter": [
-      "text",
-      "json-summary"
-    ]
+    "test:unit": "nyc mocha"
   },
   "engines": {
     "node": ">=10.13"
@@ -56,7 +50,6 @@
     "wd": "^1.13.0"
   },
   "devDependencies": {
-    "c8": "^7.4.0",
     "chromedriver": "^88.0.0",
     "eslint": "^7.18.0",
     "eslint-config-groupon": "^10.0.1",
