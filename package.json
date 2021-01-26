@@ -21,7 +21,7 @@
     "posttest": "npm-run-all posttest:*",
     "pretest:lint": "npm-run-all lint:*",
     "posttest:nlm": "nlm verify",
-    "test:unit": "c8 mocha"
+    "test:unit": "mocha"
   },
   "c8": {
     "reporter": [
