@@ -55,10 +55,16 @@ describe('dialogs', () => {
     beforeEach(() => browser.clickOn('.link_to_open_a_confirm'));
 
     it('can get confirm text', async () => {
-      const text = await browser.getAlertText();
-      await browser.acceptAlert();
-
-      assert.strictEqual(text, 'A confirmation!', 'Confirm text was not found');
+      await browser
+        .getAlertText()
+        .then(text =>
+          assert.strictEqual(
+            text,
+            'A confirmation!',
+            'Confirm text was not found'
+          )
+        )
+        .acceptAlert();
     });
 
     it('can accept a confirm', async () => {
@@ -98,13 +104,11 @@ describe('dialogs', () => {
       assert.strictEqual(text, 'Some words');
     });
 
-    it('can dismiss a prompt', done => {
-      browser.dismissAlert(() => {
-        target.text().then(text => {
-          assert.strictEqual(text, 'dismissed');
-          done();
-        });
-      });
+    it('can dismiss a prompt', async () => {
+      await browser.dismissAlert();
+      const text = await target.text();
+
+      assert.strictEqual(text, 'dismissed');
     });
   });
 });
