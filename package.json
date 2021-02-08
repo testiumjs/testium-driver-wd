@@ -47,11 +47,11 @@
     "puppeteer-core": "^3.3.0",
     "testium-cookie": "^2.0.1",
     "uuid": "^8.3.2",
-    "wd": "^1.13.0"
+    "wd": "^1.14.0"
   },
   "devDependencies": {
     "chromedriver": "^88.0.0",
-    "eslint": "^7.18.0",
+    "eslint": "^7.19.0",
     "eslint-config-groupon": "^10.0.1",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-mocha": "^8.0.0",
