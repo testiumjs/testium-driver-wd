@@ -1,3 +1,10 @@
+### v4.0.3 (2021-02-09)
+
+#### 📦️ Code Refactoring
+
+* [#59](https://github.com/testiumjs/testium-driver-wd/pull/59) refactor: move promise chain methods to according files & increate default page size to 1400x1000 ([@aaarichter](https://github.com/aaarichter)) 
+
+
 ### v4.0.2 (2021-01-26)
 
 #### 📦️ Code Refactoring
