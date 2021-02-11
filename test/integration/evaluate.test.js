@@ -9,7 +9,7 @@ const browserName = getConfig().get('browser');
 describe('evaluation', () => {
   before(browser.beforeHook());
 
-  describe('evaluate', () => {
+  describe('browser.evaluate()', () => {
     before(() => browser.loadPage('/'));
 
     it('runs JavaScript passed as a String', async () => {
@@ -37,7 +37,7 @@ describe('evaluation', () => {
     });
   });
 
-  describe('evaluateAsync', () => {
+  describe('browser.evaluateAsync()', () => {
     if (browserName === 'phantomjs') {
       it.skip(
         "skipping tests because browser phantomjs doesn't support evaluateAsync"

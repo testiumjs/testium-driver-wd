@@ -94,5 +94,9 @@ describe('cookie', () => {
       assert.ok(await browser.getCookie('root'));
       assert.strictEqual(await browser.getCookieValue('root'), 'b');
     });
+
+    it('throws for non-string values', async () => {
+      await assert.rejects(() => browser.setCookieValue('root', 2));
+    });
   });
 });
