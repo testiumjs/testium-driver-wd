@@ -383,7 +383,71 @@ describe('element', () => {
       });
     });
 
-    describe('browser.elementHasAttributes()', () => {
+    describe('browser.assertElementLacksAttribute()', () => {
+      before(() => browser.loadPage('/'));
+
+      it('passes when element lacks attributes', async () => {
+        await browser.assertElementLacksAttribute('img.fail', 'foo');
+      });
+
+      it('throws when element has attributes', async () => {
+        await assert.rejects(() =>
+          browser.assertElementLacksAttribute('img.fail', 'alt')
+        );
+      });
+
+      it('throws when attribute argument is not a string', async () => {
+        await assert.rejects(() =>
+          browser.assertElementLacksAttribute('img.fail', ['alt'])
+        );
+      });
+    });
+
+    describe('browser.assertElementLacksAttributes()', () => {
+      before(() => browser.loadPage('/'));
+
+      it('passes when element lacks attributes', async () => {
+        await browser.assertElementLacksAttributes('img.fail', ['foo']);
+      });
+
+      it('throws when element has attributes', async () => {
+        await assert.rejects(() =>
+          browser.assertElementLacksAttributes('img.fail', ['alt'])
+        );
+      });
+
+      it('throws when attributes argument is not an object', async () => {
+        await assert.rejects(() =>
+          browser.assertElementLacksAttributes('img.fail', ['alt'])
+        );
+      });
+    });
+
+    describe('browser.assertElementHasAttribute()', () => {
+      before(() => browser.loadPage('/'));
+
+      it('returns an Element', () =>
+        browser
+          .assertElementHasAttribute('img.fail', 'alt')
+          .then(assertElementReturn));
+
+      it('passes when attribute exists', () =>
+        browser.assertElementHasAttribute('img.fail', 'alt'));
+
+      it('throws when attribute is missing', async () => {
+        await assert.rejects(() =>
+          browser.assertElementHasAttribute('img.fail', 'foo')
+        );
+      });
+
+      it('throws when attribute argument is not a string', async () => {
+        await assert.rejects(() =>
+          browser.assertElementHasAttribute('img.fail', ['alt'])
+        );
+      });
+    });
+
+    describe('browser.assertElementHasAttributes()', () => {
       before(() => browser.loadPage('/'));
 
       it('returns an Element', () =>
@@ -404,11 +468,17 @@ describe('element', () => {
           () => browser.assertElementHasAttributes('img.fail', { foo: 'bar' }),
           err => {
             const expected =
-              'Assertion failed: attribute foo\nExpected: "bar"\nActually: null';
+              'Assertion failed: attribute "foo"\nExpected: "bar"\nActually: null';
 
             assert.strictEqual(stripColors(err.message), expected);
             return true;
           }
+        );
+      });
+
+      it('throws when attributes argument is not an object', async () => {
+        await assert.rejects(() =>
+          browser.assertElementHasAttributes('img.fail', ['alt'])
         );
       });
     });

@@ -61,4 +61,20 @@ describe('page', () => {
       });
     });
   });
+
+  describe('browser.getPageSource()', () => {
+    it('returns page source as string', async () => {
+      const source = await browser.getPageSource();
+
+      assert.strictEqual(typeof source, 'string');
+    });
+  });
+
+  describe('browser.getScreenshot()', () => {
+    it('returns a base64 encoded PNG', async () => {
+      const screenshot = await browser.getScreenshot();
+
+      assert.strictEqual(typeof screenshot, 'string');
+    });
+  });
 });
