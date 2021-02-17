@@ -1,3 +1,10 @@
+### v4.1.0 (2021-02-17)
+
+#### 🚀 New Features
+
+* [#60](https://github.com/testiumjs/testium-driver-wd/pull/60) feat: new assertion functions & more ([@aaarichter](https://github.com/aaarichter)) 
+
+
 ### v4.0.3 (2021-02-09)
 
 #### 📦️ Code Refactoring
