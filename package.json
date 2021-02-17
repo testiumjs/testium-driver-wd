@@ -51,20 +51,20 @@
   },
   "devDependencies": {
     "chromedriver": "^88.0.0",
-    "eslint": "^7.19.0",
+    "eslint": "^7.20.0",
     "eslint-config-groupon": "^10.0.1",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-mocha": "^8.0.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.3.1",
-    "mocha": "^8.2.1",
+    "mocha": "^8.3.0",
     "nlm": "^5.2.3",
     "npm-run-all": "^4.1.5",
     "nyc": "^15.1.0",
     "prettier": "^2.2.1",
     "semver": "^7.3.4",
     "test-mixin-module": "file:./test/test-mixin-module",
-    "testium-core": "^3.0.2",
+    "testium-core": "^3.0.3",
     "testium-example-app": "^2.2.2"
   },
   "author": {

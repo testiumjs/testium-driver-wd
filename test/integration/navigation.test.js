@@ -27,7 +27,7 @@ describe('navigation', () => {
   it('by clicking a link', async () => {
     await browser.loadPage('/').clickOn('.link-to-other-page');
 
-    assert.strictEqual(await browser.getPath(), '/other-page.html');
+    await browser.waitForUrl('/other-page.html');
   });
 
   it('by refreshing', async () => {
