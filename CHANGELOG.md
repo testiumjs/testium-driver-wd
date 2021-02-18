@@ -1,3 +1,10 @@
+### v4.1.1 (2021-02-18)
+
+#### 🐛 Bug Fixes
+
+* [#61](https://github.com/testiumjs/testium-driver-wd/pull/61) fix: getCookieValue() throwing on missing cookie ([@aaarichter](https://github.com/aaarichter)) 
+
+
 ### v4.1.0 (2021-02-17)
 
 #### 🚀 New Features
