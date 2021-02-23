@@ -38,4 +38,22 @@ describe('console', () => {
         assert.ok(logs.length > 0, 'console.logs length');
     }
   });
+
+  it('by type', async () => {
+    const browserName = browser.capabilities.browserName;
+    // NOTE: the logs only have error / warn emitted by the Chrome console-api
+    const testCases = ['error', 'warn'];
+
+    for (const type of testCases) {
+      let logs;
+      if (browserName === 'chrome') {
+        logs = await browser.loadPage('/').getConsoleLogs(type);
+
+        assert.ok(
+          logs.every(log => log.type === type),
+          `every log is of type "${type}"`
+        );
+      }
+    }
+  });
 });
