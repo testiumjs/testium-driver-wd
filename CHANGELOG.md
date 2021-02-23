@@ -1,3 +1,10 @@
+### v4.1.2 (2021-02-23)
+
+#### 🐛 Bug Fixes
+
+* [#62](https://github.com/testiumjs/testium-driver-wd/pull/62) fix: loadPage JSDOC + add @example ([@aaarichter](https://github.com/aaarichter)) 
+
+
 ### v4.1.1 (2021-02-18)
 
 #### 🐛 Bug Fixes
