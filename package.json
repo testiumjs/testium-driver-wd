@@ -41,7 +41,7 @@
   "dependencies": {
     "array.prototype.flatmap": "^1.2.4",
     "debug": "^4.3.1",
-    "gofer": "^5.1.0",
+    "gofer": "^5.1.2",
     "lighthouse": "^6.5.0",
     "lodash.method": "^4.5.2",
     "puppeteer-core": "^3.3.0",
@@ -50,22 +50,22 @@
     "wd": "^1.14.0"
   },
   "devDependencies": {
-    "c8": "^7.6.0",
+    "c8": "^7.7.2",
     "chromedriver": "^88.0.0",
-    "eslint": "^7.22.0",
-    "eslint-config-groupon": "^10.0.2",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-mocha": "^8.1.0",
+    "eslint": "^7.27.0",
+    "eslint-config-groupon": "^10.0.3",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-mocha": "^8.2.0",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^3.3.1",
-    "mocha": "^8.3.2",
-    "nlm": "^5.4.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "mocha": "^8.4.0",
+    "nlm": "^5.5.0",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.2.1",
+    "prettier": "^2.3.0",
     "semver": "^7.3.5",
     "test-mixin-module": "file:./test/test-mixin-module",
-    "testium-core": "^3.0.4",
-    "testium-example-app": "^2.2.3"
+    "testium-core": "^3.0.6",
+    "testium-example-app": "^2.2.4"
   },
   "author": {
     "name": "Groupon",
