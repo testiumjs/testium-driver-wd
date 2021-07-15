@@ -50,7 +50,7 @@
     "wd": "^1.14.0"
   },
   "devDependencies": {
-    "chromedriver": "^88.0.0",
+    "chromedriver": "^91.0.1",
     "eslint": "^7.20.0",
     "eslint-config-groupon": "^10.0.2",
     "eslint-plugin-import": "^2.22.1",
