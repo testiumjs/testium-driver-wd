@@ -21,8 +21,7 @@ describe('proxy', () => {
   });
 
   it('handles request abortion', async () => {
-    // loads a page that has a resource that will
-    // be black holed
+    // loads a page that has a resource that will be abandoned
     await browser.loadPage('/blackholed-resource.html');
 
     // this can't simply be sync
