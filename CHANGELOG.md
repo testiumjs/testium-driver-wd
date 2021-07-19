@@ -1,3 +1,12 @@
+### v4.1.3 (2021-07-19)
+<a id="v4.1.3"></a>
+#### 🏡 Internal
+
+* [#71](https://github.com/testiumjs/testium-driver-wd/pull/71) update deps & switch to github actions ([@aotarola](https://github.com/aotarola))
+* [`6129918`](https://github.com/testiumjs/testium-driver-wd/commit/61299181d1e5688581f718d9e4df42aab7cb5c1a) chore: some of lighthouse's audits have details, but not a details.items, so the line would automatically fail when used.
+* [`9193776`](https://github.com/testiumjs/testium-driver-wd/commit/91937761305de830d393ff4377f0b25810d314a3) chore: update lib/browser/lighthouse.js
+
+
 ### v4.1.2 (2021-02-23)
 
 #### 🐛 Bug Fixes
