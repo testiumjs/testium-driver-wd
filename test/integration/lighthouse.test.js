@@ -104,7 +104,7 @@ describe('lighthouse', () => {
   });
 
   describe('assertions by category', () => {
-    before(() => browser.loadPage('/draggable.html'));
+    before(() => browser.loadPage('/pwa.html'));
 
     describe('assertPerformanceScore()', () => {
       it('matches expected performance score against LH score', () => {
@@ -150,7 +150,7 @@ describe('lighthouse', () => {
 
     describe('assertPwaScore()', () => {
       it('matches expected pwa score against LH score', () => {
-        return browser.assertPwaScore(20);
+        return browser.assertPwaScore(80);
       });
     });
   });
