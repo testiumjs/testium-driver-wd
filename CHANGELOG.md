@@ -1,3 +1,10 @@
+### v4.1.4 (2022-07-19)
+<a id="v4.1.4"></a>
+#### 🏡 Internal
+
+* [#79](https://github.com/testiumjs/testium-driver-wd/pull/79) retry wd.init() call when needed ([@dbushong](https://github.com/dbushong))
+
+
 ### v4.1.3 (2021-07-19)
 <a id="v4.1.3"></a>
 #### 🏡 Internal
