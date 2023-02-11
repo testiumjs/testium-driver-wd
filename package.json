@@ -42,7 +42,7 @@
     "array.prototype.flatmap": "^1.2.4",
     "debug": "^4.3.1",
     "gofer": "^5.1.0",
-    "lighthouse": "^8.1.0",
+    "lighthouse": "^10.0.0",
     "lodash.method": "^4.5.2",
     "puppeteer-core": "^3.3.0",
     "testium-cookie": "^2.0.2",
